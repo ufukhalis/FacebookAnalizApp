@@ -1,8 +1,10 @@
-
-
 package com.facebookanalizapp.ui;
 
+import javafx.event.EventHandler;
 import javafx.scene.Group;
+
+
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcToBuilder;
 import javafx.scene.shape.Circle;
@@ -16,71 +18,75 @@ import javafx.scene.shape.PathBuilder;
  *
  * @author ufuk halis
  */
-public class NodeUI extends Group{
-    private final int RADIUS_START = 70;
-    private final int RADIUS_END = 140;
-    
-    private final float CIRCLE_SIZE = 50f;    
-    
-    private int positionX;
-    private int positionY;
+public class NodeUI extends Group {
 
-    /**
-     * 
-     * @param positionX set Node position X
-     * @param positionY set Node position Y
-     */
-    public void setPosition(int positionX, int positionY) {
-        this.positionX = positionX;
-        this.positionY = positionY;
+    private final int RADIUS_START = 40;
+    private final int RADIUS_END = 80;
+
+    private final float CIRCLE_SIZE = 38f;
+
+    private final int positionX = 0;
+    private final int positionY = 0;
+
+    private final int branchButtonWidth = 160;
+
+    private int nodePositionX;
+    private int nodePositionY;
+
+    public void setNodePosition(int posX, int posY) {
+        this.nodePositionX = posX + RADIUS_END;//Başlangıç noktasını sıfırlıyor
+        this.nodePositionY = posY + RADIUS_END;
+        this.relocate(nodePositionX, nodePositionY);
     }
 
-    public int getPositionX() {
-        return positionX;
+    public int getNodePositionX() {
+        return nodePositionX;
     }
 
-    public int getPositionY() {
-        return positionY;
+    public int getNodePositionY() {
+        return nodePositionY;
     }
-    
-    public NodeUI(int X, int Y) {
-        setPosition(X, Y);
+
+    public NodeUI(int posX, int posY) {
+        setNodePosition(posX, posY);
         drawNode();
+        dragAndDrop(this);
     }
-    
-    private void drawNode(){
+
+    private void drawNode() {
+
         Path Button1 = createDartboardField(
                 this.positionX,// Center X
                 this.positionY,// Center Y
                 0, // Start angle
-                120,  // End angle
+                120, // End angle
                 RADIUS_START, // Radius start
                 RADIUS_END, // Radius end
                 Color.LIGHTGREEN,// Fill
                 Color.DARKGREEN //Stroke
-                );
-        
+        );
+
         Path Button2 = createDartboardField(
                 this.positionX,// Center X
                 this.positionY,// Center Y
                 120, // Start angle
-                240,  // End angle
+                240, // End angle
                 RADIUS_START, // Radius start
                 RADIUS_END, // Radius end
                 Color.LIGHTGREEN,// Fill
                 Color.DARKGREEN //Stroke
-                );
-  
+        );
+
         Path Button3 = createDartboardField(
                 this.positionX,// Center X
                 this.positionY,// Center Y
                 240, // Start angle
-                360,  // End angle
+                360, // End angle
                 RADIUS_START, // Radius start
                 RADIUS_END, // Radius end
                 Color.LIGHTGREEN,// Fill
                 Color.DARKGREEN //Stroke
-                );
+        );
 
         Circle circle = CircleBuilder.create()
                 .stroke(Color.DARKGREEN)
@@ -89,17 +95,56 @@ public class NodeUI extends Group{
                 .centerY(this.positionX)
                 .fill(Color.LIGHTGREEN)
                 .build();
+
         
+       BranchButton branch1 = new BranchButton(this.positionX,this.positionY-RADIUS_END,branchButtonWidth,RADIUS_END*2);
+       BranchButton branch2 = new BranchButton(this.positionX+branchButtonWidth,this.positionY-RADIUS_END,branchButtonWidth,RADIUS_END*2);
+       BranchButton branch3 = new BranchButton(this.positionX+branchButtonWidth*2,this.positionY-RADIUS_END,branchButtonWidth,RADIUS_END*2);
+
+        this.getChildren().add(branch1);
+        this.getChildren().add(branch2);
+        this.getChildren().add(branch3);
+
         this.getChildren().add(Button1);
         this.getChildren().add(Button2);
         this.getChildren().add(Button3);
         this.getChildren().add(circle);
+
+        Button1.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent t) {
+  
+            }
+
+        });
     }
-    
+   
+    private double tempX;
+    private double tempY;
+
+    private void dragAndDrop(final Group obj) {
+        obj.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent t) {
+                tempX = t.getX() + RADIUS_END;
+                tempY = t.getY() + RADIUS_END;
+            }
+        });
+        obj.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent t) {
+                if (obj.isPressed()) {
+                    obj.relocate(t.getSceneX() - tempX, t.getSceneY() - tempY);
+                }
+            }
+        });
+    }
+
     private Path createDartboardField(double centerX, double centerY,
             double degreeStart, double degreeEnd, double innerRadius,
-            double outerRadius,  Color bgColor, Color strkColor) {
-        
+            double outerRadius, Color bgColor, Color strkColor) {
+
         double angleAlpha = degreeStart * (Math.PI / 180);
         double angleAlphaNext = degreeEnd * (Math.PI / 180);
 
