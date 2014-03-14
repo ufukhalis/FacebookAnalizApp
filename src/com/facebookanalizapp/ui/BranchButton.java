@@ -27,7 +27,7 @@ public class BranchButton extends Group {
     private int x4;
     private int y4;
 
-    public BranchButton(int x, int y, int height, int width) {
+    public BranchButton(int x, int y, int width, int height) {
         Refresh(x, y, height, width);
     }
     
@@ -35,7 +35,7 @@ public class BranchButton extends Group {
       h=w=x1=y1=0;
     }
 
-    public void Refresh(int x, int y, int height, int width) {
+    public void Refresh(int x, int y, int width, int height) {
         x1 = x;
         y1 = y;
         w = width;
