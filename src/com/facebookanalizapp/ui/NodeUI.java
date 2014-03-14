@@ -1,8 +1,10 @@
 package com.facebookanalizapp.ui;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
-
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -13,6 +15,7 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.PathBuilder;
+import javafx.util.Duration;
 
 /**
  *
@@ -33,6 +36,8 @@ public class NodeUI extends Group {
     private int nodePositionX;
     private int nodePositionY;
 
+    private int countBranch = 1;
+
     public void setNodePosition(int posX, int posY) {
         this.nodePositionX = posX + RADIUS_END;//Başlangıç noktasını sıfırlıyor
         this.nodePositionY = posY + RADIUS_END;
@@ -52,10 +57,18 @@ public class NodeUI extends Group {
         drawNode();
         dragAndDrop(this);
     }
+    private BranchButton branch1;
+    private BranchButton branch2;
+    private BranchButton branch3;
+    private int animationCount = 1;
+    private Path Button1;
+    private Path Button2;
+    private Path Button3;
+    private Circle circle;
 
     private void drawNode() {
 
-        Path Button1 = createDartboardField(
+        Button1 = createDartboardField(
                 this.positionX,// Center X
                 this.positionY,// Center Y
                 0, // Start angle
@@ -66,7 +79,7 @@ public class NodeUI extends Group {
                 Color.DARKGREEN //Stroke
         );
 
-        Path Button2 = createDartboardField(
+        Button2 = createDartboardField(
                 this.positionX,// Center X
                 this.positionY,// Center Y
                 120, // Start angle
@@ -77,7 +90,7 @@ public class NodeUI extends Group {
                 Color.DARKGREEN //Stroke
         );
 
-        Path Button3 = createDartboardField(
+        Button3 = createDartboardField(
                 this.positionX,// Center X
                 this.positionY,// Center Y
                 240, // Start angle
@@ -88,7 +101,7 @@ public class NodeUI extends Group {
                 Color.DARKGREEN //Stroke
         );
 
-        Circle circle = CircleBuilder.create()
+        circle = CircleBuilder.create()
                 .stroke(Color.DARKGREEN)
                 .radius(CIRCLE_SIZE)
                 .centerX(this.positionX)
@@ -96,10 +109,9 @@ public class NodeUI extends Group {
                 .fill(Color.LIGHTGREEN)
                 .build();
 
-        
-       BranchButton branch1 = new BranchButton(this.positionX,this.positionY-RADIUS_END,branchButtonWidth,RADIUS_END*2);
-       BranchButton branch2 = new BranchButton(this.positionX+branchButtonWidth,this.positionY-RADIUS_END,branchButtonWidth,RADIUS_END*2);
-       BranchButton branch3 = new BranchButton(this.positionX+branchButtonWidth*2,this.positionY-RADIUS_END,branchButtonWidth,RADIUS_END*2);
+        branch1 = new BranchButton();
+        branch2 = new BranchButton();
+        branch3 = new BranchButton();
 
         this.getChildren().add(branch1);
         this.getChildren().add(branch2);
@@ -114,12 +126,58 @@ public class NodeUI extends Group {
 
             @Override
             public void handle(MouseEvent t) {
-  
+                controlBranchButtonVisible(Button1, branch1);
+            }
+
+        });
+
+        Button2.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent t) {
+                controlBranchButtonVisible(Button2, branch2);
+            }
+
+        });
+
+        Button3.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent t) {
+                controlBranchButtonVisible(Button3, branch3);
             }
 
         });
     }
-   
+
+    private void controlBranchButtonVisible(Path currentButton, BranchButton currentBranchButton) {
+        if (countBranch == 1) {
+            startBranchAnimation(currentButton, currentBranchButton, positionX, positionY);
+        } else if (countBranch == 2) {
+            startBranchAnimation(currentButton, currentBranchButton, positionX + branchButtonWidth, positionY);
+        } else if (countBranch == 3) {
+            startBranchAnimation(currentButton, currentBranchButton, positionX + branchButtonWidth * 2, positionY);
+        }
+        countBranch++;
+    }
+
+    private void startBranchAnimation(Path button, final BranchButton branch, final int posX, final int posY) {
+        branch.setVisible(true);
+        Timeline fiveSecondsWonder = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+
+                branch.Refresh(posX, posY - RADIUS_END, animationCount, RADIUS_END * 2);
+                animationCount += 1;
+            }
+        }));
+        fiveSecondsWonder.setCycleCount(branchButtonWidth);
+        fiveSecondsWonder.play();
+        button.setDisable(true);
+        animationCount = 1;
+    }
+
     private double tempX;
     private double tempY;
 

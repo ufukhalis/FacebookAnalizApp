@@ -29,10 +29,12 @@ public class BranchButton extends Group {
 
     public BranchButton(int x, int y, int width, int height) {
         Refresh(x, y, height, width);
+        this.setVisible(false);
     }
     
     public BranchButton() {
       h=w=x1=y1=0;
+      this.setVisible(false);
     }
 
     public void Refresh(int x, int y, int width, int height) {
