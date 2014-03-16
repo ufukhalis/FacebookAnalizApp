@@ -113,15 +113,6 @@ public class NodeUI extends Group {
         branch2 = new BranchButton();
         branch3 = new BranchButton();
 
-        this.getChildren().add(branch1);
-        this.getChildren().add(branch2);
-        this.getChildren().add(branch3);
-
-        this.getChildren().add(Button1);
-        this.getChildren().add(Button2);
-        this.getChildren().add(Button3);
-        this.getChildren().add(circle);
-
         Button1.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
             @Override
@@ -148,20 +139,44 @@ public class NodeUI extends Group {
             }
 
         });
+
+        groupAdd();
+    }
+
+    private void groupAdd() {
+        this.getChildren().add(branch1);
+        this.getChildren().add(branch2);
+        this.getChildren().add(branch3);
+
+        this.getChildren().add(Button1);
+        this.getChildren().add(Button2);
+        this.getChildren().add(Button3);
+        this.getChildren().add(circle);
     }
 
     private void controlBranchButtonVisible(Path currentButton, BranchButton currentBranchButton) {
-        if (countBranch == 1) {
-            startBranchAnimation(currentButton, currentBranchButton, positionX, positionY);
-        } else if (countBranch == 2) {
-            startBranchAnimation(currentButton, currentBranchButton, positionX + branchButtonWidth, positionY);
-        } else if (countBranch == 3) {
-            startBranchAnimation(currentButton, currentBranchButton, positionX + branchButtonWidth * 2, positionY);
+        if (!currentBranchButton.isVisible()) {
+            if (countBranch == 1) {
+                openBranchAnimation(currentButton, currentBranchButton, positionX, positionY);
+            } else if (countBranch == 2) {
+                openBranchAnimation(currentButton, currentBranchButton, positionX + branchButtonWidth, positionY);
+            } else if (countBranch == 3) {
+                openBranchAnimation(currentButton, currentBranchButton, positionX + branchButtonWidth * 2, positionY);
+            }
+            countBranch++;
+        }else{
+            countBranch--;
+            if (countBranch == 1) {
+                closeBranchAnimation(currentButton, currentBranchButton, positionX, positionY);
+            } else if (countBranch == 2) {
+                closeBranchAnimation(currentButton, currentBranchButton, positionX + branchButtonWidth, positionY);
+            } else if (countBranch == 3) {
+                closeBranchAnimation(currentButton, currentBranchButton, positionX + branchButtonWidth * 2, positionY);
+            }
         }
-        countBranch++;
     }
 
-    private void startBranchAnimation(Path button, final BranchButton branch, final int posX, final int posY) {
+    private void openBranchAnimation(Path button, final BranchButton branch, final int posX, final int posY) {
         branch.setVisible(true);
         Timeline fiveSecondsWonder = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
 
@@ -174,8 +189,31 @@ public class NodeUI extends Group {
         }));
         fiveSecondsWonder.setCycleCount(branchButtonWidth);
         fiveSecondsWonder.play();
-        button.setDisable(true);
+       // button.setDisable(true);
         animationCount = 1;
+    }
+
+    private void closeBranchAnimation(Path button, final BranchButton branch, final int posX, final int posY) {
+        animationCount = branchButtonWidth;
+        Timeline fiveSecondsWonder = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+
+                branch.Refresh(posX, posY - RADIUS_END, animationCount, RADIUS_END * 2);
+                animationCount -= 1;
+            }
+        }));
+        fiveSecondsWonder.setCycleCount(branchButtonWidth);
+        fiveSecondsWonder.play();
+        //BranchButton Animasyonu bittiğinde button açılacak
+        fiveSecondsWonder.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+             //   button.setDisable(false);
+                branch.setVisible(false);
+            }
+        });
     }
 
     private double tempX;
@@ -195,6 +233,8 @@ public class NodeUI extends Group {
                 if (obj.isPressed()) {
                     obj.relocate(t.getSceneX() - tempX, t.getSceneY() - tempY);
                 }
+                obj.getChildren().clear();
+                groupAdd();
             }
         });
     }
