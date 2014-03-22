@@ -5,21 +5,11 @@
  */
 package facebookanalizapp;
 
+import com.facebookanalizapp.process.FXMLTool;
 import com.facebookanalizapp.ui.MainFrameUI;
-import com.facebookanalizapp.ui.NodeUI;
 import java.io.IOException;
 import javafx.application.Application;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
@@ -35,25 +25,19 @@ public class FacebookAnalizApp extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        MainFrameUI root = new MainFrameUI();
+        /*MainFrameUI root = new MainFrameUI();
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
 
         primaryStage.setTitle(ApplicationTitle);
         primaryStage.setScene(scene);
-        primaryStage.show();
+        primaryStage.show();*/
 
         
+        //URL location = getClass().getResource("/com/facebookanalizapp/fxml/DataFXML.fxml");  
+        //System.out.println("value : " + location);
         
-        Parent dataroot = FXMLLoader.load(getClass().getResource("DataFXML.fxml"));
-        
-        Scene secondScene = new Scene(dataroot);
-        Stage secondStage = new Stage();
-        secondStage.setTitle("Veri İşlemleri");
-        secondStage.setScene(secondScene);
-        secondStage.setResizable(false);
-
-        secondStage.show();
+        FXMLTool.instance().openFXML("Veri İşlemleri", "MainFXML.fxml", true);
     }
 
     public static void main(String[] args) {

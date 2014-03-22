@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="541.0" prefWidth="758.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.facebookanalizapp.controller.MainFXMLController">
+  <children>
+    <AnchorPane prefHeight="541.0" prefWidth="758.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <BorderPane prefHeight="541.0" prefWidth="758.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+          <center>
+            <ScrollPane fx:id="scrollMain" content="$null" prefHeight="200.0" prefWidth="200.0" />
+          </center>
+          <left>
+            <SplitPane disable="true" dividerPositions="0.9801324503311258" focusTraversable="true" prefHeight="485.0" prefWidth="153.0">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="483.0" prefWidth="11.0" />
+              </items>
+            </SplitPane>
+          </left>
+          <top>
+            <ToolBar prefHeight="56.0" prefWidth="758.0">
+              <items>
+                <Label prefWidth="54.0" text="Database" />
+                <ComboBox fx:id="cmbDatabases" prefHeight="21.0" prefWidth="160.0" promptText="">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="Item 1" />
+                      <String fx:value="Item 2" />
+                      <String fx:value="Item 3" />
+                    </FXCollections>
+                  </items>
+                </ComboBox>
+                <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#onAdd" text="Veritabanı Ekle" />
+                <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#onDelete" text="Veritabanı Sil" />
+                <Button fx:id="btnExport" mnemonicParsing="false" onAction="#onExport" text="Dışa Aktar" />
+                <Button fx:id="btnImport" mnemonicParsing="false" onAction="#onImport" text="İçe Aktar" />
+              </items>
+            </ToolBar>
+          </top>
+        </BorderPane>
+      </children>
+    </AnchorPane>
+  </children>
+</AnchorPane>

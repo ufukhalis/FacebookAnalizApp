@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="498.0" prefWidth="698.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.facebookanalizapp.controller.MiningFXMLController">
+  <children>
+    <AnchorPane prefHeight="498.0" prefWidth="698.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <TitledPane animated="false" collapsible="false" ellipsisString="..." expanded="true" layoutX="0.0" layoutY="0.0" prefHeight="249.0" prefWidth="349.0" text="K-Means" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false">
+          <content>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+              <children>
+                <Button fx:id="btnKmeansSelect" layoutX="292.0" layoutY="188.0" mnemonicParsing="false" onAction="#onKMeansSelect" text="Seç" />
+              </children>
+            </AnchorPane>
+          </content>
+        </TitledPane>
+        <TitledPane animated="false" collapsible="false" layoutX="349.0" layoutY="1.0" prefHeight="248.0" prefWidth="349.0" text="DBSCAN">
+          <content>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+              <children>
+                <Button fx:id="btnScanSelect" layoutX="292.0" layoutY="188.0" mnemonicParsing="false" onAction="#onScanSelect" text="Seç" />
+              </children>
+            </AnchorPane>
+          </content>
+        </TitledPane>
+        <TitledPane animated="false" collapsible="false" layoutX="0.0" layoutY="249.0" prefHeight="248.0" prefWidth="698.0" text="Clustering">
+          <content>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+              <children>
+                <Button id="btnClusteringSelect" fx:id="btnClustSelect" layoutX="641.0" layoutY="187.0" mnemonicParsing="false" onAction="#onClustSelect" text="Seç" />
+              </children>
+            </AnchorPane>
+          </content>
+        </TitledPane>
+      </children>
+    </AnchorPane>
+  </children>
+</AnchorPane>

@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package facebookanalizapp;
+package com.facebookanalizapp.controller;
 
 import com.facebookanalizapp.process.ExcelReader;
+import com.facebookanalizapp.process.FXMLTool;
 import com.facebookanalizapp.process.JsonReader;
 import java.io.File;
 import java.io.IOException;
@@ -85,14 +86,17 @@ public class DataFXMLController implements Initializable {
     @FXML
     private void onEdit(ActionEvent event) {
         String data = viewData.getSelectionModel().getSelectedItem().data.getValue();
-        System.out.println("value : " + viewData.getSelectionModel().getSelectedItem().data.getValue());
+        System.out.println("value : " + data);
 
-        Parent dataroot = null;
-        FXMLLoader fxmlLoader = null;
-       
+        
+        FXMLTool.instance().openFXML("Veri Düzenle", "DataEditFXML.fxml", false);
+        
+        Parent parent = null;
+        FXMLLoader fxmlLoader = null;       
         fxmlLoader = new FXMLLoader(getClass().getResource("DataEditFXML.fxml")); 
+        
         try {
-            dataroot = (Parent) fxmlLoader.load();
+            parent = (Parent) fxmlLoader.load();
         } catch (IOException ex) {
             Logger.getLogger(DataFXMLController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -102,7 +106,7 @@ public class DataFXMLController implements Initializable {
         
         controller.initData(data);
 
-        Scene secondScene = new Scene(dataroot);
+        Scene secondScene = new Scene(parent);
         Stage secondStage = new Stage();
         secondStage.setTitle("Veri Düzenle");
         secondStage.setScene(secondScene);
