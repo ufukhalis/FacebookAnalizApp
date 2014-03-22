@@ -3,9 +3,11 @@
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.collections.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 
 <AnchorPane id="AnchorPane" prefHeight="541.0" prefWidth="758.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.facebookanalizapp.controller.MainFXMLController">
   <children>
@@ -16,9 +18,21 @@
             <ScrollPane fx:id="scrollMain" content="$null" prefHeight="200.0" prefWidth="200.0" />
           </center>
           <left>
-            <SplitPane disable="true" dividerPositions="0.9801324503311258" focusTraversable="true" prefHeight="485.0" prefWidth="153.0">
+            <SplitPane disable="false" dividerPositions="0.9801324503311258" focusTraversable="true" prefHeight="485.0" prefWidth="153.0">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                  <children>
+                    <VBox alignment="TOP_CENTER" prefHeight="483.0" prefWidth="145.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                      <children>
+                        <Circle fx:id="testCircle" fill="DODGERBLUE" radius="49.0" stroke="BLACK" strokeType="INSIDE" VBox.vgrow="NEVER">
+                          <VBox.margin>
+                            <Insets top="5.0" />
+                          </VBox.margin>
+                        </Circle>
+                      </children>
+                    </VBox>
+                  </children>
+                </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="483.0" prefWidth="11.0" />
               </items>
             </SplitPane>
