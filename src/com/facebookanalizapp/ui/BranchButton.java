@@ -27,6 +27,22 @@ public class BranchButton extends Group {
     private int x4;
     private int y4;
 
+    private String buttonName;
+
+    public String getButtonName() {
+        return buttonName;
+    }
+
+    public void setButtonName(String buttonName) {
+        this.buttonName = buttonName;
+    }
+
+    public int getX1() {
+        return x1;
+    }
+    
+    
+    
     public BranchButton(int x, int y, int width, int height) {
         Refresh(x, y, height, width);
         this.setVisible(false);

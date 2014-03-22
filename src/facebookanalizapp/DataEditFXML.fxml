@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="facebookanalizapp.DataEditFXMLController">
+  <children>
+    <AnchorPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <TextArea fx:id="txtEdit" prefHeight="346.0" prefWidth="600.0" wrapText="true" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <Button fx:id="btnSave" layoutX="451.0" layoutY="375.0" mnemonicParsing="false" onAction="#onSave" text="Kaydet" />
+        <Button fx:id="btnCancel" layoutX="519.0" layoutY="375.0" mnemonicParsing="false" onAction="#onCancel" prefWidth="57.0" text="İptal" />
+      </children>
+    </AnchorPane>
+  </children>
+</AnchorPane>

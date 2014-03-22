@@ -5,8 +5,14 @@
  */
 package com.facebookanalizapp.ui;
 import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
+import javafx.scene.control.ToolBar;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 /**
@@ -21,11 +27,25 @@ public class MainFrameUI extends ScrollPane {
     Pane root;
     ScrollPane Content;
     NodeUI nodeUi ;
+    MenuBar menuBar;
+    ToolBar toolBar;
+    BorderPane borderPane;
+    
     public MainFrameUI() {
+        borderPane = new BorderPane();
         nodeUi = new NodeUI(195, 195);
+        toolBar = new ToolBar();
+        toolBar.setPrefWidth(800);
+        toolBar.getItems().add(new Button("Tool Opt2"));
         
+        //borderPane.setTop(toolBar);
+        Pane pane = new Pane();
+        pane.getChildren().add(nodeUi);
+        
+        borderPane.setCenter(pane);
         root = new Pane();
-        root.getChildren().add(nodeUi);
+        root.getChildren().add(toolBar);
+        root.getChildren().add(borderPane);
 
         this.prefHeight(600);
         this.prefWidth(800);
