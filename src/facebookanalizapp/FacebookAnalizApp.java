@@ -37,7 +37,7 @@ public class FacebookAnalizApp extends Application {
         //URL location = getClass().getResource("/com/facebookanalizapp/fxml/DataFXML.fxml");  
         //System.out.println("value : " + location);
         
-        FXMLTool.instance().openFXML("Veri İşlemleri", "MainFXML.fxml", true);
+        FXMLTool.instance().openFXML(ApplicationTitle, "MainFXML.fxml", true);
     }
 
     public static void main(String[] args) {
