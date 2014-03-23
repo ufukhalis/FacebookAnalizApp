@@ -1,5 +1,6 @@
 package com.facebookanalizapp.ui;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.KeyFrame;
@@ -38,7 +39,7 @@ public class NodeUI extends Group {
     private int nodePositionX;
     private int nodePositionY;
 
-    private int countBranch = 1;
+    private int countBranch = 0;
 
     public void setNodePosition(int posX, int posY) {
         this.nodePositionX = posX + RADIUS_END;//Başlangıç noktasını sıfırlıyor
@@ -58,15 +59,18 @@ public class NodeUI extends Group {
         setNodePosition(posX, posY);
         drawNode();
         dragAndDrop(this);
+        branchButtonIndex = new ArrayList<BranchButton>();
     }
     private BranchButton branch1;
     private BranchButton branch2;
     private BranchButton branch3;
-    private int animationCount = 1;
+
     private Path Button1;
     private Path Button2;
     private Path Button3;
     private Circle circle;
+
+    private List<BranchButton> branchButtonIndex;
 
     private void drawNode() {
 
@@ -115,15 +119,11 @@ public class NodeUI extends Group {
         branch2 = new BranchButton();
         branch3 = new BranchButton();
 
-        branch1.setButtonName("A");
-        branch2.setButtonName("B");
-        branch3.setButtonName("C");
-
         Button1.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
             @Override
             public void handle(MouseEvent t) {
-                controlBranchButtonVisible(Button1, branch1);
+                controlBranchButtonVisible(branch1);
             }
 
         });
@@ -132,7 +132,7 @@ public class NodeUI extends Group {
 
             @Override
             public void handle(MouseEvent t) {
-                controlBranchButtonVisible(Button2, branch2);
+                controlBranchButtonVisible(branch2);
             }
 
         });
@@ -141,7 +141,7 @@ public class NodeUI extends Group {
 
             @Override
             public void handle(MouseEvent t) {
-                controlBranchButtonVisible(Button3, branch3);
+                controlBranchButtonVisible(branch3);
             }
 
         });
@@ -159,114 +159,82 @@ public class NodeUI extends Group {
         this.getChildren().add(Button3);
         this.getChildren().add(circle);
     }
-    List<BranchButton> listBranchButton = new ArrayList<>();
 
-    private void controlBranchButtonVisible(Path currentButton, BranchButton currentBranchButton) {
+    private void controlBranchButtonVisible(BranchButton currentBranchButton) {
         if (!currentBranchButton.isVisible()) {
-            if (countBranch == 1) {
-                openBranchAnimation(currentButton, currentBranchButton, positionX, positionY);
-            } else if (countBranch == 2) {
-                openBranchAnimation(currentButton, currentBranchButton, positionX + branchButtonWidth, positionY);
-            } else if (countBranch == 3) {
-                openBranchAnimation(currentButton, currentBranchButton, positionX + branchButtonWidth * 2, positionY);
+            if (countBranch == 0 && currentBranchButton.getButtonName() == null) {
+                new openBranchAnimation(currentBranchButton, positionX, positionY);
+                currentBranchButton.setButtonName("A");
+                branchButtonIndex.add(currentBranchButton);
+                //System.out.println("A");
+                countBranch += 1;
+            } else if (countBranch == 1 && currentBranchButton.getButtonName() == null) {
+                new openBranchAnimation(currentBranchButton, positionX + branchButtonWidth, positionY);
+                currentBranchButton.setButtonName("B");
+                branchButtonIndex.add(currentBranchButton);
+                //System.out.println("B");
+                countBranch += 1;
+            } else if (countBranch == 2 && currentBranchButton.getButtonName() == null) {
+                new openBranchAnimation(currentBranchButton, positionX + branchButtonWidth * 2, positionY);
+                currentBranchButton.setButtonName("C");
+                branchButtonIndex.add(currentBranchButton);
+                //System.out.println("C");
+                countBranch += 1;
             }
-            countBranch++;
         } else {
-            countBranch--;
-            closeBranchAnimation(currentBranchButton, positionX, positionY);
-            
-        }
-    }
-
-   
-
-    private void openBranchAnimation(Path button, final BranchButton branch, final int posX, final int posY) {
-        branch.setVisible(true);
-        Timeline fiveSecondsWonder = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-
-                branch.Refresh(posX, posY - RADIUS_END, animationCount, RADIUS_END * 2);
-                animationCount += 1;
-            }
-        }));
-        fiveSecondsWonder.setCycleCount(branchButtonWidth);
-        fiveSecondsWonder.play();
-        // button.setDisable(true);
-        animationCount = 1;
-        listBranchButton.add(branch);
-        for (BranchButton branchButton : listBranchButton) {
-            System.out.println("value : " + branchButton.getButtonName());
-        }
-    }
-    int index = 0;
-    private void closeBranchAnimation(final BranchButton branch, final int posX, final int posY) {
-        animationCount = branchButtonWidth;
-        
-        for (int i = 0; i < listBranchButton.size(); i++) {
-            if (listBranchButton.get(i).getButtonName().equalsIgnoreCase(branch.getButtonName())) {
-                index = i;
+            if(currentBranchButton.getButtonName().contains(branchButtonIndex.get(0).getButtonName())){ 
+                    new closeBranchAnimation(currentBranchButton, currentBranchButton.getX1(), positionY);
+                    //System.out.println(branchButtonIndex.size());
+                    if (branchButtonIndex.size() == 3) {// A + 2 Buton Listede ise ; A kapanma işlemi başlamıştır
+                        //Diğer 2 buton taşınır
+                        new moveXBranchAnimation(branchButtonIndex.get(2), branchButtonIndex.get(2).getX1(), positionY);
+                        new moveXBranchAnimation(branchButtonIndex.get(1), branchButtonIndex.get(1).getX1(), positionY);
+                    } else if (branchButtonIndex.size() == 2) {// A + 1 Buton Listede ise ; A kapanma işlemi başlamıştır
+                        //Diğer 1 Buton Taşınır
+                        new moveXBranchAnimation(branchButtonIndex.get(1), branchButtonIndex.get(1).getX1(), positionY);
+                    }
+                    branchButtonIndex.remove(currentBranchButton);
+                    //System.out.println("-A");
+                    countBranch -= 1;
+            }else if (currentBranchButton.getButtonName().contains(branchButtonIndex.get(1).getButtonName())){
+                    new closeBranchAnimation(currentBranchButton, currentBranchButton.getX1(), positionY);
+                    //System.out.println(branchButtonIndex.size());
+                    if (branchButtonIndex.size() ==3) {//B + 2 Buton Listede ise ; B kapanma işlemi Başlamıştır
+                        new moveXBranchAnimation(branchButtonIndex.get(2), branchButtonIndex.get(2).getX1(), positionY);
+                    } else if(branchButtonIndex.size() ==2){
+                         new moveXBranchAnimation(branchButtonIndex.get(1), branchButtonIndex.get(1).getX1(), positionY);
+                    }
+                    branchButtonIndex.remove(currentBranchButton);
+                    //System.out.println("-B");
+                    countBranch -= 1;
+            }else if (currentBranchButton.getButtonName().contains(branchButtonIndex.get(2).getButtonName())){
+                    new closeBranchAnimation(currentBranchButton, currentBranchButton.getX1(), positionY);
+                    //System.out.println("-C");
+                    branchButtonIndex.remove(currentBranchButton);
+                    countBranch -= 1;
             }
         }
-        
-        Timeline fiveSecondsWonder = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-
-                        /*switch (index) {
-                            case 0:
-                                branch.Refresh(posX, posY - RADIUS_END, animationCount, RADIUS_END * 2);
-                                System.out.println("0");
-                                listBranchButton.get(1).Refresh(listBranchButton.get(1).getX1() - animationCount, posY - RADIUS_END, branchButtonWidth, RADIUS_END * 2);
-                                listBranchButton.get(2).Refresh(listBranchButton.get(2).getX1() - animationCount, posY - RADIUS_END, branchButtonWidth, RADIUS_END * 2);
-                                break;
-                            case 1:
-                                System.out.println("1");
-                                branch.Refresh(posX, posY - RADIUS_END, animationCount, RADIUS_END * 2);
-                                listBranchButton.get(2).Refresh(listBranchButton.get(2).getX1() - animationCount, posY - RADIUS_END, branchButtonWidth, RADIUS_END * 2);
-                                break;                                
-                            case 2:
-                                System.out.println("2");
-                                branch.Refresh(posX, posY - RADIUS_END, animationCount, RADIUS_END * 2);
-                                break;
-                        }
-                    
-                
-
-                animationCount -= 1;*/
-            }
-        }));
-        fiveSecondsWonder.setCycleCount(branchButtonWidth);
-        fiveSecondsWonder.play();
-        //BranchButton Animasyonu bittiğinde button açılacak
-        fiveSecondsWonder.setOnFinished(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                //   button.setDisable(false);
-                branch.setVisible(false);
-            }
-        });
-        listBranchButton.remove(branch);
     }
 
     private double tempX;
     private double tempY;
 
     private void dragAndDrop(final Group obj) {
-        obj.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent t) {
-                tempX = t.getX() + RADIUS_END;
-                tempY = t.getY() + RADIUS_END;
-            }
-        });
+        /* obj.setOnMousePressed(new EventHandler<MouseEvent>() {
+         @Override
+         public void handle(MouseEvent t) {
+         tempX =  t.getX();
+         tempY =  t.getY();
+         }
+         });*/
+
         obj.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent t) {
                 if (obj.isPressed()) {
-                    obj.relocate(t.getSceneX() - tempX, t.getSceneY() - tempY);
+
+                    obj.relocate(t.getSceneX(), t.getSceneY());
+
                 }
                 obj.getChildren().clear();
                 groupAdd();
@@ -320,5 +288,89 @@ public class NodeUI extends Group {
                         .build())
                 .build();
         return path;
+    }
+
+    /*
+     Branch Button Animation Classes
+     */
+    class openBranchAnimation {
+
+        private int count = 1;
+
+        public openBranchAnimation(final BranchButton branch, final int posX, final int posY) {
+            branch.setVisible(true);
+            Timeline fiveSecondsWonder = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
+
+                @Override
+                public void handle(ActionEvent event) {
+
+                    branch.Refresh(posX, posY - RADIUS_END, count, RADIUS_END * 2);
+                    count += 1;
+                }
+            }));
+            fiveSecondsWonder.setCycleCount(branchButtonWidth);
+            fiveSecondsWonder.play();
+            // button.setDisable(true);
+            count = 1;
+        }
+    }
+
+    class closeBranchAnimation {
+
+        private int count;
+
+        public closeBranchAnimation(final BranchButton branch, final int posX, final int posY) {
+            count = branchButtonWidth;
+
+            Timeline fiveSecondsWonder = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
+
+                @Override
+                public void handle(ActionEvent event) {
+
+                    branch.Refresh(posX, posY - RADIUS_END, count, RADIUS_END * 2);
+                    count -= 1;
+                }
+            }));
+
+            fiveSecondsWonder.setCycleCount(branchButtonWidth);
+            fiveSecondsWonder.play();
+            //BranchButton Animasyonu bittiğinde button açılacak
+            fiveSecondsWonder.setOnFinished(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent t) {
+                    //   button.setDisable(false);
+                    branch.setVisible(false);
+                    branch.setButtonName(null);
+                }
+            });
+        }
+    }
+
+    class moveXBranchAnimation {
+
+        private int count = 1;
+
+        public moveXBranchAnimation(final BranchButton branch, final int posX, final int posY) {
+
+            Timeline fiveSecondsWonder = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
+
+                @Override
+                public void handle(ActionEvent event) {
+
+                    branch.Refresh(posX - count, posY - RADIUS_END, branchButtonWidth, RADIUS_END * 2);
+                    count += 1;
+                }
+            }));
+
+            fiveSecondsWonder.setCycleCount(branchButtonWidth);
+            fiveSecondsWonder.play();
+            //BranchButton Animasyonu bittiğinde button açılacak
+           /* fiveSecondsWonder.setOnFinished(new EventHandler<ActionEvent>() {
+             @Override
+             public void handle(ActionEvent t) {
+
+             }
+             });*/
+        }
     }
 }
