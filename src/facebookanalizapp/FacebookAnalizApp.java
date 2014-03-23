@@ -5,12 +5,15 @@
  */
 package facebookanalizapp;
 
+import com.facebookanalizapp.entity.DataEntity;
+import com.facebookanalizapp.entitymanager.EntityManagerService;
 import com.facebookanalizapp.process.FXMLTool;
-import com.facebookanalizapp.ui.MainFrameUI;
 import java.io.IOException;
+import java.util.List;
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 /**
  *
@@ -36,6 +39,26 @@ public class FacebookAnalizApp extends Application {
         
         //URL location = getClass().getResource("/com/facebookanalizapp/fxml/DataFXML.fxml");  
         //System.out.println("value : " + location);
+        EntityManagerService.setPersistenceMap("c:/ufuk/db", "ufuk", "ufuk");
+        EntityManager manager = EntityManagerService.get().createEntityManager();
+        
+        
+        manager.getTransaction().begin();
+        
+        DataEntity data = new DataEntity();
+        data.setRawData("Test data2");
+        
+        manager.persist(data);
+        manager.getTransaction().commit();
+        
+        
+        Query q = manager.createQuery("select a from DataEntity a");
+        List<DataEntity> lstAd = q.getResultList();
+        for (DataEntity ad : lstAd) {
+          System.out.println("*********************************");
+          System.out.println(ad.getRawData());
+        }
+        manager.close();
         
         FXMLTool.instance().openFXML(ApplicationTitle, "MainFXML.fxml", true);
     }

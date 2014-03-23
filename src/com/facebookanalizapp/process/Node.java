@@ -7,9 +7,9 @@ package com.facebookanalizapp.process;
  */
 public class Node {
     private String name;
-    //private Data data;
-    //private Mining mining;
-    //private Presentation presentation;
+    private Data data;
+    private Mining mining;
+    private Presentation presentation;
 
     public String getName() {
         return name;

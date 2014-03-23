@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 package com.facebookanalizapp.entity;
 
@@ -9,16 +14,20 @@ import javax.persistence.Id;
 
 /**
  *
- * @author ufuk halis
+ * @author ufuk
  */
 @Entity
-public class DataEntity implements Serializable {
+public class CosineEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String rawData;
+    private String values;
+    
+    private Integer miningType;
+    
+    
     
     public Long getId() {
         return id;
@@ -28,17 +37,6 @@ public class DataEntity implements Serializable {
         this.id = id;
     }
 
-    public String getRawData() {
-        return rawData;
-    }
-
-    public void setRawData(String rawData) {
-        this.rawData = rawData;
-    }
-
-    
-    
-    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -49,10 +47,10 @@ public class DataEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof DataEntity)) {
+        if (!(object instanceof CosineEntity)) {
             return false;
         }
-        DataEntity other = (DataEntity) object;
+        CosineEntity other = (CosineEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -61,7 +59,35 @@ public class DataEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.facebookanalizapp.entity.DataEntity[ id=" + id + " ]";
+        return "com.facebookanalizapp.entity.CosineEntity[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the values
+     */
+    public String getValues() {
+        return values;
+    }
+
+    /**
+     * @param values the values to set
+     */
+    public void setValues(String values) {
+        this.values = values;
+    }
+
+    /**
+     * @return the miningType
+     */
+    public Integer getMiningType() {
+        return miningType;
+    }
+
+    /**
+     * @param miningType the miningType to set
+     */
+    public void setMiningType(Integer miningType) {
+        this.miningType = miningType;
     }
     
 }

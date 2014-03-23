@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 package com.facebookanalizapp.entity;
 
@@ -9,16 +14,18 @@ import javax.persistence.Id;
 
 /**
  *
- * @author ufuk halis
+ * @author ufuk
  */
 @Entity
-public class DataEntity implements Serializable {
+public class ClusteringEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String rawData;
+    private String name;
+    
+    private String attributeList;
     
     public Long getId() {
         return id;
@@ -28,17 +35,6 @@ public class DataEntity implements Serializable {
         this.id = id;
     }
 
-    public String getRawData() {
-        return rawData;
-    }
-
-    public void setRawData(String rawData) {
-        this.rawData = rawData;
-    }
-
-    
-    
-    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -49,10 +45,10 @@ public class DataEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof DataEntity)) {
+        if (!(object instanceof ClusteringEntity)) {
             return false;
         }
-        DataEntity other = (DataEntity) object;
+        ClusteringEntity other = (ClusteringEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -61,7 +57,35 @@ public class DataEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.facebookanalizapp.entity.DataEntity[ id=" + id + " ]";
+        return "com.facebookanalizapp.entity.ClusteringEntity[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @return the attributeList
+     */
+    public String getAttributeList() {
+        return attributeList;
+    }
+
+    /**
+     * @param attributeList the attributeList to set
+     */
+    public void setAttributeList(String attributeList) {
+        this.attributeList = attributeList;
     }
     
 }

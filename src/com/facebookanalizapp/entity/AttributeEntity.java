@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 package com.facebookanalizapp.entity;
 
@@ -9,16 +14,16 @@ import javax.persistence.Id;
 
 /**
  *
- * @author ufuk halis
+ * @author ufuk
  */
 @Entity
-public class DataEntity implements Serializable {
+public class AttributeEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String rawData;
+    private String attributeName;
     
     public Long getId() {
         return id;
@@ -28,17 +33,16 @@ public class DataEntity implements Serializable {
         this.id = id;
     }
 
-    public String getRawData() {
-        return rawData;
+    public void setAttributeName(String attributeName) {
+        this.attributeName = attributeName;
     }
 
-    public void setRawData(String rawData) {
-        this.rawData = rawData;
+    public String getAttributeName() {
+        return attributeName;
     }
+    
+    
 
-    
-    
-    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -49,10 +53,10 @@ public class DataEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof DataEntity)) {
+        if (!(object instanceof AttributeEntity)) {
             return false;
         }
-        DataEntity other = (DataEntity) object;
+        AttributeEntity other = (AttributeEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -61,7 +65,7 @@ public class DataEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.facebookanalizapp.entity.DataEntity[ id=" + id + " ]";
+        return "com.facebookanalizapp.entity.AttributeEntity[ id=" + id + " ]";
     }
     
 }
