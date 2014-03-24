@@ -1,5 +1,6 @@
 package com.facebookanalizapp.ui;
 
+import com.facebookanalizapp.process.FXMLTool;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,9 +9,13 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.ArcToBuilder;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.CircleBuilder;
@@ -81,10 +86,10 @@ public class NodeUI extends Group {
                 120, // End angle
                 RADIUS_START, // Radius start
                 RADIUS_END, // Radius end
-                Color.LIGHTGREEN,// Fill
-                Color.DARKGREEN //Stroke
+                Color.rgb(78, 78, 78),// Fill
+                Color.rgb(34, 34, 34) //Stroke
         );
-
+  
         Button2 = createDartboardField(
                 this.positionX,// Center X
                 this.positionY,// Center Y
@@ -92,8 +97,8 @@ public class NodeUI extends Group {
                 240, // End angle
                 RADIUS_START, // Radius start
                 RADIUS_END, // Radius end
-                Color.LIGHTGREEN,// Fill
-                Color.DARKGREEN //Stroke
+                Color.rgb(78, 78, 78),// Fill
+                Color.rgb(34, 34, 34) //Stroke
         );
 
         Button3 = createDartboardField(
@@ -103,24 +108,30 @@ public class NodeUI extends Group {
                 360, // End angle
                 RADIUS_START, // Radius start
                 RADIUS_END, // Radius end
-                Color.LIGHTGREEN,// Fill
-                Color.DARKGREEN //Stroke
+                Color.rgb(78, 78, 78),// Fill
+                Color.rgb(34, 34, 34) //Stroke
         );
 
+        buttonColorEvents(Button1, Color.rgb(78, 78, 78), Color.rgb(85, 85, 85), Color.rgb(60, 60, 60));
+        buttonColorEvents(Button2, Color.rgb(78, 78, 78), Color.rgb(85, 85, 85), Color.rgb(60, 60, 60));
+        buttonColorEvents(Button3, Color.rgb(78, 78, 78), Color.rgb(85, 85, 85), Color.rgb(60, 60, 60));
+
         circle = CircleBuilder.create()
-                .stroke(Color.DARKGREEN)
+                //.stroke(Color.rgb(66,66,81))
                 .radius(CIRCLE_SIZE)
                 .centerX(this.positionX)
                 .centerY(this.positionX)
-                .fill(Color.LIGHTGREEN)
+                .fill(Color.rgb(231, 231, 233))
                 .build();
 
-        branch1 = new BranchButton();
-        branch2 = new BranchButton();
-        branch3 = new BranchButton();
+        buttonColorEvents(circle, Color.rgb(231, 231, 233), Color.rgb(220, 220, 222), Color.rgb(200, 200, 202));
+
+        branch1 = new BranchButton(Color.rgb(255, 64, 0),Color.rgb(255, 64, 0));
+        branch2 = new BranchButton(Color.rgb(109, 217, 0),Color.rgb(109, 217, 0));
+        branch3 = new BranchButton(Color.rgb(0, 178, 178),Color.rgb(0, 178, 178));
 
         Button1.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
+            //Veri
             @Override
             public void handle(MouseEvent t) {
                 controlBranchButtonVisible(branch1);
@@ -129,7 +140,7 @@ public class NodeUI extends Group {
         });
 
         Button2.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
+            //Verimadenciliği
             @Override
             public void handle(MouseEvent t) {
                 controlBranchButtonVisible(branch2);
@@ -138,7 +149,7 @@ public class NodeUI extends Group {
         });
 
         Button3.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
+            //Sunum
             @Override
             public void handle(MouseEvent t) {
                 controlBranchButtonVisible(branch3);
@@ -147,6 +158,35 @@ public class NodeUI extends Group {
         });
 
         groupAdd();
+    }
+
+    private void buttonColorEvents(final javafx.scene.shape.Shape btn, final Paint color, final Paint entered, final Paint pressed) {
+        btn.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent t) {
+                btn.setFill(entered);
+            }
+        });
+        btn.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent t) {
+                btn.setFill(color);
+            }
+        });
+        btn.setOnMousePressed(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent t) {
+                btn.setFill(pressed);
+            }
+        });
+
+        btn.setOnMouseReleased(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent t) {
+                btn.setFill(entered);
+            }
+        });
     }
 
     private void groupAdd() {
@@ -158,6 +198,37 @@ public class NodeUI extends Group {
         this.getChildren().add(Button2);
         this.getChildren().add(Button3);
         this.getChildren().add(circle);
+        
+        Image img1 = new Image("images/data.png");
+        Image img2 = new Image("images/mining.png");
+        Image img3 = new Image("images/press.png");
+        
+        ImageView dataImg = new ImageView(img1);
+        ImageView miningImg = new ImageView(img2);
+        ImageView pressImg = new ImageView(img3);
+       
+        this.getChildren().add(dataImg);
+        this.getChildren().add(miningImg);
+        this.getChildren().add(pressImg);
+        
+        dataImg.relocate(40,-40 );
+        miningImg.relocate(-18,49 );
+        pressImg.relocate(-68,-32 );
+        
+        Tooltip tp1 = new Tooltip();
+        tp1.setText("Veri Bloğu");
+        
+        Tooltip tp2 = new Tooltip();
+        tp2.setText("Veri Madenciliği Bloğu");
+        
+        Tooltip tp3 = new Tooltip();
+        tp3.setText("Sunum Bloğu");
+        
+        Tooltip.install(Button1, tp1);
+        Tooltip.install(Button2, tp2);
+        Tooltip.install(Button3, tp3);
+        
+        
     }
 
     private void controlBranchButtonVisible(BranchButton currentBranchButton) {
@@ -166,52 +237,52 @@ public class NodeUI extends Group {
                 new openBranchAnimation(currentBranchButton, positionX, positionY);
                 currentBranchButton.setButtonName("A");
                 branchButtonIndex.add(currentBranchButton);
-                //System.out.println("A");
+                System.out.println("A");
                 countBranch += 1;
             } else if (countBranch == 1 && currentBranchButton.getButtonName() == null) {
                 new openBranchAnimation(currentBranchButton, positionX + branchButtonWidth, positionY);
                 currentBranchButton.setButtonName("B");
                 branchButtonIndex.add(currentBranchButton);
-                //System.out.println("B");
+                System.out.println("B");
                 countBranch += 1;
             } else if (countBranch == 2 && currentBranchButton.getButtonName() == null) {
                 new openBranchAnimation(currentBranchButton, positionX + branchButtonWidth * 2, positionY);
                 currentBranchButton.setButtonName("C");
                 branchButtonIndex.add(currentBranchButton);
-                //System.out.println("C");
+                System.out.println("C");
                 countBranch += 1;
             }
         } else {
-            if(currentBranchButton.getButtonName().contains(branchButtonIndex.get(0).getButtonName())){ 
-                    new closeBranchAnimation(currentBranchButton, currentBranchButton.getX1(), positionY);
-                    //System.out.println(branchButtonIndex.size());
-                    if (branchButtonIndex.size() == 3) {// A + 2 Buton Listede ise ; A kapanma işlemi başlamıştır
-                        //Diğer 2 buton taşınır
-                        new moveXBranchAnimation(branchButtonIndex.get(2), branchButtonIndex.get(2).getX1(), positionY);
-                        new moveXBranchAnimation(branchButtonIndex.get(1), branchButtonIndex.get(1).getX1(), positionY);
-                    } else if (branchButtonIndex.size() == 2) {// A + 1 Buton Listede ise ; A kapanma işlemi başlamıştır
-                        //Diğer 1 Buton Taşınır
-                        new moveXBranchAnimation(branchButtonIndex.get(1), branchButtonIndex.get(1).getX1(), positionY);
-                    }
-                    branchButtonIndex.remove(currentBranchButton);
-                    //System.out.println("-A");
-                    countBranch -= 1;
-            }else if (currentBranchButton.getButtonName().contains(branchButtonIndex.get(1).getButtonName())){
-                    new closeBranchAnimation(currentBranchButton, currentBranchButton.getX1(), positionY);
-                    //System.out.println(branchButtonIndex.size());
-                    if (branchButtonIndex.size() ==3) {//B + 2 Buton Listede ise ; B kapanma işlemi Başlamıştır
-                        new moveXBranchAnimation(branchButtonIndex.get(2), branchButtonIndex.get(2).getX1(), positionY);
-                    } else if(branchButtonIndex.size() ==2){
-                         new moveXBranchAnimation(branchButtonIndex.get(1), branchButtonIndex.get(1).getX1(), positionY);
-                    }
-                    branchButtonIndex.remove(currentBranchButton);
-                    //System.out.println("-B");
-                    countBranch -= 1;
-            }else if (currentBranchButton.getButtonName().contains(branchButtonIndex.get(2).getButtonName())){
-                    new closeBranchAnimation(currentBranchButton, currentBranchButton.getX1(), positionY);
-                    //System.out.println("-C");
-                    branchButtonIndex.remove(currentBranchButton);
-                    countBranch -= 1;
+            if (currentBranchButton.getButtonName().contains(branchButtonIndex.get(0).getButtonName())) {
+                new closeBranchAnimation(currentBranchButton, currentBranchButton.getX1(), positionY);
+                //System.out.println(branchButtonIndex.size());
+                if (branchButtonIndex.size() == 3) {// A + 2 Buton Listede ise ; A kapanma işlemi başlamıştır
+                    //Diğer 2 buton taşınır
+                    new moveXBranchAnimation(branchButtonIndex.get(2), branchButtonIndex.get(2).getX1(), positionY);
+                    new moveXBranchAnimation(branchButtonIndex.get(1), branchButtonIndex.get(1).getX1(), positionY);
+                } else if (branchButtonIndex.size() == 2) {// A + 1 Buton Listede ise ; A kapanma işlemi başlamıştır
+                    //Diğer 1 Buton Taşınır
+                    new moveXBranchAnimation(branchButtonIndex.get(1), branchButtonIndex.get(1).getX1(), positionY);
+                }
+                branchButtonIndex.remove(currentBranchButton);
+                System.out.println("-A");
+                countBranch -= 1;
+            } else if (currentBranchButton.getButtonName().contains(branchButtonIndex.get(1).getButtonName())) {
+                new closeBranchAnimation(currentBranchButton, currentBranchButton.getX1(), positionY);
+                //System.out.println(branchButtonIndex.size());
+                if (branchButtonIndex.size() == 3) {//B + 2 Buton Listede ise ; B kapanma işlemi Başlamıştır
+                    new moveXBranchAnimation(branchButtonIndex.get(2), branchButtonIndex.get(2).getX1(), positionY);
+                } else if (branchButtonIndex.size() == 2) {
+                    new moveXBranchAnimation(branchButtonIndex.get(1), branchButtonIndex.get(1).getX1(), positionY);
+                }
+                branchButtonIndex.remove(currentBranchButton);
+                System.out.println("-B");
+                countBranch -= 1;
+            } else if (currentBranchButton.getButtonName().contains(branchButtonIndex.get(2).getButtonName())) {
+                new closeBranchAnimation(currentBranchButton, currentBranchButton.getX1(), positionY);
+                System.out.println("-C");
+                branchButtonIndex.remove(currentBranchButton);
+                countBranch -= 1;
             }
         }
     }
@@ -231,13 +302,15 @@ public class NodeUI extends Group {
         obj.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent t) {
-                if (obj.isPressed()) {
+                if (t.isControlDown()) {//Ctrl kontrol
+                    if (obj.isPressed()) {
 
-                    obj.relocate(t.getSceneX(), t.getSceneY());
+                        obj.relocate(t.getSceneX(), t.getSceneY());
 
+                    }
+                    obj.getChildren().clear();
+                    groupAdd();
                 }
-                obj.getChildren().clear();
-                groupAdd();
             }
         });
     }

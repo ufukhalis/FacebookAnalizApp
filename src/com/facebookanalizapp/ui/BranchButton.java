@@ -2,6 +2,7 @@ package com.facebookanalizapp.ui;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.ArcToBuilder;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
@@ -26,6 +27,9 @@ public class BranchButton extends Group {
 
     private int x4;
     private int y4;
+    
+    private Paint Fill;
+    private Paint Stroke;
 
     private String buttonName;
 
@@ -43,12 +47,16 @@ public class BranchButton extends Group {
     
     
     
-    public BranchButton(int x, int y, int width, int height) {
+    public BranchButton(int x, int y, int width, int height,Paint fill,Paint stroke) {
+        Stroke =stroke;
+        Fill = fill;
         Refresh(x, y, height, width);
         this.setVisible(false);
     }
     
-    public BranchButton() {
+    public BranchButton(Paint fill,Paint stroke) {
+         Stroke =stroke;
+        Fill = fill;
       h=w=x1=y1=0;
       this.setVisible(false);
     }
@@ -75,8 +83,8 @@ public class BranchButton extends Group {
         this.getChildren().clear();//Grup içerisindeki herşeyi siler.
 
         final Path path = PathBuilder.create()
-                .fill(Color.LIGHTGREEN)
-                .stroke(Color.DARKGREEN)
+                .fill(Fill)
+                .stroke(Stroke)
                 .elements(
                         new MoveTo(x1, y1), // Move to Point 1
                         new LineTo(x2, y2), // Draw a Line to Point 2

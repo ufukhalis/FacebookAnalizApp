@@ -1,10 +1,10 @@
 ----------------------------------------------------------------
-Sun Mar 23 12:06:42 EET 2014:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-0144-ee68-15ed-0000006baf40 
-on database directory C:\ufuk\db  with class loader java.net.URLClassLoader@1c99159 
-Loaded from file:/H:/Belgelerim/NetBeansProjects/FacebookAnalizApp/dist/run89346722/lib/derby.jar
+Mon Mar 24 12:53:08 EET 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-0144-f3b8-f507-0000029c6178 
+on database directory C:\ufuk\db  with class loader java.net.URLClassLoader@2382815a 
+Loaded from file:/M:/Git%20Repository/FacebookAnalizApp/dist/run946148974/lib/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.7.0_45-b18
-user.dir=H:\Belgelerim\NetBeansProjects\FacebookAnalizApp
+java.runtime.version=1.7.0_25-b17
+user.dir=M:\Git Repository\FacebookAnalizApp
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
