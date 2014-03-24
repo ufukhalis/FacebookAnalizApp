@@ -87,7 +87,7 @@ public class NodeUI extends Group {
                 RADIUS_START, // Radius start
                 RADIUS_END, // Radius end
                 Color.rgb(78, 78, 78),// Fill
-                Color.rgb(34, 34, 34) //Stroke
+                Color.rgb(78, 78, 78) //Stroke
         );
   
         Button2 = createDartboardField(
@@ -98,7 +98,7 @@ public class NodeUI extends Group {
                 RADIUS_START, // Radius start
                 RADIUS_END, // Radius end
                 Color.rgb(78, 78, 78),// Fill
-                Color.rgb(34, 34, 34) //Stroke
+                Color.rgb(78, 78, 78) //Stroke
         );
 
         Button3 = createDartboardField(
@@ -109,12 +109,12 @@ public class NodeUI extends Group {
                 RADIUS_START, // Radius start
                 RADIUS_END, // Radius end
                 Color.rgb(78, 78, 78),// Fill
-                Color.rgb(34, 34, 34) //Stroke
+                Color.rgb(78, 78, 78) //Stroke
         );
 
-        buttonColorEvents(Button1, Color.rgb(78, 78, 78), Color.rgb(85, 85, 85), Color.rgb(60, 60, 60));
-        buttonColorEvents(Button2, Color.rgb(78, 78, 78), Color.rgb(85, 85, 85), Color.rgb(60, 60, 60));
-        buttonColorEvents(Button3, Color.rgb(78, 78, 78), Color.rgb(85, 85, 85), Color.rgb(60, 60, 60));
+        buttonColorEvents(Button1, Color.rgb(78, 78, 78), Color.rgb(95, 95, 95), Color.rgb(60, 60, 60));
+        buttonColorEvents(Button2, Color.rgb(78, 78, 78), Color.rgb(95, 95, 95), Color.rgb(60, 60, 60));
+        buttonColorEvents(Button3, Color.rgb(78, 78, 78), Color.rgb(95, 95, 95), Color.rgb(60, 60, 60));
 
         circle = CircleBuilder.create()
                 //.stroke(Color.rgb(66,66,81))

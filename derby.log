@@ -1,8 +1,8 @@
 ----------------------------------------------------------------
-Mon Mar 24 12:53:08 EET 2014:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-0144-f3b8-f507-0000029c6178 
+Mon Mar 24 13:01:41 EET 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-0144-f3c0-c936-0000029d35f8 
 on database directory C:\ufuk\db  with class loader java.net.URLClassLoader@2382815a 
-Loaded from file:/M:/Git%20Repository/FacebookAnalizApp/dist/run946148974/lib/derby.jar
+Loaded from file:/M:/Git%20Repository/FacebookAnalizApp/dist/run1521153657/lib/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_25-b17
 user.dir=M:\Git Repository\FacebookAnalizApp
