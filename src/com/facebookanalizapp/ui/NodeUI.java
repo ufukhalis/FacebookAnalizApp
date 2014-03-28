@@ -47,8 +47,8 @@ public class NodeUI extends Group {
     private int countBranch = 0;
 
     public void setNodePosition(int posX, int posY) {
-        this.nodePositionX = posX + RADIUS_END;//Başlangıç noktasını sıfırlıyor
-        this.nodePositionY = posY + RADIUS_END;
+        this.nodePositionX = posX + RADIUS_END ;//Başlangıç noktasını sıfırlıyor
+        this.nodePositionY = posY + RADIUS_END ;
         this.relocate(nodePositionX, nodePositionY);
     }
 
@@ -89,7 +89,7 @@ public class NodeUI extends Group {
                 Color.rgb(78, 78, 78),// Fill
                 Color.rgb(78, 78, 78) //Stroke
         );
-  
+
         Button2 = createDartboardField(
                 this.positionX,// Center X
                 this.positionY,// Center Y
@@ -126,9 +126,9 @@ public class NodeUI extends Group {
 
         buttonColorEvents(circle, Color.rgb(231, 231, 233), Color.rgb(220, 220, 222), Color.rgb(200, 200, 202));
 
-        branch1 = new BranchButton(Color.rgb(255, 64, 0),Color.rgb(255, 64, 0));
-        branch2 = new BranchButton(Color.rgb(109, 217, 0),Color.rgb(109, 217, 0));
-        branch3 = new BranchButton(Color.rgb(0, 178, 178),Color.rgb(0, 178, 178));
+        branch1 = new BranchButton(Color.rgb(255, 64, 0), Color.rgb(255, 64, 0));
+        branch2 = new BranchButton(Color.rgb(109, 217, 0), Color.rgb(109, 217, 0));
+        branch3 = new BranchButton(Color.rgb(0, 178, 178), Color.rgb(0, 178, 178));
 
         Button1.setOnMouseClicked(new EventHandler<MouseEvent>() {
             //Veri
@@ -198,37 +198,36 @@ public class NodeUI extends Group {
         this.getChildren().add(Button2);
         this.getChildren().add(Button3);
         this.getChildren().add(circle);
-        
+
         Image img1 = new Image("images/data.png");
         Image img2 = new Image("images/mining.png");
         Image img3 = new Image("images/press.png");
-        
+
         ImageView dataImg = new ImageView(img1);
         ImageView miningImg = new ImageView(img2);
         ImageView pressImg = new ImageView(img3);
-       
+
         this.getChildren().add(dataImg);
         this.getChildren().add(miningImg);
         this.getChildren().add(pressImg);
-        
-        dataImg.relocate(40,-40 );
-        miningImg.relocate(-18,49 );
-        pressImg.relocate(-68,-32 );
-        
+
+        dataImg.relocate(40, -40);
+        miningImg.relocate(-18, 49);
+        pressImg.relocate(-68, -32);
+
         Tooltip tp1 = new Tooltip();
         tp1.setText("Veri Bloğu");
-        
+
         Tooltip tp2 = new Tooltip();
         tp2.setText("Veri Madenciliği Bloğu");
-        
+
         Tooltip tp3 = new Tooltip();
         tp3.setText("Sunum Bloğu");
-        
+
         Tooltip.install(Button1, tp1);
         Tooltip.install(Button2, tp2);
         Tooltip.install(Button3, tp3);
-        
-        
+
     }
 
     private void controlBranchButtonVisible(BranchButton currentBranchButton) {
@@ -291,23 +290,21 @@ public class NodeUI extends Group {
     private double tempY;
 
     private void dragAndDrop(final Group obj) {
-        /* obj.setOnMousePressed(new EventHandler<MouseEvent>() {
-         @Override
-         public void handle(MouseEvent t) {
-         tempX =  t.getX();
-         tempY =  t.getY();
-         }
-         });*/
+        obj.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent t) {
+                tempX = t.getX()+153;
+                tempY = t.getY()+56;
+            }
+        });
 
         obj.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent t) {
                 if (t.isControlDown()) {//Ctrl kontrol
                     if (obj.isPressed()) {
-
-                        obj.relocate(t.getSceneX(), t.getSceneY());
-
-                    }
+                        obj.relocate(t.getSceneX()-tempX, t.getSceneY()-tempY);
+                    }    
                     obj.getChildren().clear();
                     groupAdd();
                 }
