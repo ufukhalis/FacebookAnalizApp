@@ -5,9 +5,15 @@
  */
 package facebookanalizapp;
 
+import com.facebookanalizapp.controller.DataFXMLController;
 import com.facebookanalizapp.entity.DataEntity;
 import com.facebookanalizapp.entitymanager.EntityManagerService;
+import com.facebookanalizapp.process.ExcelReader;
 import com.facebookanalizapp.process.FXMLTool;
+import com.facebookanalizapp.process.JsonReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import javafx.application.Application;
@@ -39,25 +45,39 @@ public class FacebookAnalizApp extends Application {
         
         //URL location = getClass().getResource("/com/facebookanalizapp/fxml/DataFXML.fxml");  
         //System.out.println("value : " + location);
+        ExcelReader reader = new ExcelReader();
+        List<String> list = reader.read("E:/users2.xlsx");
+        String veri = "";
+        for (String string : list) {
+            if (JsonReader.isValid(string)) {
+                System.out.println("Value : " + string);
+            }
+        }
         EntityManagerService.setPersistenceMap("c:/ufuk/db", "ufuk", "ufuk");
         EntityManager manager = EntityManagerService.get().createEntityManager();
         
         
         manager.getTransaction().begin();
         
-        DataEntity data = new DataEntity();
-        data.setRawData("Test data2");
+        /*DataEntity data = new DataEntity();
+        data.setName("test");
+        data.setRawData(veri);
         
         manager.persist(data);
         manager.getTransaction().commit();
-        
+        */
         
         Query q = manager.createQuery("select a from DataEntity a");
         List<DataEntity> lstAd = q.getResultList();
-        for (DataEntity ad : lstAd) {
+        /*for (DataEntity ad : lstAd) {
           System.out.println("*********************************");
           System.out.println(ad.getRawData());
-        }
+            
+        }*/
+        /*String[] s = lstAd.get(0).getRawData().split("#");
+        for (String string : s) {
+            System.out.println("value : " + string);
+        }*/
         manager.close();
         
         FXMLTool.instance().openFXML(ApplicationTitle, "MainFXML.fxml", true);

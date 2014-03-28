@@ -2,10 +2,12 @@
 package com.facebookanalizapp.entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 /**
  *
@@ -18,6 +20,10 @@ public class DataEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
+    
+    @Lob
+    @Column()
     private String rawData;
     
     public Long getId() {
@@ -36,8 +42,14 @@ public class DataEntity implements Serializable {
         this.rawData = rawData;
     }
 
-    
-    
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     
     @Override
     public int hashCode() {
