@@ -88,12 +88,10 @@ public class DataFXMLController implements Initializable {
         String data = viewData.getSelectionModel().getSelectedItem().data.getValue();
         System.out.println("value : " + data);
 
-        
-        FXMLTool.instance().openFXML("Veri Düzenle", "DataEditFXML.fxml", false);
-        
+               
         Parent parent = null;
         FXMLLoader fxmlLoader = null;       
-        fxmlLoader = new FXMLLoader(getClass().getResource("DataEditFXML.fxml")); 
+        fxmlLoader = new FXMLLoader(getClass().getResource("/com/facebookanalizapp/fxml/DataEditFXML.fxml")); 
         
         try {
             parent = (Parent) fxmlLoader.load();
