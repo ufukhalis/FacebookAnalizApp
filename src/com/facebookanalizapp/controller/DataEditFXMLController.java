@@ -5,6 +5,7 @@
  */
 package com.facebookanalizapp.controller;
 
+import com.facebookanalizapp.process.JsonFormatter;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -13,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+import org.json.JSONObject;
 
 /**
  * FXML Controller class
@@ -30,7 +32,9 @@ public class DataEditFXMLController implements Initializable {
     }
 
     public void initData(String data) {
-        txtEdit.setText(data);
+         final JSONObject obj =
+            new JSONObject(data);
+        txtEdit.setText(JsonFormatter.format(obj));
     }
 
     @FXML
