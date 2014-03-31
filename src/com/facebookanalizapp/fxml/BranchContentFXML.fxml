@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" opacity="1.0" prefHeight="80.0" prefWidth="150.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.facebookanalizapp.controller.BranchContentFXMLController">
+  <children>
+    <Label layoutX="38.0" layoutY="32.0" text="Label" />
+    <Button layoutX="108.0" layoutY="48.0" mnemonicParsing="false" prefWidth="28.0" text="Button" />
+  </children>
+</AnchorPane>
