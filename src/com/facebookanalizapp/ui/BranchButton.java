@@ -1,6 +1,12 @@
 package com.facebookanalizapp.ui;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.ArcToBuilder;
@@ -8,6 +14,7 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.PathBuilder;
+import javafx.scene.text.Font;
 
 public class BranchButton extends Group {
 
@@ -30,6 +37,12 @@ public class BranchButton extends Group {
     
     private Paint Fill;
     private Paint Stroke;
+    
+    private String Title="Başlık";
+    private String Info="Bilgi";
+    
+    public BranchBehaviour OptionButtonBehaviour=null;
+    
 
     private String buttonName;
 
@@ -41,11 +54,26 @@ public class BranchButton extends Group {
         this.buttonName = buttonName;
     }
 
+    public void setTitle(String Title) {
+        this.Title = Title;
+    }
+    
+    public String getTitle()
+    {
+        return this.Title;
+    }
+
+    public String getInfo() {
+        return Info;
+    }
+
+    public void setInfo(String Info) {
+        this.Info = Info;
+    }
+    
     public int getX1() {
         return x1;
     }
-    
-    
     
     public BranchButton(int x, int y, int width, int height,Paint fill,Paint stroke) {
         Stroke =stroke;
@@ -105,6 +133,51 @@ public class BranchButton extends Group {
                         .build())
                 .build();
         this.getChildren().add(path);
+        
+        if(w>60)
+            inUI();
+        
+    }
+    
+    private void inUI(){
+        Label label = new Label(Title);
+        label.setFont(Font.font("Arial",18));
+        label.setTextFill(Color.web("#fff"));
+        label.relocate(x1+70, y1+10);
+        this.getChildren().add(label);
+        
+        Button chck = new Button("Ayarla");
+        chck.relocate(x1+100, y1+40);
+        this.getChildren().add(chck);
+        
+        Label label2 = new Label(Info);
+        label2.setFont(Font.font("Arial",15));
+        label2.setTextFill(Color.web("#fff"));
+        label2.relocate(x1+90, y1+70);
+        this.getChildren().add(label2);
+        
+        /*Image img1 = new Image("images/ok.png");
+        Image img2 = new Image("images/cancel.png");
+        
+        ImageView dataImg = new ImageView(img1);
+        dataImg.setFitHeight(16);
+        dataImg.setFitWidth(16);
+        ImageView dataImg2 = new ImageView(img2);
+        dataImg2.setFitHeight(16);
+        dataImg2.setFitWidth(16);
+        
+        dataImg.relocate(x1+80, y1+90);
+        dataImg2.relocate(x1+100, y1+90);
+        
+        this.getChildren().add(dataImg);
+        this.getChildren().add(dataImg2);*/
+        
+        chck.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                OptionButtonBehaviour.Behaviour();
+            }
+        });
     }
 
 }

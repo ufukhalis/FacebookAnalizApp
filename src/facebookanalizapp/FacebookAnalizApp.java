@@ -45,7 +45,8 @@ public class FacebookAnalizApp extends Application {
         
         //URL location = getClass().getResource("/com/facebookanalizapp/fxml/DataFXML.fxml");  
         //System.out.println("value : " + location);
-        ExcelReader reader = new ExcelReader();
+        
+      /*  ExcelReader reader = new ExcelReader();
         List<String> list = reader.read("E:/users2.xlsx");
         String veri = "";
         for (String string : list) {
@@ -57,7 +58,7 @@ public class FacebookAnalizApp extends Application {
         EntityManager manager = EntityManagerService.get().createEntityManager();
         
         
-        manager.getTransaction().begin();
+        manager.getTransaction().begin();*/
         
         /*DataEntity data = new DataEntity();
         data.setName("test");
@@ -67,8 +68,8 @@ public class FacebookAnalizApp extends Application {
         manager.getTransaction().commit();
         */
         
-        Query q = manager.createQuery("select a from DataEntity a");
-        List<DataEntity> lstAd = q.getResultList();
+     // **  Query q = manager.createQuery("select a from DataEntity a");
+     // **  List<DataEntity> lstAd = q.getResultList();
         /*for (DataEntity ad : lstAd) {
           System.out.println("*********************************");
           System.out.println(ad.getRawData());
@@ -78,7 +79,7 @@ public class FacebookAnalizApp extends Application {
         for (String string : s) {
             System.out.println("value : " + string);
         }*/
-        manager.close();
+    //  **  manager.close();
         
         FXMLTool.instance().openFXML(ApplicationTitle, "MainFXML.fxml", true);
     }

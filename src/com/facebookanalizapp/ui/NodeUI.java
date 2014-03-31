@@ -129,6 +129,18 @@ public class NodeUI extends Group {
         branch1 = new BranchButton(Color.rgb(255, 64, 0), Color.rgb(255, 64, 0));
         branch2 = new BranchButton(Color.rgb(109, 217, 0), Color.rgb(109, 217, 0));
         branch3 = new BranchButton(Color.rgb(0, 178, 178), Color.rgb(0, 178, 178));
+        
+        branch1.setTitle("Veri");
+        branch2.setTitle("Veri Madenciliği");
+        branch3.setTitle("Sunum");
+        
+        branch1.OptionButtonBehaviour= new BranchBehaviour() {
+
+            @Override
+            public void Behaviour() {
+                 FXMLTool.instance().openFXML("Veri Seçiniz", "DataFXML.fxml", true);
+            }
+        };
 
         Button1.setOnMouseClicked(new EventHandler<MouseEvent>() {
             //Veri
