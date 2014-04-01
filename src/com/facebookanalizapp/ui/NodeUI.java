@@ -138,10 +138,26 @@ public class NodeUI extends Group {
 
             @Override
             public void Behaviour() {
-                 FXMLTool.instance().openFXML("Veri Seçiniz", "DataFXML.fxml", true);
+                 FXMLTool.instance().openFXML("Veri Seçme Katmanı", "DataFXML.fxml", false);
             }
         };
 
+        branch2.OptionButtonBehaviour = new BranchBehaviour() {
+
+            @Override
+            public void Behaviour() {
+                FXMLTool.instance().openFXML("Veri Madenciliği Katmanı", "MiningFXML.fxml", false, 708, 522);
+            }
+        };
+        
+        branch3.OptionButtonBehaviour = new BranchBehaviour() {
+
+            @Override
+            public void Behaviour() {
+                FXMLTool.instance().openFXML("Sunum Katmanı", "PresentationFXML.fxml", false);
+            }
+        };
+        
         Button1.setOnMouseClicked(new EventHandler<MouseEvent>() {
             //Veri
             @Override

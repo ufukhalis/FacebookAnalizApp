@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -38,8 +39,30 @@ public class FXMLTool {
             secondStage.setTitle(title);
             secondStage.setScene(secondScene);
             secondStage.setResizable(isResizable);
+            secondStage.initModality(Modality.APPLICATION_MODAL);
+            secondStage.initOwner(secondStage.getScene().getWindow());
             
             secondStage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLTool.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void openFXML(String title, String fxmlFileName, boolean isResizable,int width, int height){
+        try {
+            Parent parent = FXMLLoader.load(getClass().getResource( FXML_LOCATION + fxmlFileName));
+            Scene secondScene = new Scene(parent);
+            Stage secondStage = new Stage();
+            secondStage.setTitle(title);
+            secondStage.setScene(secondScene);
+            secondStage.setWidth(width);
+            secondStage.setHeight(height);
+            secondStage.setResizable(isResizable);
+            secondStage.initModality(Modality.APPLICATION_MODAL);
+            secondStage.initOwner(secondStage.getScene().getWindow());
+            secondStage.show();
+            
+            
         } catch (IOException ex) {
             Logger.getLogger(FXMLTool.class.getName()).log(Level.SEVERE, null, ex);
         }

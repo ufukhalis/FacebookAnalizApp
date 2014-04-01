@@ -25,6 +25,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -39,6 +40,12 @@ import javafx.stage.Stage;
  */
 public class DataFXMLController implements Initializable {
 
+    @FXML
+    TextField txtDataName;
+    
+    @FXML 
+    ListView lstViewData;
+    
     /**
      * Initializes the controller class.
      */
@@ -88,20 +95,19 @@ public class DataFXMLController implements Initializable {
         String data = viewData.getSelectionModel().getSelectedItem().data.getValue();
         System.out.println("value : " + data);
 
-               
         Parent parent = null;
-        FXMLLoader fxmlLoader = null;       
-        fxmlLoader = new FXMLLoader(getClass().getResource("/com/facebookanalizapp/fxml/DataEditFXML.fxml")); 
-        
+        FXMLLoader fxmlLoader = null;
+        fxmlLoader = new FXMLLoader(getClass().getResource("/com/facebookanalizapp/fxml/DataEditFXML.fxml"));
+
         try {
             parent = (Parent) fxmlLoader.load();
         } catch (IOException ex) {
             Logger.getLogger(DataFXMLController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         DataEditFXMLController controller
                 = fxmlLoader.<DataEditFXMLController>getController();
-        
+
         controller.initData(data);
 
         Scene secondScene = new Scene(parent);
@@ -115,6 +121,16 @@ public class DataFXMLController implements Initializable {
 
     @FXML
     private void onSave(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void onGetData(ActionEvent event) {
+
+    }
+    
+    @FXML
+    private void onDone(ActionEvent event) {
 
     }
 

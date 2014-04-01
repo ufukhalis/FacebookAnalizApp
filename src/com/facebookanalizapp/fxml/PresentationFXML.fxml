@@ -7,11 +7,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="68.0" prefWidth="198.00009999999747" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.facebookanalizapp.controller.PresentationFXMLController">
+<AnchorPane id="AnchorPane" prefHeight="61.0" prefWidth="263.0000999999975" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.facebookanalizapp.controller.PresentationFXMLController">
   <children>
-    <AnchorPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <AnchorPane prefHeight="68.0" prefWidth="277.0000999999975" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
-        <ComboBox editable="false" layoutX="14.0" layoutY="24.0" prefHeight="21.0" prefWidth="104.0" promptText="">
+        <ComboBox editable="false" layoutX="14.0" layoutY="24.0" prefHeight="21.0" prefWidth="104.0" promptText="" value="TABLO">
           <items>
             <FXCollections fx:factory="observableArrayList">
               <String fx:value="TABLO" />
@@ -19,11 +19,9 @@
               <String fx:value="PIE CHART" />
             </FXCollections>
           </items>
-          <value>
-              <String fx:value="TABLO" />
-          </value>
         </ComboBox>
         <Button fx:id="btnSelect" layoutX="137.0" layoutY="24.0" mnemonicParsing="false" onAction="#onSelect" prefWidth="47.0" text="Seç" />
+        <Button fx:id="btnSave" layoutX="202.0" layoutY="24.0" mnemonicParsing="false" onAction="#onSave" text="Kaydet" />
       </children>
     </AnchorPane>
   </children>

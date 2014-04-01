@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.facebookanalizapp.controller;
 
 import java.net.URL;
@@ -25,23 +24,29 @@ public class PresentationFXMLController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    
     private static final String[] listCombo = {"TABLO", "BAR CHART", "PIE CHART"};
-    
+
     @FXML
     Button btnSelect;
-    
+
+    @FXML
+    Button btnSave;
+
     @FXML
     ComboBox cmbPresentation;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-    }    
- 
-    
+
+    }
+
     @FXML
     private void onSelect(ActionEvent event) {
+
+    }
+    
+    @FXML
+    private void onSave(ActionEvent event) {
 
     }
 }

@@ -25,7 +25,7 @@ public class BranchButton extends Group {
 
     private int x1;
     private int y1;
-    
+
     private int x2;
     private int y2;
 
@@ -34,15 +34,14 @@ public class BranchButton extends Group {
 
     private int x4;
     private int y4;
-    
+
     private Paint Fill;
     private Paint Stroke;
-    
-    private String Title="Başlık";
-    private String Info="Bilgi";
-    
-    public BranchBehaviour OptionButtonBehaviour=null;
-    
+
+    private String Title = "Başlık";
+    private String Info = "Bilgi";
+
+    public BranchBehaviour OptionButtonBehaviour = null;
 
     private String buttonName;
 
@@ -57,9 +56,8 @@ public class BranchButton extends Group {
     public void setTitle(String Title) {
         this.Title = Title;
     }
-    
-    public String getTitle()
-    {
+
+    public String getTitle() {
         return this.Title;
     }
 
@@ -70,23 +68,23 @@ public class BranchButton extends Group {
     public void setInfo(String Info) {
         this.Info = Info;
     }
-    
+
     public int getX1() {
         return x1;
     }
-    
-    public BranchButton(int x, int y, int width, int height,Paint fill,Paint stroke) {
-        Stroke =stroke;
+
+    public BranchButton(int x, int y, int width, int height, Paint fill, Paint stroke) {
+        Stroke = stroke;
         Fill = fill;
         Refresh(x, y, height, width);
         this.setVisible(false);
     }
-    
-    public BranchButton(Paint fill,Paint stroke) {
-         Stroke =stroke;
+
+    public BranchButton(Paint fill, Paint stroke) {
+        Stroke = stroke;
         Fill = fill;
-      h=w=x1=y1=0;
-      this.setVisible(false);
+        h = w = x1 = y1 = 0;
+        this.setVisible(false);
     }
 
     public void Refresh(int x, int y, int width, int height) {
@@ -94,7 +92,7 @@ public class BranchButton extends Group {
         y1 = y;
         w = width;
         h = height;
-        
+
         x2 = x1 + w;
         y2 = y1;
 
@@ -103,7 +101,7 @@ public class BranchButton extends Group {
 
         x4 = x3 - w;
         y4 = y3;
-        
+
         this.draw();
     }
 
@@ -133,45 +131,44 @@ public class BranchButton extends Group {
                         .build())
                 .build();
         this.getChildren().add(path);
-        
-        if(w>60)
+
+        if (w > 60) {
             inUI();
-        
+        }
     }
-    
-    private void inUI(){
+
+    private void inUI() {
         Label label = new Label(Title);
-        label.setFont(Font.font("Arial",18));
+        label.setFont(Font.font("Arial", 18));
         label.setTextFill(Color.web("#fff"));
-        label.relocate(x1+70, y1+10);
+        label.relocate(x1 + 70, y1 + 10);
         this.getChildren().add(label);
-        
+
         Button chck = new Button("Ayarla");
-        chck.relocate(x1+100, y1+40);
+        chck.relocate(x1 + 100, y1 + 40);
         this.getChildren().add(chck);
-        
+
         Label label2 = new Label(Info);
-        label2.setFont(Font.font("Arial",15));
+        label2.setFont(Font.font("Arial", 15));
         label2.setTextFill(Color.web("#fff"));
-        label2.relocate(x1+90, y1+70);
+        label2.relocate(x1 + 90, y1 + 70);
         this.getChildren().add(label2);
-        
+
         /*Image img1 = new Image("images/ok.png");
-        Image img2 = new Image("images/cancel.png");
+         Image img2 = new Image("images/cancel.png");
         
-        ImageView dataImg = new ImageView(img1);
-        dataImg.setFitHeight(16);
-        dataImg.setFitWidth(16);
-        ImageView dataImg2 = new ImageView(img2);
-        dataImg2.setFitHeight(16);
-        dataImg2.setFitWidth(16);
+         ImageView dataImg = new ImageView(img1);
+         dataImg.setFitHeight(16);
+         dataImg.setFitWidth(16);
+         ImageView dataImg2 = new ImageView(img2);
+         dataImg2.setFitHeight(16);
+         dataImg2.setFitWidth(16);
         
-        dataImg.relocate(x1+80, y1+90);
-        dataImg2.relocate(x1+100, y1+90);
+         dataImg.relocate(x1+80, y1+90);
+         dataImg2.relocate(x1+100, y1+90);
         
-        this.getChildren().add(dataImg);
-        this.getChildren().add(dataImg2);*/
-        
+         this.getChildren().add(dataImg);
+         this.getChildren().add(dataImg2);*/
         chck.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
