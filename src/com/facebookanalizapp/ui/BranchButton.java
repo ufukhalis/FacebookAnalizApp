@@ -145,6 +145,7 @@ public class BranchButton extends Group {
         this.getChildren().add(label);
 
         Button chck = new Button("Ayarla");
+        //chck.getStylesheets().add("/css/JMetroLightTheme.css");
         chck.relocate(x1 + 100, y1 + 40);
         this.getChildren().add(chck);
 
