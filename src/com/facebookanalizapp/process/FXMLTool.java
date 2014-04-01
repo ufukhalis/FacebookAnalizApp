@@ -40,7 +40,6 @@ public class FXMLTool {
             secondStage.setScene(secondScene);
             secondStage.setResizable(isResizable);
             secondStage.initModality(Modality.APPLICATION_MODAL);
-            secondStage.initOwner(secondStage.getScene().getWindow());
             
             secondStage.show();
         } catch (IOException ex) {
@@ -59,7 +58,6 @@ public class FXMLTool {
             secondStage.setHeight(height);
             secondStage.setResizable(isResizable);
             secondStage.initModality(Modality.APPLICATION_MODAL);
-            secondStage.initOwner(secondStage.getScene().getWindow());
             secondStage.show();
             
             

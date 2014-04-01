@@ -24,8 +24,7 @@ public class PresentationFXMLController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    private static final String[] listCombo = {"TABLO", "BAR CHART", "PIE CHART"};
-
+   
     @FXML
     Button btnSelect;
 

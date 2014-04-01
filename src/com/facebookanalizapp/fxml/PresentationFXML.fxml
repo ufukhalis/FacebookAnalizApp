@@ -9,7 +9,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="61.0" prefWidth="263.0000999999975" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.facebookanalizapp.controller.PresentationFXMLController">
   <children>
-    <AnchorPane prefHeight="68.0" prefWidth="277.0000999999975" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <AnchorPane prefHeight="61.0" prefWidth="263.0000999999975" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
         <ComboBox editable="false" layoutX="14.0" layoutY="24.0" prefHeight="21.0" prefWidth="104.0" promptText="" value="TABLO">
           <items>
