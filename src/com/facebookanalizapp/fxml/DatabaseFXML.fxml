@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="186.00009999999747" prefWidth="354.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.facebookanalizapp.controller.DatabaseFXMLController">
+  <children>
+    <Pane prefHeight="186.0" prefWidth="497.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <TextField fx:id="txtDBPath" layoutX="127.0" layoutY="43.0" onMouseClicked="#onClickPath" prefWidth="200.0" promptText="" />
+        <TextField fx:id="txtDBName" layoutX="127.0" layoutY="93.0" prefWidth="200.0" />
+        <Label layoutX="22.0" layoutY="46.0" text="Veritabanı Yolu" />
+        <Label layoutX="22.0" layoutY="96.0" text="Veritabanı Adı" />
+        <Button fx:id="btnCreate" layoutX="205.0" layoutY="142.0" mnemonicParsing="false" onAction="#onCreate" text="Oluştur" />
+        <Button fx:id="btnCancel" layoutX="271.0" layoutY="142.0" mnemonicParsing="false" onAction="#onCancel" prefWidth="59.0" text="İptal" />
+      </children>
+    </Pane>
+  </children>
+</AnchorPane>

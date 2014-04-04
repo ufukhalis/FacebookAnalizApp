@@ -5,6 +5,7 @@
  */
 package com.facebookanalizapp.controller;
 
+import com.facebookanalizapp.process.FXMLTool;
 import com.facebookanalizapp.ui.NodeUI;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -47,12 +48,12 @@ public class MainFXMLController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        setNodeDragEvent();
+        setNodeDragEvent();        
     }
 
     @FXML
     private void onAdd(ActionEvent event) {
-        
+        FXMLTool.instance().openFXML("Veritabanı Ekle", "DatabaseFXML.fxml", false);
     }
 
     @FXML

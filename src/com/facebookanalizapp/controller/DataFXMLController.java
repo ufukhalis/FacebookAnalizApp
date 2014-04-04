@@ -5,6 +5,8 @@
  */
 package com.facebookanalizapp.controller;
 
+import com.facebookanalizapp.entity.DataEntity;
+import com.facebookanalizapp.entitymanager.EntityManagerService;
 import com.facebookanalizapp.process.ExcelReader;
 import com.facebookanalizapp.process.FXMLTool;
 import com.facebookanalizapp.process.JsonReader;
@@ -32,6 +34,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 /**
  * FXML Controller class
@@ -42,10 +46,10 @@ public class DataFXMLController implements Initializable {
 
     @FXML
     TextField txtDataName;
-    
-    @FXML 
+
+    @FXML
     ListView lstViewData;
-    
+
     /**
      * Initializes the controller class.
      */
@@ -121,17 +125,37 @@ public class DataFXMLController implements Initializable {
 
     @FXML
     private void onSave(ActionEvent event) {
+        EntityManagerService.setPersistenceMap("c:/ufuk/cemal", "facebookapp", "facebookapp");
+        EntityManager manager = EntityManagerService.get().createEntityManager();
+        manager.getTransaction().begin();
+        DataEntity entity = new DataEntity();
+        entity.setName(txtDataName.getText());
+        String raw = "";
+        for (int i = 0; i < viewData.getItems().size(); i++) {
+            raw += viewData.getItems().get(i).getData() + "#";
+        }
+        entity.setRawData(raw);
+        manager.persist(entity);
+        manager.getTransaction().commit();
 
+        Query q = manager.createQuery("select a from DataEntity a");
+        List<DataEntity> lstAd = q.getResultList();
+        for (DataEntity ad : lstAd) {
+            System.out.println("*********************************");
+            System.out.println(ad.getName());
+            System.out.println(ad.getRawData());
+        }
     }
 
     @FXML
     private void onGetData(ActionEvent event) {
 
     }
-    
+
     @FXML
     private void onDone(ActionEvent event) {
-
+        Stage stage = (Stage) txtPath.getScene().getWindow();
+        stage.close();
     }
 
     public class JSonData {
