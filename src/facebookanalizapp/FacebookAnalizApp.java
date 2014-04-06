@@ -11,6 +11,7 @@ import com.facebookanalizapp.entitymanager.EntityManagerService;
 import com.facebookanalizapp.process.ExcelReader;
 import com.facebookanalizapp.process.FXMLTool;
 import com.facebookanalizapp.process.JsonReader;
+import com.facebookanalizapp.process.PropertyManager;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -89,7 +90,7 @@ public class FacebookAnalizApp extends Application {
          System.out.println("value : " + string);
          }*/
         //  **  manager.close();
-        createOrReadPropertiesFile();
+        PropertyManager.instance().createOrReadPropertiesFile();        
         FXMLTool.instance().openFXML(ApplicationTitle, "MainFXML.fxml", true);
         
     }
@@ -98,61 +99,5 @@ public class FacebookAnalizApp extends Application {
         launch(args);
     }
 
-    public static File propertiesFile = null;
-    private static final String propertyFileName = "properties.xml";
-
-    public static void createOrReadPropertiesFile() {
-        try {
-
-            propertiesFile = new File(propertyFileName);
-            
-            if (!propertiesFile.exists()) {
-                DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-
-                Document doc = docBuilder.newDocument();
-                Element rootElement = doc.createElement("properties");
-                doc.appendChild(rootElement);
-                
-                TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                Transformer transformer = transformerFactory.newTransformer();
-                DOMSource source = new DOMSource(doc);
-                StreamResult result = new StreamResult(new File("properties.xml"));
-
-                transformer.transform(source, result);
-            }
-        } catch (Exception e) {
-
-        }
-    }
-
-    public static void addDBPropertiesFile(String path, String name) {
-        try {
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(propertiesFile);
-            doc.getDocumentElement().normalize();
-
-            Element rootElement = doc.getDocumentElement();
-
-            Element database = doc.createElement("database");
-            rootElement.appendChild(database);
-
-            Element dbPath = doc.createElement("path");
-            dbPath.appendChild(doc.createTextNode(path));
-            database.appendChild(dbPath);
-
-            Element dbName = doc.createElement("name");
-            dbName.appendChild(doc.createTextNode(name));
-            database.appendChild(dbName);
-
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(propertiesFile);
-
-            transformer.transform(source, result);
-        } catch (Exception e) {
-        }
-    }
+    
 }
