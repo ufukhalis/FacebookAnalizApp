@@ -13,6 +13,7 @@ import com.facebookanalizapp.ui.NodeUI;
 import java.io.File;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -29,6 +30,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  * FXML Controller class
@@ -92,12 +95,14 @@ public class MainFXMLController implements Initializable {
     @FXML
     private void onChanged(ActionEvent event){
         if (!((String)cmbDatabases.getValue()).equalsIgnoreCase(NO_DB_SELECTED) ) {
+            EntityManagerService.clearDB();
             DBProperty db = getSelectedDB((String)cmbDatabases.getValue());
             EntityManagerService.setPersistenceMap(db.getDbPath() + File.separator + db.getDbName(), "facebookapp", "facebookapp");
             EntityManager manager = EntityManagerService.get().createEntityManager();
             if (manager != null) {
                 Dialogs.showInformationDialog((Stage)cmbDatabases.getScene().getWindow(), db.getDbName() + " adlı veritabanı seçildi!", "İşlem Başarılı", "Bilgi");
             }
+            
         }
     }
     

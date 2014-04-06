@@ -18,7 +18,7 @@ public class EntityManagerService {
 
     private static Map<String, String> persistenceMap;
 
-    private static EntityManagerFactory emfInstance = null;
+    public static EntityManagerFactory emfInstance = null;
 
     private EntityManagerService() {
     }
@@ -33,6 +33,10 @@ public class EntityManagerService {
         return emfInstance;
     }
 
+    public static void clearDB(){
+        emfInstance = null;
+    }
+    
     public static void setPersistenceMap(String databasePath, String username, String password) {
         persistenceMap = new HashMap<>();
         persistenceMap.put("javax.persistence.jdbc.url", "jdbc:derby:" + databasePath + ";create=true");
