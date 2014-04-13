@@ -61,8 +61,8 @@ public class DatabaseFXMLController implements Initializable {
                 
 
             } else {
-                Dialogs.showErrorDialog((Stage) txtDBName.getScene().getWindow(), "Veritabanı oluşturulamadı!",
-                        "Bir hata ile karşılaşıldı", "Hata", new Exception());
+                /*Dialogs.showErrorDialog((Stage) txtDBName.getScene().getWindow(), "Veritabanı oluşturulamadı!",
+                        "Bir hata ile karşılaşıldı", "Hata", new Exception());*/
             }
         } else {
             Dialogs.showWarningDialog((Stage) txtDBName.getScene().getWindow(), "Boş alanlar olmamalı!.\nVeritabanı adı aynı olmamalı!",

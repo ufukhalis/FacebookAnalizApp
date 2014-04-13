@@ -94,6 +94,37 @@ public class PropertyManager {
         }
     }
 
+    public String removeDBFromPropertiesFile(String dbName) {
+        try {
+            String fullPath = "";
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            Document doc = docBuilder.parse(propertiesFile);
+
+            NodeList databaseList = doc.getElementsByTagName("database");
+
+            for (int i = 0; i < databaseList.getLength(); i++) {
+                NodeList list = databaseList.item(i).getChildNodes();
+                for (int j = 0; j < list.getLength(); j++) {
+                    Node node = list.item(j);
+                    if (dbName.equals(node.getTextContent())) {                        
+                        databaseList.item(i).getParentNode().removeChild(databaseList.item(i));
+                        fullPath = list.item(j - 1).getTextContent() + File.separator + dbName;
+                    }
+                }
+            }
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(propertiesFile);
+            transformer.transform(source, result);
+            return fullPath;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public List<DBProperty> getAllDatabasesFromPropertyFile() {
         List<DBProperty> list = new ArrayList<>();
         try {

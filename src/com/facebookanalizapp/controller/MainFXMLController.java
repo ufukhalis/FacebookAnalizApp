@@ -8,6 +8,7 @@ package com.facebookanalizapp.controller;
 import com.facebookanalizapp.entitymanager.EntityManagerService;
 import com.facebookanalizapp.process.DBProperty;
 import com.facebookanalizapp.process.FXMLTool;
+import com.facebookanalizapp.process.FileTool;
 import com.facebookanalizapp.process.PropertyManager;
 import com.facebookanalizapp.ui.NodeUI;
 import java.io.File;
@@ -79,7 +80,11 @@ public class MainFXMLController implements Initializable {
 
     @FXML
     private void onDelete(ActionEvent event) {
-
+        EntityManagerService.clearDB();
+        String directory = PropertyManager.instance().removeDBFromPropertiesFile((String)cmbDatabases.getValue());
+        refreshDatabasesList();
+        FileTool.instance().deleteDirectory(directory);
+        System.out.println("value : " + directory);
     }
 
     @FXML
