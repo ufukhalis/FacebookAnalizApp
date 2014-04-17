@@ -5,8 +5,15 @@
  */
 package com.facebookanalizapp.entitymanager;
 
+import com.facebookanalizapp.controller.MainFXMLController;
+import com.facebookanalizapp.process.FileTool;
+import com.facebookanalizapp.process.PropertyManager;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -33,10 +40,28 @@ public class EntityManagerService {
         return emfInstance;
     }
 
-    public static void clearDB(){
+    public static void clearDB() {
         emfInstance = null;
     }
-    
+
+    public static void close(String dbName) {
+        try {
+            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+            DriverManager.getConnection("jdbc:derby:;shutdown=true");
+        } catch (SQLException ex) {
+            Logger.getLogger(EntityManagerService.class.getName()).log(Level.SEVERE, null, ex);
+            String directory = PropertyManager.instance().removeDBFromPropertiesFile(dbName);
+            System.out.println("value : " + directory);
+            FileTool.instance().deleteDirectory(directory);
+            System.out.println("value2 : " + directory);
+            MainFXMLController.instance().refreshDatabasesList();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EntityManagerService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        emfInstance.close();
+    }
+
     public static void setPersistenceMap(String databasePath, String username, String password) {
         persistenceMap = new HashMap<>();
         persistenceMap.put("javax.persistence.jdbc.url", "jdbc:derby:" + databasePath + ";create=true");

@@ -80,11 +80,7 @@ public class MainFXMLController implements Initializable {
 
     @FXML
     private void onDelete(ActionEvent event) {
-        EntityManagerService.clearDB();
-        String directory = PropertyManager.instance().removeDBFromPropertiesFile((String)cmbDatabases.getValue());
-        refreshDatabasesList();
-        FileTool.instance().deleteDirectory(directory);
-        System.out.println("value : " + directory);
+        EntityManagerService.close((String)cmbDatabases.getValue());
     }
 
     @FXML
