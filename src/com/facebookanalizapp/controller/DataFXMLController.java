@@ -7,12 +7,15 @@ package com.facebookanalizapp.controller;
 
 import com.facebookanalizapp.entity.DataEntity;
 import com.facebookanalizapp.entitymanager.EntityManagerService;
+import com.facebookanalizapp.process.Data;
 import com.facebookanalizapp.process.ExcelReader;
 import com.facebookanalizapp.process.FXMLTool;
 import com.facebookanalizapp.process.JsonReader;
+import com.facebookanalizapp.process.Node;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -44,6 +47,9 @@ import javax.persistence.Query;
  */
 public class DataFXMLController implements Initializable {
 
+    private static DataFXMLController instance = null;
+    public Node parentNode;
+
     @FXML
     TextField txtDataName;
 
@@ -55,12 +61,29 @@ public class DataFXMLController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        instance = this;
         column.setCellValueFactory(
                 new PropertyValueFactory<JSonData, String>("data")
         );
 
         data = FXCollections.observableArrayList();
         viewData.setItems(data);
+    }
+
+    public static DataFXMLController instance() {
+        return instance;
+    }
+
+    public void refreshTable() {
+        if (parentNode.getData() != null) {
+            for (String string : parentNode.getData().getJsonDataList()) {
+
+                JSonData item = new JSonData();
+                item.data.setValue(string);
+                data.add(item);
+            }
+            viewData.setItems(data);
+        }
     }
 
     ObservableList<JSonData> data;
@@ -125,7 +148,7 @@ public class DataFXMLController implements Initializable {
 
     @FXML
     private void onSave(ActionEvent event) {
-        EntityManagerService.setPersistenceMap("c:/ufuk/cemal", "facebookapp", "facebookapp");
+
         EntityManager manager = EntityManagerService.get().createEntityManager();
         manager.getTransaction().begin();
         DataEntity entity = new DataEntity();
@@ -150,6 +173,19 @@ public class DataFXMLController implements Initializable {
     @FXML
     private void onGetData(ActionEvent event) {
 
+    }
+
+    @FXML
+    private void onApply(ActionEvent event) {
+        Data dataShare = new Data();
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < viewData.getItems().size(); i++) {
+            list.add(viewData.getItems().get(i).getData());
+        }
+        dataShare.setJsonDataList(list);
+        dataShare.setName("");
+        parentNode.setData(dataShare);
+        onDone(event);
     }
 
     @FXML

@@ -35,12 +35,12 @@
                 <Button id="btnClusteringSelect" fx:id="btnClustSelect" layoutX="628.0" layoutY="195.0" mnemonicParsing="false" onAction="#onClustSelect" text="Tamam" />
                 <TextField fx:id="txtClusteringName" layoutX="14.0" layoutY="14.0" prefWidth="110.0" promptText="Clustering Adı" />
                 <ListView fx:id="lstViewClusteringDB" layoutX="14.0" layoutY="58.0" prefHeight="154.0" prefWidth="110.0" />
-                <Button fx:id="btnGetSelectedClustering" layoutX="137.0" layoutY="192.0" mnemonicParsing="false" onAction="#onGetSelectedClustering" text="Getir" />
-                <ListView fx:id="lstViewSelectedAttr" layoutX="213.0" layoutY="14.0" prefHeight="164.0" prefWidth="168.0" />
-                <ListView fx:id="lstViewAttrDB" layoutX="432.0" layoutY="14.0" prefHeight="164.0" prefWidth="168.0" />
+                <Button fx:id="btnGetSelectedClustering" layoutX="137.0" layoutY="192.0" mnemonicParsing="false" onAction="#onGetSelectedClustering" prefWidth="57.0" text="Getir" />
+                <ListView fx:id="lstViewSelectedAttr" layoutX="436.0" layoutY="14.0" prefHeight="164.0" prefWidth="168.0" />
+                <ListView fx:id="lstViewAttrDB" layoutX="208.0" layoutY="14.0" prefHeight="164.0" prefWidth="168.0" />
                 <Button fx:id="btnRemove" layoutX="387.0" layoutY="43.0" mnemonicParsing="false" onAction="#onRemove" text="&gt;&gt;" />
                 <Button fx:id="btnAdd" layoutX="387.0" layoutY="126.0" mnemonicParsing="false" onAction="#onAdd" text="&lt;&lt;" />
-                <Button fx:id="btnSaveClustering" layoutX="556.0" layoutY="195.0" mnemonicParsing="false" onAction="#onSaveClustering" text="Kaydet" />
+                <Button fx:id="btnSaveClustering" layoutX="137.0" layoutY="157.0" mnemonicParsing="false" onAction="#onSaveClustering" text="Kaydet" />
               </children>
             </AnchorPane>
           </content>

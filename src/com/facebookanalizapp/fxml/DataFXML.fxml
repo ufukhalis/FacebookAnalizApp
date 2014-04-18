@@ -5,8 +5,9 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="657.0000999999975" prefWidth="476.0000999999975" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.facebookanalizapp.controller.DataFXMLController">
+<AnchorPane id="AnchorPane" prefHeight="628.0000999999975" prefWidth="476.0000999999975" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.facebookanalizapp.controller.DataFXMLController">
   <children>
     <AnchorPane prefHeight="400.0" prefWidth="555.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
@@ -18,13 +19,17 @@
           </columns>
         </TableView>
         <Button fx:id="btnEdit" layoutX="401.0" layoutY="394.0" mnemonicParsing="false" onAction="#onEdit" text="Düzenle" />
-        <Button fx:id="btnSave" layoutX="374.0" layoutY="466.0" mnemonicParsing="false" onAction="#onSave" prefWidth="63.000099999997474" text="Kaydet" />
-        <TextField fx:id="txtDataName" layoutX="238.0" layoutY="437.0" prefWidth="200.0" promptText="Veri Adı" text="" />
-        <ListView fx:id="lstViewData" layoutX="14.0" layoutY="437.0" prefHeight="200.0" prefWidth="200.0" />
-        <Button fx:id="btnGetData" layoutX="222.0" layoutY="616.0" mnemonicParsing="false" onAction="#onGetData" text="Veri Getir" />
-        <Button fx:id="btnOk" layoutX="408.0" layoutY="616.0" mnemonicParsing="false" onAction="#onDone" text="Kapat" />
+        <Button fx:id="btnSave" layoutX="222.0" layoutY="538.0" mnemonicParsing="false" onAction="#onSave" prefWidth="63.000099999997474" text="Kaydet" />
+        <TextField fx:id="txtDataName" layoutX="14.0" layoutY="537.0" prefWidth="200.0" promptText="Veri Adı" text="" />
+        <ListView fx:id="lstViewData" layoutX="14.0" layoutY="437.0" prefHeight="89.0" prefWidth="450.0" />
+        <Button fx:id="btnGetData" layoutX="315.0" layoutY="538.0" mnemonicParsing="false" onAction="#onGetData" text="Veri Getir" />
+        <Button fx:id="btnOk" layoutX="418.0" layoutY="586.0" mnemonicParsing="false" onAction="#onDone" text="İptal" />
         <Button layoutX="329.0" layoutY="394.0" mnemonicParsing="false" prefWidth="63.0" text="Sil" />
-        <Button layoutX="222.0" layoutY="581.0" mnemonicParsing="false" prefWidth="70.0" text="Sil" />
+        <Button layoutX="392.0" layoutY="538.0" mnemonicParsing="false" prefWidth="70.0" text="Sil" />
+        <Line endX="373.0" endY="0.0" layoutX="101.0" layoutY="424.0" startX="-100.0" />
+        <Line endX="363.0" endY="137.0" layoutX="111.0" layoutY="434.0" startX="-109.0" startY="138.0" />
+        <Label layoutX="14.0" layoutY="404.0" text="Kayıtlı  Veriler" />
+        <Button fx:id="btnApply" layoutX="259.0" layoutY="394.0" mnemonicParsing="false" onAction="#onApply" text="Tamam" />
       </children>
     </AnchorPane>
   </children>

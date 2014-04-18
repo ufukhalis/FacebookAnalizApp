@@ -3,11 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.facebookanalizapp.controller;
 
+import com.facebookanalizapp.process.JsonReader;
+import com.facebookanalizapp.process.Node;
 import java.net.URL;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.ResourceBundle;
+import java.util.Set;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,10 +28,14 @@ import javafx.scene.control.TextField;
  */
 public class MiningFXMLController implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
-    
+    public Node parentNode;
+
+    private static MiningFXMLController instance = null;
+
+    public static MiningFXMLController instance() {
+        return instance;
+    }
+
     @FXML
     Button btnKmeansSelect;
     @FXML
@@ -48,41 +58,66 @@ public class MiningFXMLController implements Initializable {
     ListView lstViewSelectedAttr;
     @FXML
     ListView lstViewAttrDB;
-    
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+        instance = this;
+    }
+
+    public void fillAttributeList() {
+        //lstViewAttrDB
+        Set<String> setAttrList = new HashSet<>();
+        try {
+
+            JsonReader jr = new JsonReader();
+            for (String object : parentNode.getData().getJsonDataList()) {
+                //System.out.println("value : " + object);
+                for (String string : jr.getPersonLikes(object)) {
+                    setAttrList.add(string);
+                    //System.out.println("value : " + string);
+                }
+            }
+        } catch (Exception e) {
+        }
+
+        for (Iterator<String> it = setAttrList.iterator(); it.hasNext();) {
+            String string = it.next();
+            System.out.println("value : " + string);
+        }
+        ObservableList<String> items = FXCollections.observableArrayList(setAttrList);
+        lstViewAttrDB.setItems(items);
+    }
+
     @FXML
     private void onKMeansSelect(ActionEvent event) {
 
     }
+
     @FXML
     private void onScanSelect(ActionEvent event) {
 
     }
+
     @FXML
     private void onClustSelect(ActionEvent event) {
 
     }
-    
+
     @FXML
     private void onGetSelectedClustering(ActionEvent event) {
 
     }
-    
+
     @FXML
     private void onRemove(ActionEvent event) {
 
     }
-    
+
     @FXML
     private void onAdd(ActionEvent event) {
 
     }
-    
+
     @FXML
     private void onSaveClustering(ActionEvent event) {
 

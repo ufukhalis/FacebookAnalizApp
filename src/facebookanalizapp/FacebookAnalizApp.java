@@ -5,36 +5,11 @@
  */
 package facebookanalizapp;
 
-import com.facebookanalizapp.controller.DataFXMLController;
-import com.facebookanalizapp.entity.DataEntity;
-import com.facebookanalizapp.entitymanager.EntityManagerService;
-import com.facebookanalizapp.process.ExcelReader;
 import com.facebookanalizapp.process.FXMLTool;
-import com.facebookanalizapp.process.JsonReader;
 import com.facebookanalizapp.process.PropertyManager;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 /**
  *

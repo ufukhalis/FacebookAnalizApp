@@ -22,15 +22,19 @@
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                   <children>
-                    <VBox alignment="TOP_CENTER" prefHeight="483.0" prefWidth="145.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                      <children>
-                        <Circle fx:id="testCircle" fill="DODGERBLUE" radius="49.0" stroke="BLACK" strokeType="INSIDE" VBox.vgrow="NEVER">
-                          <VBox.margin>
-                            <Insets top="5.0" />
-                          </VBox.margin>
-                        </Circle>
-                      </children>
-                    </VBox>
+                    <BorderPane prefHeight="483.0" prefWidth="145.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                      <bottom>
+                        <FlowPane prefHeight="21.0" prefWidth="145.0">
+                          <children>
+                            <Button fx:id="btnDeleteNode" mnemonicParsing="false" onAction="#onActionDelete" prefWidth="74.00009999999747" text="Sil" />
+                            <Button fx:id="btnAddNode" mnemonicParsing="false" onAction="#onAddAction" prefWidth="70.0" text="Ekle" />
+                          </children>
+                        </FlowPane>
+                      </bottom>
+                      <center>
+                        <ListView fx:id="listViewNodes" prefHeight="369.0" prefWidth="145.0" />
+                      </center>
+                    </BorderPane>
                   </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="483.0" prefWidth="11.0" />

@@ -14,6 +14,16 @@ public class Node {
     private Presentation presentation;
     private NodeUI ndUi;
 
+    
+    public Node(String name, int x, int y) {
+        this.name = name;
+        this.ndUi = new NodeUI(x, y);
+        this.ndUi.parent = this;
+    }
+
+    
+    
+    
     public String getName() {
         return name;
     }
@@ -50,4 +60,55 @@ public class Node {
     public void execute(){
         
     }
+
+    /**
+     * @return the ndUi
+     */
+    public NodeUI getNdUi() {
+        return ndUi;
+    }
+
+    /**
+     * @return the data
+     */
+    public Data getData() {
+        return data;
+    }
+
+    /**
+     * @param data the data to set
+     */
+    public void setData(Data data) {
+        this.data = data;
+    }
+
+    /**
+     * @return the mining
+     */
+    public Mining getMining() {
+        return mining;
+    }
+
+    /**
+     * @param mining the mining to set
+     */
+    public void setMining(Mining mining) {
+        this.mining = mining;
+    }
+
+    /**
+     * @return the presentation
+     */
+    public Presentation getPresentation() {
+        return presentation;
+    }
+
+    /**
+     * @param presentation the presentation to set
+     */
+    public void setPresentation(Presentation presentation) {
+        this.presentation = presentation;
+    }
+
+    
 }

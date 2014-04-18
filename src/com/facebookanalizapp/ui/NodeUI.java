@@ -1,7 +1,11 @@
 package com.facebookanalizapp.ui;
 
+import com.facebookanalizapp.controller.DataFXMLController;
 import com.facebookanalizapp.controller.MainFXMLController;
+import com.facebookanalizapp.controller.MiningFXMLController;
+import com.facebookanalizapp.controller.PresentationFXMLController;
 import com.facebookanalizapp.process.FXMLTool;
+import com.facebookanalizapp.process.Node;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +39,8 @@ import javax.swing.JOptionPane;
  */
 public class NodeUI extends Group {
 
+    public static Node parent;
+
     private final int RADIUS_START = 40;
     private final int RADIUS_END = 80;
 
@@ -49,12 +55,12 @@ public class NodeUI extends Group {
     private int nodePositionY;
 
     private int countBranch = 0;
-    
+
     private NodeUI content;
 
     public void setNodePosition(int posX, int posY) {
-        this.nodePositionX = posX + RADIUS_END ;//Başlangıç noktasını sıfırlıyor
-        this.nodePositionY = posY + RADIUS_END ;
+        this.nodePositionX = posX + RADIUS_END;//Başlangıç noktasını sıfırlıyor
+        this.nodePositionY = posY + RADIUS_END;
         this.relocate(nodePositionX, nodePositionY);
     }
 
@@ -136,16 +142,19 @@ public class NodeUI extends Group {
         branch1 = new BranchButton(Color.rgb(255, 64, 0), Color.rgb(255, 64, 0));
         branch2 = new BranchButton(Color.rgb(109, 217, 0), Color.rgb(109, 217, 0));
         branch3 = new BranchButton(Color.rgb(0, 178, 178), Color.rgb(0, 178, 178));
-        
+
         branch1.setTitle("Veri");
         branch2.setTitle("Veri Madenciliği");
         branch3.setTitle("Sunum");
-        
-        branch1.OptionButtonBehaviour= new BranchBehaviour() {
+
+        branch1.OptionButtonBehaviour = new BranchBehaviour() {
 
             @Override
             public void Behaviour() {
-                 FXMLTool.instance().openFXML("Veri Seçme Katmanı", "DataFXML.fxml", false);
+
+                FXMLTool.instance().openFXML("Veri Seçme Katmanı", "DataFXML.fxml", false);
+                DataFXMLController.instance().parentNode = parent;
+                DataFXMLController.instance().refreshTable();
             }
         };
 
@@ -154,17 +163,21 @@ public class NodeUI extends Group {
             @Override
             public void Behaviour() {
                 FXMLTool.instance().openFXML("Veri Madenciliği Katmanı", "MiningFXML.fxml", false, 708, 522);
+                MiningFXMLController.instance().parentNode = parent;
+                MiningFXMLController.instance().fillAttributeList();
             }
         };
-        
+
         branch3.OptionButtonBehaviour = new BranchBehaviour() {
 
             @Override
             public void Behaviour() {
                 FXMLTool.instance().openFXML("Sunum Katmanı", "PresentationFXML.fxml", false);
+                PresentationFXMLController.instance().parentNode = parent;
+                
             }
         };
-        
+
         Button1.setOnMouseClicked(new EventHandler<MouseEvent>() {
             //Veri
             @Override
@@ -191,42 +204,35 @@ public class NodeUI extends Group {
             }
 
         });
-      
+
         circle.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
-        
             @Override
             public void handle(MouseEvent t) {
-            
-               if( t.getButton() == MouseButton.SECONDARY){
-                String[] buttonOptions = new String[] {"Kaydet", "Sil", "İptal"};
-        
-                int result = JOptionPane.showOptionDialog(null, "Seçtiğiniz node için işlem seçiniz." 
-                        , "İşlem Seçiniz", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE
-                           ,null, buttonOptions, buttonOptions[0]);
-               
-               
-                switch(result){
-                    case 0://Kaydet
-                        
-                        break;
-                    case 1://Sil
-                        MainFXMLController.instance().removeNodeFromPane(content);
-                        MainFXMLController.nodeListGLOBAL.remove(content);
-                        
-                        break;
-                    case 2://İptal - Boş
-                        break;
-                    default:
+
+                if (t.getButton() == MouseButton.SECONDARY) {
+                    String[] buttonOptions = new String[]{"Kaydet", "Sil", "İptal"};
+
+                    int result = JOptionPane.showOptionDialog(null, "Seçtiğiniz node için işlem seçiniz.", "İşlem Seçiniz", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, buttonOptions, buttonOptions[0]);
+
+                    switch (result) {
+                        case 0://Kaydet
+
+                            break;
+                        case 1://Sil
+                            MainFXMLController.instance().removeNodeFromPane(content);
+
+                            break;
+                        case 2://İptal - Boş
+                            break;
+                        default:
+                    }
                 }
-               }
             }
         });
 
         groupAdd();
     }
-    
- 
 
     private void buttonColorEvents(final javafx.scene.shape.Shape btn, final Paint color, final Paint entered, final Paint pressed) {
         btn.setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -361,8 +367,8 @@ public class NodeUI extends Group {
         obj.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent t) {
-                tempX = t.getX()+153;
-                tempY = t.getY()+56;
+                tempX = t.getX() + 153;
+                tempY = t.getY() + 56;
             }
         });
 
@@ -371,8 +377,8 @@ public class NodeUI extends Group {
             public void handle(MouseEvent t) {
                 if (t.isControlDown()) {//Ctrl kontrol
                     if (obj.isPressed()) {
-                        obj.relocate(t.getSceneX()-tempX, t.getSceneY()-tempY);
-                    }    
+                        obj.relocate(t.getSceneX() - tempX, t.getSceneY() - tempY);
+                    }
                     obj.getChildren().clear();
                     groupAdd();
                 }

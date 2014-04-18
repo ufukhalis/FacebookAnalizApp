@@ -42,4 +42,18 @@ public class Data {
         return name;
     }
 
+    /**
+     * @return the jsonDataList
+     */
+    public List<String> getJsonDataList() {
+        return jsonDataList;
+    }
+
+    /**
+     * @param jsonDataList the jsonDataList to set
+     */
+    public void setJsonDataList(List<String> jsonDataList) {
+        this.jsonDataList = jsonDataList;
+    }
+
 }

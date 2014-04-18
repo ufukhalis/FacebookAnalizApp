@@ -5,6 +5,8 @@
  */
 package com.facebookanalizapp.controller;
 
+import com.facebookanalizapp.process.Node;
+import com.facebookanalizapp.process.Presentation;
 import java.net.URL;
 import java.util.Collection;
 import java.util.ResourceBundle;
@@ -21,9 +23,13 @@ import javafx.scene.control.ComboBox;
  */
 public class PresentationFXMLController implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
+    private static PresentationFXMLController instance = null;
+    
+    public Node parentNode;
+    
+    public static PresentationFXMLController instance(){
+        return instance;
+    }
    
     @FXML
     Button btnSelect;
@@ -41,7 +47,11 @@ public class PresentationFXMLController implements Initializable {
 
     @FXML
     private void onSelect(ActionEvent event) {
-
+        Presentation p = new Presentation();
+        p.setName("");
+        p.setChartType(Integer.MIN_VALUE);
+        p.setChart(null);
+        parentNode.setPresentation(p);
     }
     
     @FXML
