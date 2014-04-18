@@ -1,6 +1,8 @@
 
 package com.facebookanalizapp.process;
 
+import com.facebookanalizapp.ui.NodeUI;
+
 /**
  *
  * @author ufuk halis
@@ -10,6 +12,7 @@ public class Node {
     private Data data;
     private Mining mining;
     private Presentation presentation;
+    private NodeUI ndUi;
 
     public String getName() {
         return name;

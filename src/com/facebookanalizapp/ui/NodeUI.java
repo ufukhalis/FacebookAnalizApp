@@ -1,5 +1,6 @@
 package com.facebookanalizapp.ui;
 
+import com.facebookanalizapp.controller.MainFXMLController;
 import com.facebookanalizapp.process.FXMLTool;
 import java.util.AbstractList;
 import java.util.ArrayList;
@@ -9,9 +10,11 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.control.Dialogs;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -24,6 +27,7 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.PathBuilder;
 import javafx.util.Duration;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -45,6 +49,8 @@ public class NodeUI extends Group {
     private int nodePositionY;
 
     private int countBranch = 0;
+    
+    private NodeUI content;
 
     public void setNodePosition(int posX, int posY) {
         this.nodePositionX = posX + RADIUS_END ;//Başlangıç noktasını sıfırlıyor
@@ -65,6 +71,7 @@ public class NodeUI extends Group {
         drawNode();
         dragAndDrop(this);
         branchButtonIndex = new ArrayList<BranchButton>();
+        content = this;
     }
     private BranchButton branch1;
     private BranchButton branch2;
@@ -184,9 +191,42 @@ public class NodeUI extends Group {
             }
 
         });
+      
+        circle.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+        
+            @Override
+            public void handle(MouseEvent t) {
+            
+               if( t.getButton() == MouseButton.SECONDARY){
+                String[] buttonOptions = new String[] {"Kaydet", "Sil", "İptal"};
+        
+                int result = JOptionPane.showOptionDialog(null, "Seçtiğiniz node için işlem seçiniz." 
+                        , "İşlem Seçiniz", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE
+                           ,null, buttonOptions, buttonOptions[0]);
+               
+               
+                switch(result){
+                    case 0://Kaydet
+                        
+                        break;
+                    case 1://Sil
+                        MainFXMLController.instance().removeNodeFromPane(content);
+                        MainFXMLController.nodeListGLOBAL.remove(content);
+                        
+                        break;
+                    case 2://İptal - Boş
+                        break;
+                    default:
+                }
+               }
+            }
+        });
 
         groupAdd();
     }
+    
+ 
 
     private void buttonColorEvents(final javafx.scene.shape.Shape btn, final Paint color, final Paint entered, final Paint pressed) {
         btn.setOnMouseEntered(new EventHandler<MouseEvent>() {

@@ -13,6 +13,7 @@ import com.facebookanalizapp.process.PropertyManager;
 import com.facebookanalizapp.ui.NodeUI;
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -107,6 +108,8 @@ public class MainFXMLController implements Initializable {
         }
     }
     
+    public static List<NodeUI> nodeListGLOBAL =new ArrayList<NodeUI>();
+    
     private void setNodeDragEvent(){
         testCircle.setOnMouseDragged(new EventHandler<MouseEvent>() {
 
@@ -120,13 +123,20 @@ public class MainFXMLController implements Initializable {
 
             @Override
             public void handle(MouseEvent t) {
-                pane.getChildren().add(new NodeUI((int) t.getX(), (int) t.getY()));
+                NodeUI tmp = new NodeUI(300, 200);
+                nodeListGLOBAL.add(tmp);
+                pane.getChildren().add(tmp);
 
                 scrollMain.setContent(pane);
             }
         });
     }
 
+    
+    public void removeNodeFromPane(NodeUI node){
+        pane.getChildren().remove(node);
+        scrollMain.setContent(pane);
+    }
     
     public void refreshDatabasesList(){
         cmbDatabases.getItems().clear();
