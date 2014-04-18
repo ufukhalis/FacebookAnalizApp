@@ -13,14 +13,17 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Dialogs;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.ArcToBuilder;
@@ -30,6 +33,10 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.PathBuilder;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javax.swing.JOptionPane;
 
@@ -39,7 +46,7 @@ import javax.swing.JOptionPane;
  */
 public class NodeUI extends Group {
 
-    public static Node parent;
+    public Node parent;
 
     private final int RADIUS_START = 40;
     private final int RADIUS_END = 80;
@@ -72,12 +79,14 @@ public class NodeUI extends Group {
         return nodePositionY;
     }
 
-    public NodeUI(int posX, int posY) {
+    public NodeUI(Node _parent,int posX, int posY) {
+        this.parent=_parent;
         setNodePosition(posX, posY);
         drawNode();
         dragAndDrop(this);
         branchButtonIndex = new ArrayList<BranchButton>();
         content = this;
+
     }
     private BranchButton branch1;
     private BranchButton branch2;
@@ -87,6 +96,7 @@ public class NodeUI extends Group {
     private Path Button2;
     private Path Button3;
     private Circle circle;
+    private StackPane NodeLabel;
 
     private List<BranchButton> branchButtonIndex;
 
@@ -151,7 +161,6 @@ public class NodeUI extends Group {
 
             @Override
             public void Behaviour() {
-
                 FXMLTool.instance().openFXML("Veri Seçme Katmanı", "DataFXML.fxml", false);
                 DataFXMLController.instance().parentNode = parent;
                 DataFXMLController.instance().refreshTable();
@@ -211,7 +220,7 @@ public class NodeUI extends Group {
             public void handle(MouseEvent t) {
 
                 if (t.getButton() == MouseButton.SECONDARY) {
-                    String[] buttonOptions = new String[]{"Kaydet", "Sil", "İptal"};
+                    String[] buttonOptions = new String[]{"Kaydet", "Kaldır", "İptal"};
 
                     int result = JOptionPane.showOptionDialog(null, "Seçtiğiniz node için işlem seçiniz.", "İşlem Seçiniz", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, buttonOptions, buttonOptions[0]);
 
@@ -221,7 +230,6 @@ public class NodeUI extends Group {
                             break;
                         case 1://Sil
                             MainFXMLController.instance().removeNodeFromPane(content);
-
                             break;
                         case 2://İptal - Boş
                             break;
@@ -230,7 +238,7 @@ public class NodeUI extends Group {
                 }
             }
         });
-
+        
         groupAdd();
     }
 
@@ -262,6 +270,43 @@ public class NodeUI extends Group {
             }
         });
     }
+    
+    private void showNodeLabel(){
+        NodeLabel = new StackPane();
+        NodeLabel .setVisible(false);
+        Text helpText = new Text(parent.getName());
+        helpText.setFont(Font.font("Tohama", FontWeight.NORMAL, 11));
+        helpText.setFill(Color.WHITE);
+        helpText.setStroke(Color.web("#fff")); 
+        
+        Rectangle helpIcon = new Rectangle(helpText.getBoundsInLocal().getWidth()+5, 16);
+        helpIcon.setFill(Color.web("#333"));
+        helpIcon.setStroke(Color.web("#444"));
+        helpIcon.setArcHeight(8.5);
+        helpIcon.setArcWidth(5.5);
+        
+        NodeLabel.getChildren().addAll(helpIcon, helpText);
+        NodeLabel.setAlignment(Pos.CENTER);
+        NodeLabel.relocate(-helpIcon.getBoundsInLocal().getWidth()/2, 82);
+        
+        this.getChildren().add(NodeLabel);
+        
+        this.setOnMouseEntered(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent t) {
+                 NodeLabel.setVisible(true);
+            }
+        });
+        
+        this.setOnMouseExited(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent t) {
+                NodeLabel.setVisible(false);
+            }
+        });
+    }
 
     private void groupAdd() {
         this.getChildren().add(branch1);
@@ -272,23 +317,56 @@ public class NodeUI extends Group {
         this.getChildren().add(Button2);
         this.getChildren().add(Button3);
         this.getChildren().add(circle);
-
+        
+        showNodeLabel();//Node'un ismini gösterir.
+        
         Image img1 = new Image("images/data.png");
         Image img2 = new Image("images/mining.png");
         Image img3 = new Image("images/press.png");
+        Image img4 = new Image("images/play.png");
 
         ImageView dataImg = new ImageView(img1);
         ImageView miningImg = new ImageView(img2);
         ImageView pressImg = new ImageView(img3);
-
+        ImageView playImg = new ImageView(img4);
+        
+        //Resimer ile buttoların mouse eventleri aynı olayı işlesin
+        playImg.setOnMouseClicked(circle.getOnMouseClicked());
+        playImg.setOnMouseEntered(circle.getOnMouseEntered());
+        playImg.setOnMouseExited(circle.getOnMouseExited());
+        playImg.setOnMousePressed(circle.getOnMousePressed());
+        playImg.setOnMouseReleased(circle.getOnMouseReleased());
+        
+        dataImg.setOnMouseClicked(Button1.getOnMouseClicked());
+        dataImg.setOnMouseEntered(Button1.getOnMouseEntered());
+        dataImg.setOnMouseExited(Button1.getOnMouseExited());
+        dataImg.setOnMousePressed(Button1.getOnMousePressed());
+        dataImg.setOnMouseReleased(Button1.getOnMouseReleased());
+        
+        miningImg.setOnMouseClicked(Button2.getOnMouseClicked());
+        miningImg.setOnMouseEntered(Button2.getOnMouseEntered());
+        miningImg.setOnMouseExited(Button2.getOnMouseExited());
+        miningImg.setOnMousePressed(Button2.getOnMousePressed());
+        miningImg.setOnMouseReleased(Button2.getOnMouseReleased());
+        
+        pressImg.setOnMouseClicked(Button3.getOnMouseClicked());
+        pressImg.setOnMouseEntered(Button3.getOnMouseEntered());
+        pressImg.setOnMouseExited(Button3.getOnMouseExited());
+        pressImg.setOnMousePressed(Button3.getOnMousePressed());
+        pressImg.setOnMouseReleased(Button3.getOnMouseReleased());
+        
+        
         this.getChildren().add(dataImg);
         this.getChildren().add(miningImg);
         this.getChildren().add(pressImg);
+        this.getChildren().add(playImg);
 
         dataImg.relocate(40, -40);
         miningImg.relocate(-18, 49);
         pressImg.relocate(-68, -32);
-
+        playImg.relocate(-13, -16);
+        
+        
         Tooltip tp1 = new Tooltip();
         tp1.setText("Veri Bloğu");
 
@@ -303,7 +381,7 @@ public class NodeUI extends Group {
         Tooltip.install(Button3, tp3);
 
     }
-
+    
     private void controlBranchButtonVisible(BranchButton currentBranchButton) {
         if (!currentBranchButton.isVisible()) {
             if (countBranch == 0 && currentBranchButton.getButtonName() == null) {

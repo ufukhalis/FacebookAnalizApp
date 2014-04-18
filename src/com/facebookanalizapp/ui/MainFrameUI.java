@@ -20,7 +20,7 @@ import javafx.scene.layout.Pane;
  * @author hp1
  */
 public class MainFrameUI extends ScrollPane {
-
+/*
     private static final double MAX_SCALE = 5.5d; //Max zoom boyutu
     private static final double MIN_SCALE = .5d; //Min zoom boyutu
 
@@ -74,5 +74,5 @@ public class MainFrameUI extends ScrollPane {
         }
         return scale;
     }
-
+*/
 }

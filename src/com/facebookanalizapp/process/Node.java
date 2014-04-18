@@ -17,12 +17,9 @@ public class Node {
     
     public Node(String name, int x, int y) {
         this.name = name;
-        this.ndUi = new NodeUI(x, y);
-        this.ndUi.parent = this;
+        this.ndUi = new NodeUI(this,x, y);
     }
 
-    
-    
     
     public String getName() {
         return name;

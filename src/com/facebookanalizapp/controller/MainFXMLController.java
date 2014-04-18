@@ -8,34 +8,23 @@ package com.facebookanalizapp.controller;
 import com.facebookanalizapp.entitymanager.EntityManagerService;
 import com.facebookanalizapp.process.DBProperty;
 import com.facebookanalizapp.process.FXMLTool;
-import com.facebookanalizapp.process.FileTool;
 import com.facebookanalizapp.process.Node;
 import com.facebookanalizapp.process.PropertyManager;
 import com.facebookanalizapp.ui.NodeUI;
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialogs;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 /**
  * FXML Controller class
@@ -97,10 +86,12 @@ public class MainFXMLController implements Initializable {
 
     @FXML
     private void onAddAction(ActionEvent event) {//Node ekleme
-        String nodeName = Dialogs.showInputDialog(null, "Node ismi giriniz:", "Node Kayıt", "Kayıt Ekranı");
-        Node node = new Node(nodeName, 150,150);
-        pane.getChildren().add(node.getNdUi());
-        scrollMain.setContent(pane);
+        String nodeName = Dialogs.showInputDialog(null, "Node ismi :", "Oluşturacağınız Node'un ismini giriniz.", "Kayıt Ekranı");
+        if(!nodeName.trim().isEmpty()){
+            Node node = new Node(nodeName, 150,150);
+            pane.getChildren().add(node.getNdUi());
+            scrollMain.setContent(pane);
+        }
     }
 
     @FXML
