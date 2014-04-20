@@ -38,8 +38,8 @@
                 <Button fx:id="btnGetSelectedClustering" layoutX="137.0" layoutY="192.0" mnemonicParsing="false" onAction="#onGetSelectedClustering" prefWidth="57.0" text="Getir" />
                 <ListView fx:id="lstViewSelectedAttr" layoutX="436.0" layoutY="14.0" prefHeight="164.0" prefWidth="168.0" />
                 <ListView fx:id="lstViewAttrDB" layoutX="208.0" layoutY="14.0" prefHeight="164.0" prefWidth="168.0" />
-                <Button fx:id="btnRemove" layoutX="387.0" layoutY="43.0" mnemonicParsing="false" onAction="#onRemove" text="&gt;&gt;" />
-                <Button fx:id="btnAdd" layoutX="387.0" layoutY="126.0" mnemonicParsing="false" onAction="#onAdd" text="&lt;&lt;" />
+                <Button fx:id="btnRemove" layoutX="387.0" layoutY="43.0" mnemonicParsing="false" onAction="#onRemove" text="&lt;&lt;" />
+                <Button fx:id="btnAdd" layoutX="387.0" layoutY="126.0" mnemonicParsing="false" onAction="#onAdd" text="&gt;&gt;" />
                 <Button fx:id="btnSaveClustering" layoutX="137.0" layoutY="157.0" mnemonicParsing="false" onAction="#onSaveClustering" text="Kaydet" />
               </children>
             </AnchorPane>

@@ -18,6 +18,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Dialogs;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
@@ -110,16 +111,27 @@ public class MiningFXMLController implements Initializable {
 
     @FXML
     private void onRemove(ActionEvent event) {
-
+        addListToList(lstViewSelectedAttr, lstViewAttrDB);
     }
 
     @FXML
     private void onAdd(ActionEvent event) {
-
+        addListToList(lstViewAttrDB, lstViewSelectedAttr);
     }
 
     @FXML
     private void onSaveClustering(ActionEvent event) {
 
+    }
+
+    private void addListToList(ListView from, ListView to) {
+        try {
+            String selected = from.getSelectionModel().getSelectedItem().toString();
+            from.getItems().remove(selected);
+            to.getItems().add(selected);
+            from.getSelectionModel().clearSelection();
+        } catch (Exception e) {
+            Dialogs.showErrorDialog(null, "Bir seçim yapmadınız!!");
+        }
     }
 }
