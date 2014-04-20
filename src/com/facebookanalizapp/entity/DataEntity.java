@@ -8,12 +8,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author ufuk halis
  */
 @Entity
+@NamedQuery(name="findAll", query="SELECT d FROM DataEntity d") 
 public class DataEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

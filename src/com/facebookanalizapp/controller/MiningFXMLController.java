@@ -6,6 +6,7 @@
 package com.facebookanalizapp.controller;
 
 import com.facebookanalizapp.process.JsonReader;
+import com.facebookanalizapp.process.Mining;
 import com.facebookanalizapp.process.Node;
 import java.net.URL;
 import java.util.HashSet;
@@ -21,6 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Dialogs;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -101,7 +103,12 @@ public class MiningFXMLController implements Initializable {
 
     @FXML
     private void onClustSelect(ActionEvent event) {
-
+        Mining mining = new Mining();
+        mining.setCosineArray("");
+        mining.setMininType(1);
+        mining.setPresentationData(null);
+        parentNode.setMining(mining);
+        closeWindow();
     }
 
     @FXML
@@ -133,5 +140,10 @@ public class MiningFXMLController implements Initializable {
         } catch (Exception e) {
             Dialogs.showErrorDialog(null, "Bir seçim yapmadınız!!");
         }
+    }
+    
+    private void closeWindow(){
+        Stage stage = (Stage) lstViewAttrDB.getScene().getWindow();
+        stage.close();
     }
 }

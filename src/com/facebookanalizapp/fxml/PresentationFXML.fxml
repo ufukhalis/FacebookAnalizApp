@@ -11,7 +11,7 @@
   <children>
     <AnchorPane prefHeight="61.0" prefWidth="263.0000999999975" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
-        <ComboBox editable="false" layoutX="14.0" layoutY="24.0" prefHeight="21.0" prefWidth="104.0" promptText="" value="TABLO">
+        <ComboBox fx:id="cmbPresentation" editable="false" layoutX="14.0" layoutY="24.0" prefHeight="21.0" prefWidth="104.0" promptText="" value="TABLO">
           <items>
             <FXCollections fx:factory="observableArrayList">
               <String fx:value="TABLO" />

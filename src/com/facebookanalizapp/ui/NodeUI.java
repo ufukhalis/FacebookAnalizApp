@@ -226,7 +226,9 @@ public class NodeUI extends Group {
 
                     switch (result) {
                         case 0://Kaydet
-
+                            System.out.println("Data : " + parent.getData().getJsonDataList().get(0));
+                            System.out.println("Mining : " + parent.getMining().getMininType());
+                            System.out.println("Presentation : " + parent.getPresentation().getName());
                             break;
                         case 1://Sil
                             MainFXMLController.instance().removeNodeFromPane(content);

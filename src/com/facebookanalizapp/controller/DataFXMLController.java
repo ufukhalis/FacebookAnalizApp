@@ -5,6 +5,7 @@
  */
 package com.facebookanalizapp.controller;
 
+import com.facebookanalizapp.db.DatabaseManager;
 import com.facebookanalizapp.entity.DataEntity;
 import com.facebookanalizapp.entitymanager.EntityManagerService;
 import com.facebookanalizapp.process.Data;
@@ -149,25 +150,31 @@ public class DataFXMLController implements Initializable {
     @FXML
     private void onSave(ActionEvent event) {
 
-        EntityManager manager = EntityManagerService.get().createEntityManager();
-        manager.getTransaction().begin();
-        DataEntity entity = new DataEntity();
+        //EntityManager manager = EntityManagerService.get().createEntityManager();
+        //manager.getTransaction().begin();
+        
+        /*DataEntity entity = new DataEntity();
         entity.setName(txtDataName.getText());
         String raw = "";
         for (int i = 0; i < viewData.getItems().size(); i++) {
             raw += viewData.getItems().get(i).getData() + "#";
         }
         entity.setRawData(raw);
-        manager.persist(entity);
-        manager.getTransaction().commit();
+        DatabaseManager.instance().saveEntity(entity);*/
+        
+        //manager.persist(entity);
+        //manager.getTransaction().commit();
 
-        Query q = manager.createQuery("select a from DataEntity a");
+        /*Query q = manager.createQuery("select a from DataEntity a");
         List<DataEntity> lstAd = q.getResultList();
         for (DataEntity ad : lstAd) {
             System.out.println("*********************************");
             System.out.println(ad.getName());
             System.out.println(ad.getRawData());
-        }
+        }*/
+        
+        List<DataEntity> lstAd = DatabaseManager.instance().getEntityList(DataEntity.class, "findAll");
+        lstViewData.setItems(FXCollections.observableList(lstAd));
     }
 
     @FXML
