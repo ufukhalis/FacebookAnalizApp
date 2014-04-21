@@ -143,13 +143,15 @@ public class MainFXMLController implements Initializable {
     public void refreshDatabasesList() {
         cmbDatabases.getItems().clear();
         cmbDatabases.getItems().add(NO_DB_SELECTED);
+        cmbDatabases.getSelectionModel().selectFirst(); 
         list = PropertyManager.instance().getAllDatabasesFromPropertyFile();
         if (list.size() > 0 && list != null) {
             for (int i = 0; i < list.size(); i++) {
                 cmbDatabases.getItems().add(list.get(i).getDbName());
             }
+            //Liste boş olmadığından son db'yi aç yada son eklenen db
+             cmbDatabases.getSelectionModel().selectLast();
         }
-        cmbDatabases.getSelectionModel().selectFirst();
     }
 
     private DBProperty getSelectedDB(String dbName) {

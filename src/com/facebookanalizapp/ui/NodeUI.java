@@ -6,7 +6,6 @@ import com.facebookanalizapp.controller.MiningFXMLController;
 import com.facebookanalizapp.controller.PresentationFXMLController;
 import com.facebookanalizapp.process.FXMLTool;
 import com.facebookanalizapp.process.Node;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.KeyFrame;
@@ -15,8 +14,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.control.Dialogs;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -390,19 +387,19 @@ public class NodeUI extends Group {
                 new openBranchAnimation(currentBranchButton, positionX, positionY);
                 currentBranchButton.setButtonName("A");
                 branchButtonIndex.add(currentBranchButton);
-                System.out.println("A");
+                //System.out.println("A");
                 countBranch += 1;
             } else if (countBranch == 1 && currentBranchButton.getButtonName() == null) {
                 new openBranchAnimation(currentBranchButton, positionX + branchButtonWidth, positionY);
                 currentBranchButton.setButtonName("B");
                 branchButtonIndex.add(currentBranchButton);
-                System.out.println("B");
+                //System.out.println("B");
                 countBranch += 1;
             } else if (countBranch == 2 && currentBranchButton.getButtonName() == null) {
                 new openBranchAnimation(currentBranchButton, positionX + branchButtonWidth * 2, positionY);
                 currentBranchButton.setButtonName("C");
                 branchButtonIndex.add(currentBranchButton);
-                System.out.println("C");
+                //System.out.println("C");
                 countBranch += 1;
             }
         } else {
@@ -418,7 +415,7 @@ public class NodeUI extends Group {
                     new moveXBranchAnimation(branchButtonIndex.get(1), branchButtonIndex.get(1).getX1(), positionY);
                 }
                 branchButtonIndex.remove(currentBranchButton);
-                System.out.println("-A");
+                //System.out.println("-A");
                 countBranch -= 1;
             } else if (currentBranchButton.getButtonName().contains(branchButtonIndex.get(1).getButtonName())) {
                 new closeBranchAnimation(currentBranchButton, currentBranchButton.getX1(), positionY);
@@ -429,11 +426,11 @@ public class NodeUI extends Group {
                     new moveXBranchAnimation(branchButtonIndex.get(1), branchButtonIndex.get(1).getX1(), positionY);
                 }
                 branchButtonIndex.remove(currentBranchButton);
-                System.out.println("-B");
+                //System.out.println("-B");
                 countBranch -= 1;
             } else if (currentBranchButton.getButtonName().contains(branchButtonIndex.get(2).getButtonName())) {
                 new closeBranchAnimation(currentBranchButton, currentBranchButton.getX1(), positionY);
-                System.out.println("-C");
+                //System.out.println("-C");
                 branchButtonIndex.remove(currentBranchButton);
                 countBranch -= 1;
             }

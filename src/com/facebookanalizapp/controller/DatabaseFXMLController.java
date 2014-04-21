@@ -56,10 +56,8 @@ public class DatabaseFXMLController implements Initializable {
                 Stage stage = (Stage) txtDBName.getScene().getWindow();
                 stage.close();
                 MainFXMLController.instance().refreshDatabasesList();
-                Dialogs.showInformationDialog((Stage) txtDBName.getScene().getWindow(), txtDBName.getText() + " adlı veritabanı başarılı şekilde oluşturuldu!",
-                        "İşlem başarılı", "Bilgi");
-                
-
+                /*Dialogs.showInformationDialog((Stage) txtDBName.getScene().getWindow(), txtDBName.getText() + " adlı veritabanı başarılı şekilde oluşturuldu!",
+                        "İşlem başarılı", "Bilgi");*/
             } else {
                 /*Dialogs.showErrorDialog((Stage) txtDBName.getScene().getWindow(), "Veritabanı oluşturulamadı!",
                         "Bir hata ile karşılaşıldı", "Hata", new Exception());*/

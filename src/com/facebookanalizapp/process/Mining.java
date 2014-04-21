@@ -6,6 +6,7 @@
 
 package com.facebookanalizapp.process;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +21,16 @@ public class Mining {
     private String cosineArray;
     
     private List<String> presentationData;
+    
+    private List<String> clusteringSelectedRulesList= new ArrayList<String>();;
+
+    public void setClusteringSelectedRulesList(String rule) {
+        this.clusteringSelectedRulesList.add(rule) ;
+    }
+
+    public List<String> getClusteringSelectedRulesList() {
+        return clusteringSelectedRulesList;
+    }
 
     
     public void calculateCosine(Data data){

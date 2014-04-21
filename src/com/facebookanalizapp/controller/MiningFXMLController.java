@@ -89,6 +89,18 @@ public class MiningFXMLController implements Initializable {
         }
         ObservableList<String> items = FXCollections.observableArrayList(setAttrList);
         lstViewAttrDB.setItems(items);
+        
+        //Seçilen bir liste var ise seçilenler listesini doldur.
+        if(parentNode.getMining()!=null){
+        
+            Mining mng = parentNode.getMining();
+            for (String selected : mng.getClusteringSelectedRulesList()) {
+                 lstViewAttrDB.getItems().remove(selected);
+                 lstViewSelectedAttr.getItems().add(selected);
+            }
+           lstViewAttrDB.getSelectionModel().clearSelection();
+        }
+        
     }
 
     @FXML
@@ -107,6 +119,12 @@ public class MiningFXMLController implements Initializable {
         mining.setCosineArray("");
         mining.setMininType(1);
         mining.setPresentationData(null);
+        
+        for (Iterator it = lstViewSelectedAttr.getItems().iterator(); it.hasNext();) {
+            String str = it.next().toString();
+            mining.setClusteringSelectedRulesList(str);
+        }
+
         parentNode.setMining(mining);
         closeWindow();
     }
