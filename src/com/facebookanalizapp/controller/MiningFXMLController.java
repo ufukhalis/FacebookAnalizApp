@@ -83,10 +83,10 @@ public class MiningFXMLController implements Initializable {
         } catch (Exception e) {
         }
 
-        for (Iterator<String> it = setAttrList.iterator(); it.hasNext();) {
+        /*for (Iterator<String> it = setAttrList.iterator(); it.hasNext();) {
             String string = it.next();
             System.out.println("value : " + string);
-        }
+        }*/
         ObservableList<String> items = FXCollections.observableArrayList(setAttrList);
         lstViewAttrDB.setItems(items);
         
@@ -119,7 +119,7 @@ public class MiningFXMLController implements Initializable {
         mining.setCosineArray("");
         mining.setMininType(1);
         mining.setPresentationData(null);
-        
+        mining.setName(txtClusteringName.getText());
         for (Iterator it = lstViewSelectedAttr.getItems().iterator(); it.hasNext();) {
             String str = it.next().toString();
             mining.setClusteringSelectedRulesList(str);

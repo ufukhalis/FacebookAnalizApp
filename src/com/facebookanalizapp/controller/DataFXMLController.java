@@ -173,13 +173,13 @@ public class DataFXMLController implements Initializable {
             System.out.println(ad.getRawData());
         }*/
         
-        List<DataEntity> lstAd = DatabaseManager.instance().getEntityList(DataEntity.class, "findAll");
-        lstViewData.setItems(FXCollections.observableList(lstAd));
+        
     }
 
     @FXML
     private void onGetData(ActionEvent event) {
-
+        List<DataEntity> lstAd = DatabaseManager.instance().getEntityList(DataEntity.class, "DataEntity.findAll");
+        lstViewData.setItems(FXCollections.observableList(lstAd));
     }
 
     @FXML
@@ -190,7 +190,7 @@ public class DataFXMLController implements Initializable {
             list.add(viewData.getItems().get(i).getData());
         }
         dataShare.setJsonDataList(list);
-        dataShare.setName("");
+        dataShare.setName(txtDataName.getText());
         parentNode.setData(dataShare);
         onDone(event);
     }

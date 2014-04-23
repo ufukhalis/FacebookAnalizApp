@@ -54,7 +54,7 @@ public class EntityManagerService {
             System.out.println("value : " + directory);
             FileTool.instance().deleteDirectory(directory);
             System.out.println("value2 : " + directory);
-            MainFXMLController.instance().refreshDatabasesList();
+            //MainFXMLController.instance().refreshDatabasesList(); //Sorun çıkarıyor.
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(EntityManagerService.class.getName()).log(Level.SEVERE, null, ex);
         }

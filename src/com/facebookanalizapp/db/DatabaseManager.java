@@ -38,6 +38,17 @@ public class DatabaseManager {
         return entity;
     }
     
+    public <T> T updateEntity(Class<T> clazz, T entity){
+        connect();
+        manager.find(clazz, entity);
+        manager.getTransaction().begin();
+        manager.merge(entity);
+        manager.flush();
+        manager.getTransaction().commit();
+        close();
+        return entity;
+    }
+    
     public <T> List<T> getEntityList(Class<T> entity, String query){
         connect();
         manager.getTransaction().begin();

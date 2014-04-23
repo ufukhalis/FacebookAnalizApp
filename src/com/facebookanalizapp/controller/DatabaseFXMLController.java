@@ -46,6 +46,7 @@ public class DatabaseFXMLController implements Initializable {
 
     @FXML
     private void onCreate(ActionEvent event) {
+        EntityManagerService.clearDB();
         if (!txtDBName.getText().isEmpty() && !txtDBPath.getText().isEmpty() && !isDBExists(txtDBName.getText())) {
             EntityManagerService.setPersistenceMap(txtDBPath.getText() + File.separator + txtDBName.getText(), "facebookapp", "facebookapp");
             EntityManager manager = EntityManagerService.get().createEntityManager();
@@ -55,7 +56,7 @@ public class DatabaseFXMLController implements Initializable {
                 
                 Stage stage = (Stage) txtDBName.getScene().getWindow();
                 stage.close();
-                MainFXMLController.instance().refreshDatabasesList();
+                //MainFXMLController.instance().refreshDatabasesList(); //Bu sorun çıkartıyor!!
                 /*Dialogs.showInformationDialog((Stage) txtDBName.getScene().getWindow(), txtDBName.getText() + " adlı veritabanı başarılı şekilde oluşturuldu!",
                         "İşlem başarılı", "Bilgi");*/
             } else {

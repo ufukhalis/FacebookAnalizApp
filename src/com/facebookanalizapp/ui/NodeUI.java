@@ -4,6 +4,12 @@ import com.facebookanalizapp.controller.DataFXMLController;
 import com.facebookanalizapp.controller.MainFXMLController;
 import com.facebookanalizapp.controller.MiningFXMLController;
 import com.facebookanalizapp.controller.PresentationFXMLController;
+import com.facebookanalizapp.db.DatabaseManager;
+import com.facebookanalizapp.entity.ClusteringEntity;
+import com.facebookanalizapp.entity.DataEntity;
+import com.facebookanalizapp.entity.ExecutedRulesEntity;
+import com.facebookanalizapp.entity.MiningEntity;
+import com.facebookanalizapp.entity.PresentationEntity;
 import com.facebookanalizapp.process.FXMLTool;
 import com.facebookanalizapp.process.Node;
 import java.util.ArrayList;
@@ -76,8 +82,8 @@ public class NodeUI extends Group {
         return nodePositionY;
     }
 
-    public NodeUI(Node _parent,int posX, int posY) {
-        this.parent=_parent;
+    public NodeUI(Node _parent, int posX, int posY) {
+        this.parent = _parent;
         setNodePosition(posX, posY);
         drawNode();
         dragAndDrop(this);
@@ -180,7 +186,7 @@ public class NodeUI extends Group {
             public void Behaviour() {
                 FXMLTool.instance().openFXML("Sunum Katmanı", "PresentationFXML.fxml", false);
                 PresentationFXMLController.instance().parentNode = parent;
-                
+
             }
         };
 
@@ -223,9 +229,48 @@ public class NodeUI extends Group {
 
                     switch (result) {
                         case 0://Kaydet
-                            System.out.println("Data : " + parent.getData().getJsonDataList().get(0));
+                            /*System.out.println("Data : " + parent.getData().getJsonDataList().get(0));
                             System.out.println("Mining : " + parent.getMining().getMininType());
-                            System.out.println("Presentation : " + parent.getPresentation().getName());
+                            System.out.println("Presentation : " + parent.getPresentation().getName());*/
+
+                            DataEntity dataEntity = new DataEntity();
+                            dataEntity.setName(parent.getData().getName());
+                            String raw = "";
+                            for (int i = 0; i < parent.getData().getJsonDataList().size(); i++) {
+                                raw += parent.getData().getJsonDataList().get(i) + "#";
+                            }
+                            dataEntity.setRawData(raw);
+                            dataEntity = (DataEntity) DatabaseManager.instance().saveEntity(dataEntity);
+                            
+                            ClusteringEntity clustEntity = new ClusteringEntity();
+                            clustEntity.setName(parent.getMining().getName());
+                            String rawAttribute = "";
+                            for (int i = 0; i < parent.getMining().getClusteringSelectedRulesList().size(); i++) {
+                                rawAttribute += parent.getMining().getClusteringSelectedRulesList().get(i) + ",";
+                            }
+                            clustEntity.setAttributeList(rawAttribute);
+                            
+                            clustEntity = (ClusteringEntity) DatabaseManager.instance().saveEntity(clustEntity);
+                            
+                            MiningEntity miningEntity = new MiningEntity();
+                            miningEntity.setName(parent.getMining().getName());
+                            miningEntity.setCosineID(parent.getMining().getCosineArray().isEmpty()?0:1l);//Şimdilik cosinearray boşsa sıfır doluysa cosineentity eklenir biz şimdilik 1 verdik
+                            miningEntity.setClusteringID(clustEntity.getId());
+                            
+                            miningEntity = DatabaseManager.instance().saveEntity(miningEntity);
+                            
+                            PresentationEntity presentEntity = new PresentationEntity();
+                            presentEntity.setChartType(parent.getPresentation().getChartType());
+                            presentEntity.setPresentationName(parent.getPresentation().getName());
+                            presentEntity = (PresentationEntity) DatabaseManager.instance().saveEntity(presentEntity);
+                            
+                            ExecutedRulesEntity ruleEntity = new ExecutedRulesEntity();
+                            ruleEntity.setDataID(dataEntity.getId());
+                            ruleEntity.setMiningID(miningEntity.getId());
+                            ruleEntity.setPresentationID(presentEntity.getId());
+                            ruleEntity.setName(parent.getName());
+                            DatabaseManager.instance().saveEntity(ruleEntity);
+                            
                             break;
                         case 1://Sil
                             MainFXMLController.instance().removeNodeFromPane(content);
@@ -237,7 +282,7 @@ public class NodeUI extends Group {
                 }
             }
         });
-        
+
         groupAdd();
     }
 
@@ -269,35 +314,35 @@ public class NodeUI extends Group {
             }
         });
     }
-    
-    private void showNodeLabel(){
+
+    private void showNodeLabel() {
         NodeLabel = new StackPane();
-        NodeLabel .setVisible(false);
+        NodeLabel.setVisible(false);
         Text helpText = new Text(parent.getName());
         helpText.setFont(Font.font("Tohama", FontWeight.NORMAL, 11));
         helpText.setFill(Color.WHITE);
-        helpText.setStroke(Color.web("#fff")); 
-        
-        Rectangle helpIcon = new Rectangle(helpText.getBoundsInLocal().getWidth()+5, 16);
+        helpText.setStroke(Color.web("#fff"));
+
+        Rectangle helpIcon = new Rectangle(helpText.getBoundsInLocal().getWidth() + 5, 16);
         helpIcon.setFill(Color.web("#333"));
         helpIcon.setStroke(Color.web("#444"));
         helpIcon.setArcHeight(8.5);
         helpIcon.setArcWidth(5.5);
-        
+
         NodeLabel.getChildren().addAll(helpIcon, helpText);
         NodeLabel.setAlignment(Pos.CENTER);
-        NodeLabel.relocate(-helpIcon.getBoundsInLocal().getWidth()/2, 82);
-        
+        NodeLabel.relocate(-helpIcon.getBoundsInLocal().getWidth() / 2, 82);
+
         this.getChildren().add(NodeLabel);
-        
+
         this.setOnMouseEntered(new EventHandler<MouseEvent>() {
 
             @Override
             public void handle(MouseEvent t) {
-                 NodeLabel.setVisible(true);
+                NodeLabel.setVisible(true);
             }
         });
-        
+
         this.setOnMouseExited(new EventHandler<MouseEvent>() {
 
             @Override
@@ -316,9 +361,9 @@ public class NodeUI extends Group {
         this.getChildren().add(Button2);
         this.getChildren().add(Button3);
         this.getChildren().add(circle);
-        
+
         showNodeLabel();//Node'un ismini gösterir.
-        
+
         Image img1 = new Image("images/data.png");
         Image img2 = new Image("images/mining.png");
         Image img3 = new Image("images/press.png");
@@ -328,33 +373,32 @@ public class NodeUI extends Group {
         ImageView miningImg = new ImageView(img2);
         ImageView pressImg = new ImageView(img3);
         ImageView playImg = new ImageView(img4);
-        
+
         //Resimer ile buttoların mouse eventleri aynı olayı işlesin
         playImg.setOnMouseClicked(circle.getOnMouseClicked());
         playImg.setOnMouseEntered(circle.getOnMouseEntered());
         playImg.setOnMouseExited(circle.getOnMouseExited());
         playImg.setOnMousePressed(circle.getOnMousePressed());
         playImg.setOnMouseReleased(circle.getOnMouseReleased());
-        
+
         dataImg.setOnMouseClicked(Button1.getOnMouseClicked());
         dataImg.setOnMouseEntered(Button1.getOnMouseEntered());
         dataImg.setOnMouseExited(Button1.getOnMouseExited());
         dataImg.setOnMousePressed(Button1.getOnMousePressed());
         dataImg.setOnMouseReleased(Button1.getOnMouseReleased());
-        
+
         miningImg.setOnMouseClicked(Button2.getOnMouseClicked());
         miningImg.setOnMouseEntered(Button2.getOnMouseEntered());
         miningImg.setOnMouseExited(Button2.getOnMouseExited());
         miningImg.setOnMousePressed(Button2.getOnMousePressed());
         miningImg.setOnMouseReleased(Button2.getOnMouseReleased());
-        
+
         pressImg.setOnMouseClicked(Button3.getOnMouseClicked());
         pressImg.setOnMouseEntered(Button3.getOnMouseEntered());
         pressImg.setOnMouseExited(Button3.getOnMouseExited());
         pressImg.setOnMousePressed(Button3.getOnMousePressed());
         pressImg.setOnMouseReleased(Button3.getOnMouseReleased());
-        
-        
+
         this.getChildren().add(dataImg);
         this.getChildren().add(miningImg);
         this.getChildren().add(pressImg);
@@ -364,8 +408,7 @@ public class NodeUI extends Group {
         miningImg.relocate(-18, 49);
         pressImg.relocate(-68, -32);
         playImg.relocate(-13, -16);
-        
-        
+
         Tooltip tp1 = new Tooltip();
         tp1.setText("Veri Bloğu");
 
@@ -380,7 +423,7 @@ public class NodeUI extends Group {
         Tooltip.install(Button3, tp3);
 
     }
-    
+
     private void controlBranchButtonVisible(BranchButton currentBranchButton) {
         if (!currentBranchButton.isVisible()) {
             if (countBranch == 0 && currentBranchButton.getButtonName() == null) {

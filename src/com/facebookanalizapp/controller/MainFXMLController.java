@@ -5,6 +5,9 @@
  */
 package com.facebookanalizapp.controller;
 
+import com.facebookanalizapp.db.DatabaseManager;
+import com.facebookanalizapp.entity.DataEntity;
+import com.facebookanalizapp.entity.ExecutedRulesEntity;
 import com.facebookanalizapp.entitymanager.EntityManagerService;
 import com.facebookanalizapp.process.DBProperty;
 import com.facebookanalizapp.process.FXMLTool;
@@ -15,15 +18,18 @@ import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialogs;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javax.persistence.EntityManager;
 
 /**
@@ -87,8 +93,8 @@ public class MainFXMLController implements Initializable {
     @FXML
     private void onAddAction(ActionEvent event) {//Node ekleme
         String nodeName = Dialogs.showInputDialog(null, "Node ismi :", "Oluşturacağınız Node'un ismini giriniz.", "Kayıt Ekranı");
-        if(!nodeName.trim().isEmpty()){
-            Node node = new Node(nodeName, 150,150);
+        if (!nodeName.trim().isEmpty()) {
+            Node node = new Node(nodeName, 150, 150);
             pane.getChildren().add(node.getNdUi());
             scrollMain.setContent(pane);
         }
@@ -109,11 +115,39 @@ public class MainFXMLController implements Initializable {
             if (manager != null) {
                 Dialogs.showInformationDialog((Stage) cmbDatabases.getScene().getWindow(), db.getDbName() + " adlı veritabanı seçildi!", "İşlem Başarılı", "Bilgi");
             }
-
+            getNodesFromDB();
         }
     }
 
-
+    private void getNodesFromDB() {
+        List<ExecutedRulesEntity> lstAd = DatabaseManager.instance().getEntityList(ExecutedRulesEntity.class, "ExecutedRulesEntity.findAll");
+        if (lstAd != null && lstAd.size() > 0) {
+            listViewNodes.setItems(FXCollections.observableList(lstAd));
+            listViewNodes.setCellFactory(new Callback<ListView<ExecutedRulesEntity>, ListCell<ExecutedRulesEntity>>(){
+ 
+            @Override
+            public ListCell<ExecutedRulesEntity> call(ListView<ExecutedRulesEntity> p) {
+                 
+                ListCell<ExecutedRulesEntity> cell = new ListCell<ExecutedRulesEntity>(){
+ 
+                    @Override
+                    protected void updateItem(ExecutedRulesEntity t, boolean bln) {
+                        super.updateItem(t, bln);
+                        if (t != null) {
+                            setText(t.getName());
+                        }
+                    }
+ 
+                };
+                 
+                return cell;
+            }
+        });
+            System.out.println("Node var!!");
+        }else{
+            System.out.println("Node yok!!");
+        }
+    }
     /*private void setNodeDragEvent(){
      testCircle.setOnMouseDragged(new EventHandler<MouseEvent>() {
 
@@ -135,6 +169,7 @@ public class MainFXMLController implements Initializable {
      }
      });
      }*/
+
     public void removeNodeFromPane(NodeUI node) {
         pane.getChildren().remove(node);
         scrollMain.setContent(pane);
@@ -143,14 +178,14 @@ public class MainFXMLController implements Initializable {
     public void refreshDatabasesList() {
         cmbDatabases.getItems().clear();
         cmbDatabases.getItems().add(NO_DB_SELECTED);
-        cmbDatabases.getSelectionModel().selectFirst(); 
+        cmbDatabases.getSelectionModel().selectFirst();
         list = PropertyManager.instance().getAllDatabasesFromPropertyFile();
-        if (list.size() > 0 && list != null) {
+        if (list != null && list.size() > 0) {
             for (int i = 0; i < list.size(); i++) {
                 cmbDatabases.getItems().add(list.get(i).getDbName());
             }
             //Liste boş olmadığından son db'yi aç yada son eklenen db
-             cmbDatabases.getSelectionModel().selectLast();
+            //cmbDatabases.getSelectionModel().selectLast();//Bu olmaz hacı
         }
     }
 

@@ -11,12 +11,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author ufuk
  */
 @Entity
+@NamedQuery(name="ExecutedRulesEntity.findAll", query="SELECT e FROM ExecutedRulesEntity e") 
 public class ExecutedRulesEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -104,6 +106,20 @@ public class ExecutedRulesEntity implements Serializable {
      */
     public void setMiningID(Long miningID) {
         this.miningID = miningID;
+    }
+
+    /**
+     * @return the presentationID
+     */
+    public Long getPresentationID() {
+        return presentationID;
+    }
+
+    /**
+     * @param presentationID the presentationID to set
+     */
+    public void setPresentationID(Long presentationID) {
+        this.presentationID = presentationID;
     }
     
 }
