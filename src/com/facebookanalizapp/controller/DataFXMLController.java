@@ -7,6 +7,7 @@ package com.facebookanalizapp.controller;
 
 import com.facebookanalizapp.db.DatabaseManager;
 import com.facebookanalizapp.entity.DataEntity;
+import com.facebookanalizapp.entity.ExecutedRulesEntity;
 import com.facebookanalizapp.entitymanager.EntityManagerService;
 import com.facebookanalizapp.process.Data;
 import com.facebookanalizapp.process.ExcelReader;
@@ -31,6 +32,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -38,6 +40,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -69,6 +72,7 @@ public class DataFXMLController implements Initializable {
 
         data = FXCollections.observableArrayList();
         viewData.setItems(data);
+        getDatasFromDB();
     }
 
     public static DataFXMLController instance() {
@@ -152,34 +156,61 @@ public class DataFXMLController implements Initializable {
 
         //EntityManager manager = EntityManagerService.get().createEntityManager();
         //manager.getTransaction().begin();
-        
         /*DataEntity entity = new DataEntity();
-        entity.setName(txtDataName.getText());
-        String raw = "";
-        for (int i = 0; i < viewData.getItems().size(); i++) {
-            raw += viewData.getItems().get(i).getData() + "#";
-        }
-        entity.setRawData(raw);
-        DatabaseManager.instance().saveEntity(entity);*/
-        
+         entity.setName(txtDataName.getText());
+         String raw = "";
+         for (int i = 0; i < viewData.getItems().size(); i++) {
+         raw += viewData.getItems().get(i).getData() + "#";
+         }
+         entity.setRawData(raw);
+         DatabaseManager.instance().saveEntity(entity);*/
         //manager.persist(entity);
         //manager.getTransaction().commit();
 
         /*Query q = manager.createQuery("select a from DataEntity a");
-        List<DataEntity> lstAd = q.getResultList();
-        for (DataEntity ad : lstAd) {
-            System.out.println("*********************************");
-            System.out.println(ad.getName());
-            System.out.println(ad.getRawData());
-        }*/
-        
-        
+         List<DataEntity> lstAd = q.getResultList();
+         for (DataEntity ad : lstAd) {
+         System.out.println("*********************************");
+         System.out.println(ad.getName());
+         System.out.println(ad.getRawData());
+         }*/
     }
 
     @FXML
     private void onGetData(ActionEvent event) {
-        List<DataEntity> lstAd = DatabaseManager.instance().getEntityList(DataEntity.class, "DataEntity.findAll");
-        lstViewData.setItems(FXCollections.observableList(lstAd));
+
+    }
+
+    private void getDatasFromDB() {//Bu metod içeriği farklı yerlerde aynı şekil kullanılıyor tek bir metod haline getirilebilir.
+        if (EntityManagerService.emfInstance != null) {
+            List<DataEntity> lstAd = DatabaseManager.instance().getEntityList(DataEntity.class, "DataEntity.findAll");
+            if (lstAd != null && lstAd.size() > 0) {
+                lstViewData.setItems(FXCollections.observableList(lstAd));
+                lstViewData.setCellFactory(new Callback<ListView<DataEntity>, ListCell<DataEntity>>() {
+
+                    @Override
+                    public ListCell<DataEntity> call(ListView<DataEntity> p) {
+
+                        ListCell<DataEntity> cell = new ListCell<DataEntity>() {
+
+                            @Override
+                            protected void updateItem(DataEntity t, boolean bln) {
+                                super.updateItem(t, bln);
+                                if (t != null) {
+                                    setText(t.getName());
+                                }
+                            }
+
+                        };
+
+                        return cell;
+                    }
+                });
+                System.out.println("Data var!!");
+            } else {
+                System.out.println("Data yok!!");
+            }
+        }
     }
 
     @FXML

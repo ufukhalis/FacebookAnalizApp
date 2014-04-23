@@ -120,32 +120,34 @@ public class MainFXMLController implements Initializable {
     }
 
     private void getNodesFromDB() {
-        List<ExecutedRulesEntity> lstAd = DatabaseManager.instance().getEntityList(ExecutedRulesEntity.class, "ExecutedRulesEntity.findAll");
-        if (lstAd != null && lstAd.size() > 0) {
-            listViewNodes.setItems(FXCollections.observableList(lstAd));
-            listViewNodes.setCellFactory(new Callback<ListView<ExecutedRulesEntity>, ListCell<ExecutedRulesEntity>>(){
- 
-            @Override
-            public ListCell<ExecutedRulesEntity> call(ListView<ExecutedRulesEntity> p) {
-                 
-                ListCell<ExecutedRulesEntity> cell = new ListCell<ExecutedRulesEntity>(){
- 
+        if (EntityManagerService.emfInstance != null) {
+            List<ExecutedRulesEntity> lstAd = DatabaseManager.instance().getEntityList(ExecutedRulesEntity.class, "ExecutedRulesEntity.findAll");
+            if (lstAd != null && lstAd.size() > 0) {
+                listViewNodes.setItems(FXCollections.observableList(lstAd));
+                listViewNodes.setCellFactory(new Callback<ListView<ExecutedRulesEntity>, ListCell<ExecutedRulesEntity>>() {
+
                     @Override
-                    protected void updateItem(ExecutedRulesEntity t, boolean bln) {
-                        super.updateItem(t, bln);
-                        if (t != null) {
-                            setText(t.getName());
-                        }
+                    public ListCell<ExecutedRulesEntity> call(ListView<ExecutedRulesEntity> p) {
+
+                        ListCell<ExecutedRulesEntity> cell = new ListCell<ExecutedRulesEntity>() {
+
+                            @Override
+                            protected void updateItem(ExecutedRulesEntity t, boolean bln) {
+                                super.updateItem(t, bln);
+                                if (t != null) {
+                                    setText(t.getName());
+                                }
+                            }
+
+                        };
+
+                        return cell;
                     }
- 
-                };
-                 
-                return cell;
+                });
+                System.out.println("Node var!!");
+            } else {
+                System.out.println("Node yok!!");
             }
-        });
-            System.out.println("Node var!!");
-        }else{
-            System.out.println("Node yok!!");
         }
     }
     /*private void setNodeDragEvent(){

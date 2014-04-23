@@ -59,6 +59,14 @@ public class DatabaseManager {
         return lst;
     }
     
+    public <T> void removeEntity(T entity){
+        connect();
+        manager.getTransaction().begin();
+        manager.remove(entity);
+        manager.getTransaction().commit();
+        close();
+    }
+    
     private void connect(){
         manager = EntityManagerService.get().createEntityManager();
     }
