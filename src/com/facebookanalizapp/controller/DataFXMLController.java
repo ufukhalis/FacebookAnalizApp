@@ -34,6 +34,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -72,6 +73,7 @@ public class DataFXMLController implements Initializable {
 
         data = FXCollections.observableArrayList();
         viewData.setItems(data);
+        viewData.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         getDatasFromDB();
     }
 
@@ -151,9 +153,22 @@ public class DataFXMLController implements Initializable {
         secondStage.show();
     }
 
+    private Long selectedDataId;
     @FXML
     private void onSave(ActionEvent event) {
-
+        /*DataEntity e = DatabaseManager.instance().find(DataEntity.class, 1l);
+        System.out.println("Value : " + e.getName());*/
+        DataEntity dataEntity = DatabaseManager.instance().find(DataEntity.class, selectedDataId);
+        dataEntity.setName(txtDataName.getText());
+        String raw = "";
+        for (int i = 0; i < viewData.getItems().size(); i++) {
+            raw += viewData.getItems().get(i).getData() + "#";
+        }
+        System.out.println("Raw : " + raw);
+        dataEntity.setRawData(raw);
+        applyToParentNode();
+        DatabaseManager.instance().updateEntity(DataEntity.class, dataEntity);
+        
         //EntityManager manager = EntityManagerService.get().createEntityManager();
         //manager.getTransaction().begin();
         /*DataEntity entity = new DataEntity();
@@ -178,6 +193,32 @@ public class DataFXMLController implements Initializable {
 
     @FXML
     private void onGetData(ActionEvent event) {
+        DataEntity e = (DataEntity) lstViewData.getSelectionModel().getSelectedItem();
+        System.out.println("Value : " + e.getName());
+        String[] list = e.getRawData().split("#");
+        for (String string : list) {
+            if (JsonReader.isValid(string)) {
+                JSonData item = new JSonData();
+                item.data.setValue(string);
+                data.add(item);
+            }
+        }
+        viewData.getItems().clear();
+        viewData.setItems(data);
+        txtDataName.setText(e.getName());
+        selectedDataId = e.getId();
+    }
+
+    @FXML
+    private void onDeleteTable(ActionEvent event) {
+        //viewData.getItems().remove(viewData.getSelectionModel().getSelectedIndex());
+        List items = new ArrayList(viewData.getSelectionModel().getSelectedItems());
+        viewData.getItems().removeAll(items);
+        viewData.getSelectionModel().clearSelection();
+    }
+
+    @FXML
+    private void onDeleteDB(ActionEvent event) {
 
     }
 
@@ -215,6 +256,19 @@ public class DataFXMLController implements Initializable {
 
     @FXML
     private void onApply(ActionEvent event) {
+        /*Data dataShare = new Data();
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < viewData.getItems().size(); i++) {
+            list.add(viewData.getItems().get(i).getData());
+        }
+        dataShare.setJsonDataList(list);
+        dataShare.setName(txtDataName.getText());
+        parentNode.setData(dataShare);*/
+        applyToParentNode();
+        onDone(event);
+    }
+
+    private void applyToParentNode(){
         Data dataShare = new Data();
         List<String> list = new ArrayList<>();
         for (int i = 0; i < viewData.getItems().size(); i++) {
@@ -223,9 +277,8 @@ public class DataFXMLController implements Initializable {
         dataShare.setJsonDataList(list);
         dataShare.setName(txtDataName.getText());
         parentNode.setData(dataShare);
-        onDone(event);
     }
-
+    
     @FXML
     private void onDone(ActionEvent event) {
         Stage stage = (Stage) txtPath.getScene().getWindow();

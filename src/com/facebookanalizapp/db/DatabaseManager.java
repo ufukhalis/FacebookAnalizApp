@@ -10,7 +10,6 @@ import com.facebookanalizapp.entitymanager.EntityManagerService;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 
 /**
  *
@@ -40,11 +39,16 @@ public class DatabaseManager {
     
     public <T> T updateEntity(Class<T> clazz, T entity){
         connect();
-        manager.find(clazz, entity);
         manager.getTransaction().begin();
         manager.merge(entity);
-        manager.flush();
         manager.getTransaction().commit();
+        close();
+        return entity;
+    }
+    
+    public <T> T find(Class<T> clazz, Long id){
+        connect();
+        T entity = manager.find(clazz, id);
         close();
         return entity;
     }

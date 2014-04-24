@@ -24,8 +24,8 @@
         <ListView fx:id="lstViewData" layoutX="14.0" layoutY="437.0" prefHeight="89.0" prefWidth="450.0" />
         <Button fx:id="btnGetData" layoutX="315.0" layoutY="538.0" mnemonicParsing="false" onAction="#onGetData" text="Veri Getir" />
         <Button fx:id="btnOk" layoutX="418.0" layoutY="586.0" mnemonicParsing="false" onAction="#onDone" text="İptal" />
-        <Button layoutX="329.0" layoutY="394.0" mnemonicParsing="false" prefWidth="63.0" text="Sil" />
-        <Button layoutX="392.0" layoutY="538.0" mnemonicParsing="false" prefWidth="70.0" text="Sil" />
+        <Button layoutX="329.0" layoutY="394.0" mnemonicParsing="false" onAction="#onDeleteTable" prefWidth="63.0" text="Sil" />
+        <Button layoutX="392.0" layoutY="538.0" mnemonicParsing="false" onAction="#onDeleteDB" prefWidth="70.0" text="Sil" />
         <Line endX="373.0" endY="0.0" layoutX="101.0" layoutY="424.0" startX="-100.0" />
         <Line endX="363.0" endY="137.0" layoutX="111.0" layoutY="434.0" startX="-109.0" startY="138.0" />
         <Label layoutX="14.0" layoutY="404.0" text="Kayıtlı  Veriler" />
