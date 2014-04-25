@@ -55,7 +55,19 @@ public class Node {
     }
     
     public void execute(){
-        
+        if (mining != null) {
+            switch(mining.getMininType()){
+                case 1://clustering
+                    mining.generateClustering(data);
+                    break;
+                case 2://kmeans
+                    break;
+                case 3://dbscan
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     /**

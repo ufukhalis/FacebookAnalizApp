@@ -279,6 +279,8 @@ public class NodeUI extends Group {
                             break;
                         default:
                     }
+                }else{
+                    parent.execute();
                 }
             }
         });

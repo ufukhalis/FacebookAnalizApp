@@ -11,6 +11,7 @@ import com.facebookanalizapp.process.Node;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 import javafx.collections.FXCollections;
@@ -75,32 +76,37 @@ public class MiningFXMLController implements Initializable {
             JsonReader jr = new JsonReader();
             for (String object : parentNode.getData().getJsonDataList()) {
                 //System.out.println("value : " + object);
-                for (String string : jr.getPersonLikes(object)) {
-                    setAttrList.add(string);
-                    //System.out.println("value : " + string);
+                List<String> tempList = jr.getPersonLikes(object);
+                if (tempList != null) {
+                    for (String string : jr.getPersonLikes(object)) {
+                        setAttrList.add(string);
+                        //System.out.println("value : " + string);
+                    }
                 }
+
             }
         } catch (Exception e) {
+            System.out.println("Ex 1: " + e);
         }
 
         /*for (Iterator<String> it = setAttrList.iterator(); it.hasNext();) {
-            String string = it.next();
-            System.out.println("value : " + string);
-        }*/
+         String string = it.next();
+         System.out.println("value : " + string);
+         }*/
         ObservableList<String> items = FXCollections.observableArrayList(setAttrList);
         lstViewAttrDB.setItems(items);
-        
+
         //Seçilen bir liste var ise seçilenler listesini doldur.
-        if(parentNode.getMining()!=null){
-        
+        if (parentNode.getMining() != null) {
+
             Mining mng = parentNode.getMining();
             for (String selected : mng.getClusteringSelectedRulesList()) {
-                 lstViewAttrDB.getItems().remove(selected);
-                 lstViewSelectedAttr.getItems().add(selected);
+                lstViewAttrDB.getItems().remove(selected);
+                lstViewSelectedAttr.getItems().add(selected);
             }
-           lstViewAttrDB.getSelectionModel().clearSelection();
+            lstViewAttrDB.getSelectionModel().clearSelection();
         }
-        
+
     }
 
     @FXML
@@ -159,8 +165,8 @@ public class MiningFXMLController implements Initializable {
             Dialogs.showErrorDialog(null, "Bir seçim yapmadınız!!");
         }
     }
-    
-    private void closeWindow(){
+
+    private void closeWindow() {
         Stage stage = (Stage) lstViewAttrDB.getScene().getWindow();
         stage.close();
     }

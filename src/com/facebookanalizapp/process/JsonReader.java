@@ -42,6 +42,22 @@ public class JsonReader {
         return null;
     }
     
+    
+    public String getPersonName(String personData){
+        try {
+            if (personData.contains("name") && personData.contains("email")) {
+                JSONObject json = new JSONObject(personData);
+                String nameJson = json.get("name").toString();
+                String emailJson = json.get("email").toString();
+                               
+                return nameJson + ";" + emailJson;
+            }
+        } catch (Exception e) {
+            System.out.println("Error : Json data cannot read cause : " +e);
+        }
+        return null;
+    }
+    
     /**
      * 
      * @param json A json string

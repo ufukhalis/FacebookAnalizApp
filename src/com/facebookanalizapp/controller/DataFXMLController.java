@@ -193,6 +193,7 @@ public class DataFXMLController implements Initializable {
 
     @FXML
     private void onGetData(ActionEvent event) {
+        viewData.getItems().clear();
         DataEntity e = (DataEntity) lstViewData.getSelectionModel().getSelectedItem();
         System.out.println("Value : " + e.getName());
         String[] list = e.getRawData().split("#");
@@ -203,7 +204,6 @@ public class DataFXMLController implements Initializable {
                 data.add(item);
             }
         }
-        viewData.getItems().clear();
         viewData.setItems(data);
         txtDataName.setText(e.getName());
         selectedDataId = e.getId();
