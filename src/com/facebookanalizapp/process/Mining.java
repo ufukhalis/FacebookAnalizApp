@@ -25,11 +25,23 @@ public class Mining {
 
     private List<String> presentationData;
 
-    private List<String> clusteringSelectedRulesList = new ArrayList<String>();
-    
-    private List<String> clusteringList = new ArrayList<String>();
-    private List<String> nonClusteringList = new ArrayList<String>();
+    private List<String> clusteringSelectedRulesList = new ArrayList<>();
 
+    private List<String> clusteringList = new ArrayList<>();//Sınıflandırılmış Liste : Name;Email
+    private List<String> clusteringAttributeList = new ArrayList<>(); // Sınıflandırılmış kişilerin attribute listesi
+    
+    private List<String> nonClusteringList = new ArrayList<>();//Sınıflandırılmamış Liste : Name;Email
+    private List<String> nonclusteringAttributeList = new ArrayList<>();// Sınıflandırılmamış kişilerin attribute listesi
+
+    public List<String> getClusteringAttributeList() {
+        return clusteringAttributeList;
+    }
+
+    public List<String> getNonclusteringAttributeList() {
+        return nonclusteringAttributeList;
+    }
+
+         
     public void setClusteringSelectedRulesList(String rule) {
         this.clusteringSelectedRulesList.add(rule);
     }
@@ -55,36 +67,34 @@ public class Mining {
     }
 
     public void generateClustering(Data jsonData) {
-
+        clusteringList = new ArrayList<>();
+        nonClusteringList = new ArrayList<>();
         Set<String> setAttrList = new HashSet<>();
         try {
-            int size = 0;
+
             JsonReader jr = new JsonReader();
             for (String object : jsonData.getJsonDataList()) { //tablo json listesi
                 List<String> tempList = jr.getPersonLikes(object);//gelen kişinin like larını bul
                 if (tempList != null) {
                     for (String string : tempList) {
-                        setAttrList.add(string);                        
+                        setAttrList.add(string);
                     }
+                    int size = 0;
                     for (String string : clusteringSelectedRulesList) { //seçili atrribute listesi
-                        for (Iterator<String> it = setAttrList.iterator(); it.hasNext();) {
-                            String attribute = it.next();
-                            
-                            if (attribute.contains(string)) {
-                                //System.out.println(attribute + " == " + string);
-                                
-                                size++;
-                            }
+                        if (setAttrList.contains((String) string)) {
+                            size++;
+                        }
+                        
+                    }
+                    if (size == clusteringSelectedRulesList.size()) {
 
-                        }
-                        if (size == clusteringSelectedRulesList.size()) {
-                            size = 0;
-                            //System.out.println("Name : " + jr.getPersonName(object));
-                            clusteringList.add(jr.getPersonName(object));
-                            //System.out.println("Attribute : " + setAttrList +" \n");                            
-                        }else{
-                            nonClusteringList.add(jr.getPersonName(object));
-                        }
+                        //System.out.println("Name : " + jr.getPersonName(object));
+                        getClusteringList().add(jr.getPersonName(object));
+                        clusteringAttributeList.add(setAttrList.toString());
+                        //System.out.println("Attribute : " + setAttrList + " \n");
+                    } else {
+                        getNonClusteringList().add(jr.getPersonName(object));
+                        nonclusteringAttributeList.add(setAttrList.toString());
                     }
                     setAttrList = new HashSet<>();
                 }
@@ -151,6 +161,34 @@ public class Mining {
      */
     public void setPresentationData(List<String> presentationData) {
         this.presentationData = presentationData;
+    }
+
+    /**
+     * @return the clusteringList
+     */
+    public List<String> getClusteringList() {
+        return clusteringList;
+    }
+
+    /**
+     * @param clusteringList the clusteringList to set
+     */
+    public void setClusteringList(List<String> clusteringList) {
+        this.clusteringList = clusteringList;
+    }
+
+    /**
+     * @return the nonClusteringList
+     */
+    public List<String> getNonClusteringList() {
+        return nonClusteringList;
+    }
+
+    /**
+     * @param nonClusteringList the nonClusteringList to set
+     */
+    public void setNonClusteringList(List<String> nonClusteringList) {
+        this.nonClusteringList = nonClusteringList;
     }
 
 }

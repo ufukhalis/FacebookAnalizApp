@@ -19,7 +19,6 @@ public class Presentation {
     private Integer chartType;
     
     private Chart chart;
-
     
     public void generatePresentation(List<String> presentationData){
         

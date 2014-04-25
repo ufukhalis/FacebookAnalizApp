@@ -20,12 +20,4 @@ public class Table implements Chart{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    private TableView tableView = new TableView();
-    
-    static final String columnsName[] = {
-        "Name",
-        "Email",
-        "Attributes"};
-    
-    
 }

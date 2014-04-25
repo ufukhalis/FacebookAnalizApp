@@ -1,6 +1,7 @@
 
 package com.facebookanalizapp.process;
 
+import com.facebookanalizapp.controller.ShowroomFXMLController;
 import com.facebookanalizapp.ui.NodeUI;
 
 /**
@@ -54,11 +55,14 @@ public class Node {
         
     }
     
-    public void execute(){
-        if (mining != null) {
-            switch(mining.getMininType()){
+    public void execute(Node node){
+        if (node.mining != null) {
+            switch(node.mining.getMininType()){
                 case 1://clustering
-                    mining.generateClustering(data);
+                    node.mining.generateClustering(data);
+                    FXMLTool.instance().openFXML("ShowRoom", "ShowroomFXML.fxml", true);
+                    ShowroomFXMLController.instance().parentNode = node;
+                    ShowroomFXMLController.instance().fillClusteringTable();
                     break;
                 case 2://kmeans
                     break;

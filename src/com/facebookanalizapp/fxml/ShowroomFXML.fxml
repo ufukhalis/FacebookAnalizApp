@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="421.0" prefWidth="596.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.facebookanalizapp.controller.ShowroomFXMLController">
+  <children>
+    <TabPane fx:id="tabPane" prefHeight="421.0" prefWidth="596.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <tabs>
+        <Tab fx:id="tab1" closable="true" text="Tablo">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <Accordion minWidth="596.0" prefHeight="390.0" prefWidth="596.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <expandedPane>
+                    <TitledPane fx:id="accordion1" animated="false" text="">
+                      <content>
+                        <TableView fx:id="tableView" prefHeight="221.0" prefWidth="596.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="Index" fx:id="column3" />
+                            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="307.0" text="Info" fx:id="column" />
+                            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="287.0" text="State" fx:id="column2" />
+                          </columns>
+                        </TableView>
+                      </content>
+                    </TitledPane>
+                  </expandedPane>
+                  <panes>
+                    <fx:reference source="accordion1" />
+                    <TitledPane fx:id="accordion2" animated="false" text="">
+                      <content>
+                        <TableView fx:id="tableView2" prefHeight="200.0" prefWidth="200.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="Index" fx:id="columnId" />
+                            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="263.0" text="Info" fx:id="columnInfo" />
+                            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="256.0" text="State" fx:id="columnState" />
+                          </columns>
+                        </TableView>
+                      </content>
+                    </TitledPane>
+                  </panes>
+                </Accordion>
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+        <Tab fx:id="tab2" closable="false" text="Bar Chart">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <BarChart fx:id="barChart" prefHeight="390.0" prefWidth="596.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <xAxis>
+                    <CategoryAxis fx:id="catAxis" side="BOTTOM" />
+                  </xAxis>
+                  <yAxis>
+                    <NumberAxis fx:id="numAxis" side="LEFT" />
+                  </yAxis>
+                </BarChart>
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+        <Tab fx:id="tab3" closable="false" text="Pie Chart">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <PieChart id="PieChart" fx:id="pieChart" prefHeight="390.0" prefWidth="596.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+      </tabs>
+    </TabPane>
+  </children>
+</AnchorPane>
