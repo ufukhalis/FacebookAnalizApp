@@ -186,6 +186,7 @@ public class NodeUI extends Group {
             public void Behaviour() {
                 FXMLTool.instance().openFXML("Sunum Katmanı", "PresentationFXML.fxml", false);
                 PresentationFXMLController.instance().parentNode = parent;
+                PresentationFXMLController.instance().setSelectedChartType();
 
             }
         };

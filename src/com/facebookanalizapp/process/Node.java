@@ -62,7 +62,7 @@ public class Node {
                     node.mining.generateClustering(data);
                     FXMLTool.instance().openFXML("ShowRoom", "ShowroomFXML.fxml", true);
                     ShowroomFXMLController.instance().parentNode = node;
-                    ShowroomFXMLController.instance().fillClusteringTable();
+                    ShowroomFXMLController.instance().getShowRoom();
                     break;
                 case 2://kmeans
                     break;

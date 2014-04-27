@@ -33,9 +33,9 @@ public class PresentationFXMLController implements Initializable {
     private static final String STR_BAR_CHART = "BAR CHART";
     
     
-    private static final int TABLE = 1;
-    private static final int PIE_CHART = 2;
-    private static final int BAR_CHART = 3;
+    public static final int TABLE = 1;
+    public static final int PIE_CHART = 2;
+    public static final int BAR_CHART = 3;
     
     private static PresentationFXMLController instance = null;
     
@@ -81,6 +81,24 @@ public class PresentationFXMLController implements Initializable {
         stage.close();
     }
         
+    public void setSelectedChartType(){
+        if (parentNode != null && parentNode.getPresentation() != null) {
+            switch(parentNode.getPresentation().getChartType()){
+                case TABLE:
+                    cmbPresentation.getSelectionModel().select(TABLE - 1);
+                    break;
+                case BAR_CHART:
+                    cmbPresentation.getSelectionModel().select(PIE_CHART - 1);
+                    break;
+                case PIE_CHART:
+                    cmbPresentation.getSelectionModel().select(BAR_CHART - 1);
+                    break;    
+                default:
+                    break;
+            }
+        }
+    }
+    
     private int setChartType(String selected){
         if (selected.equalsIgnoreCase(STR_TABLE)) {
             return TABLE;

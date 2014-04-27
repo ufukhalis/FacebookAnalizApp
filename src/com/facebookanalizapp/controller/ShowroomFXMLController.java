@@ -107,10 +107,10 @@ public class ShowroomFXMLController implements Initializable {
 
     @FXML
     BarChart<String, Integer> barChart;
-    
+
     @FXML
     CategoryAxis catAxis;
-    
+
     @FXML
     NumberAxis numAxis;
 
@@ -132,6 +132,27 @@ public class ShowroomFXMLController implements Initializable {
     @FXML
     TitledPane accordion1, accordion2;
 
+    public void getShowRoom() {
+        if (parentNode.getPresentation() != null) {
+            fillClusteringTable();
+            //tabPane.getSelectionModel().clearSelection();
+            switch (parentNode.getPresentation().getChartType()) {
+                case PresentationFXMLController.TABLE:
+                    tabPane.getSelectionModel().select(tab1);
+                    break;
+                case PresentationFXMLController.BAR_CHART:
+                    tabPane.getSelectionModel().select(tab2);
+                    break;
+                case PresentationFXMLController.PIE_CHART:
+                    tabPane.getSelectionModel().select(tab3);
+                    break;
+                default:
+
+                    break;
+            }
+        }
+    }
+
     public void fillClusteringTable() {
         tableView.getItems().clear();
         if (parentNode != null && parentNode.getMining() != null) {
@@ -148,7 +169,7 @@ public class ShowroomFXMLController implements Initializable {
 
         fillNonClusteringTable();
 
-        accordion1.setText("Clustered "+parentNode.getMining().getClusteringSelectedRulesList().toString());
+        accordion1.setText("Clustered " + parentNode.getMining().getClusteringSelectedRulesList().toString());
         accordion2.setText("Non Clustered");
     }
 
@@ -165,7 +186,7 @@ public class ShowroomFXMLController implements Initializable {
             }
             tableView2.setItems(data2);
         }
-        
+
         fillBarChart();
         fillPieChart();
     }
@@ -177,28 +198,28 @@ public class ShowroomFXMLController implements Initializable {
     public void fillBarChart() {
         barChart.setTitle("Bar Chart");
         XYChart.Series series1 = new XYChart.Series();
-        series1.setName(CLUSTERED);       
+        series1.setName(CLUSTERED);
         series1.getData().add(new XYChart.Data(CLUSTERING, parentNode.getMining().getClusteringList().size()));
-        
+
         XYChart.Series series2 = new XYChart.Series();
         series2.setName(NON_CLUSTERED);
         series2.getData().add(new XYChart.Data(CLUSTERING, parentNode.getMining().getNonClusteringList().size()));
-        
+
         barChart.getData().addAll(series1, series2);
-        
+
         System.out.println("barrrrr");
     }
-    
-    public void fillPieChart(){
-        ObservableList<PieChart.Data> pieChartData = 
-                FXCollections.observableArrayList(
-                    new PieChart.Data(CLUSTERED, parentNode.getMining().getClusteringList().size()),
-                    new PieChart.Data(NON_CLUSTERED, parentNode.getMining().getNonClusteringList().size()));
-        pieChartData = 
-                FXCollections.observableArrayList(
-                    new PieChart.Data(CLUSTERED +" ( " + (int)pieChartData.get(0).getPieValue()+" )", parentNode.getMining().getClusteringList().size()),
-                    new PieChart.Data(NON_CLUSTERED +" ( "+ (int)pieChartData.get(1).getPieValue()+" )", parentNode.getMining().getNonClusteringList().size()));
-         
+
+    public void fillPieChart() {
+        ObservableList<PieChart.Data> pieChartData
+                = FXCollections.observableArrayList(
+                        new PieChart.Data(CLUSTERED, parentNode.getMining().getClusteringList().size()),
+                        new PieChart.Data(NON_CLUSTERED, parentNode.getMining().getNonClusteringList().size()));
+        pieChartData
+                = FXCollections.observableArrayList(
+                        new PieChart.Data(CLUSTERED + " ( " + (int) pieChartData.get(0).getPieValue() + " )", parentNode.getMining().getClusteringList().size()),
+                        new PieChart.Data(NON_CLUSTERED + " ( " + (int) pieChartData.get(1).getPieValue() + " )", parentNode.getMining().getNonClusteringList().size()));
+
         pieChart.setTitle("Pie Chart");
         pieChart.setData(pieChartData);
         pieChart.setLegendVisible(true);
