@@ -180,12 +180,20 @@ public class MiningFXMLController implements Initializable {
     }
     
     private void calculateKmeans(String[][] array){
+        
+        
+        
+    }
+    
+    private int[] selectRandomClass(int k, int limit){
+        int[] arr = new int[k];
         Random r = new Random();
-        int cluster1 = r.nextInt(array.length);
-        int cluster2 = r.nextInt(array.length);//aynı değer çıkma ihtimali var!!
         
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = r.nextInt(limit);
+        }
         
-        
+        return arr;
     }
     /*****************************************************/
     //Kmeans ended
