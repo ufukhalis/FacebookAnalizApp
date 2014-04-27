@@ -9,9 +9,11 @@ import com.facebookanalizapp.process.JsonReader;
 import com.facebookanalizapp.process.Mining;
 import com.facebookanalizapp.process.Node;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Set;
 import javafx.collections.FXCollections;
@@ -68,6 +70,8 @@ public class MiningFXMLController implements Initializable {
         instance = this;
     }
 
+    public static List<String> tempAttributeList = null;
+
     public void fillAttributeList() {
         //lstViewAttrDB
         Set<String> setAttrList = new HashSet<>();
@@ -89,10 +93,15 @@ public class MiningFXMLController implements Initializable {
             System.out.println("Ex 1: " + e);
         }
 
-        /*for (Iterator<String> it = setAttrList.iterator(); it.hasNext();) {
-         String string = it.next();
-         System.out.println("value : " + string);
-         }*/
+        //Attribute sırası önemli olduğundan böyle bir işlem yapılıyor. Mining bölümü ilk açıldığında dizi doldurulur.
+        if (tempAttributeList == null) {
+            tempAttributeList = new ArrayList<>();
+            for (Iterator<String> it = setAttrList.iterator(); it.hasNext();) {
+                String string = it.next();
+                tempAttributeList.add(string);
+            }
+            System.out.println("1 kere girdin!!");
+        }
         ObservableList<String> items = FXCollections.observableArrayList(setAttrList);
         lstViewAttrDB.setItems(items);
 
@@ -109,11 +118,78 @@ public class MiningFXMLController implements Initializable {
 
     }
 
+    /*****************************************************/
+    //Kmeans started
     @FXML
     private void onKMeansSelect(ActionEvent event) {
+        Mining mining = new Mining();
+        mining.setMininType(2);
+        mining.setName("Kmeans");//Dışardan alınacak şimdilik böyle
 
+        parentNode.setMining(mining);
+        String[][] attributeArray = createAttributeArray(parentNode.getData().getJsonDataList().size(), tempAttributeList.size());
+        
+        for (int i = 0; i < attributeArray.length; i++) {
+            String[] strings = attributeArray[i];
+            for (String string : strings) {
+                System.out.print(string + " ");
+            }
+            System.out.println("\n");
+        }
+        
+        closeWindow();
     }
 
+    private String[][] createAttributeArray(int personCount, int attributeCount) {
+        String[][] attributeArray = new String[personCount][attributeCount];
+        JsonReader jr = new JsonReader();
+        
+        for (int i = 0; i < personCount; i++) {
+            for (int j = 0; j < attributeCount; j++) {
+                String first = parentNode.getData().getJsonDataList().get(i);
+                List<String> likes = jr.getPersonLikes(first);
+                int count = 0;
+                if (likes != null) {
+                    for (int m = 0; m < likes.size(); m++) {
+                        if (likes.get(m).equalsIgnoreCase(tempAttributeList.get(j))) {
+                            count++;
+                        }
+                    }
+                    attributeArray[i][j] = String.valueOf(count);
+                }
+            }
+        }
+        
+        return attributeArray;
+    }
+
+    private double calculateCosine(String[] centroid, String[] to){
+        double x = 0;
+        double c = 0;
+        double t = 0;
+        for (int i = 0; i < centroid.length; i++) {
+            x = x + (Double.parseDouble(centroid[i]) * Double.parseDouble(to[i]));
+            c = c + (Double.parseDouble(centroid[i]) * Double.parseDouble(centroid[i]));
+            t = t + (Double.parseDouble(to[i]) * Double.parseDouble(to[i]));
+        }
+        
+        c = Math.sqrt(c);
+        t = Math.sqrt(t);
+        
+        return x/(t*c);
+    }
+    
+    private void calculateKmeans(String[][] array){
+        Random r = new Random();
+        int cluster1 = r.nextInt(array.length);
+        int cluster2 = r.nextInt(array.length);//aynı değer çıkma ihtimali var!!
+        
+        
+        
+    }
+    /*****************************************************/
+    //Kmeans ended
+    
     @FXML
     private void onScanSelect(ActionEvent event) {
 
