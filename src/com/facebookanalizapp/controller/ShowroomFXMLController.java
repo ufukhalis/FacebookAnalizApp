@@ -5,9 +5,16 @@
  */
 package com.facebookanalizapp.controller;
 
+import com.facebookanalizapp.mining.KMeans;
 import com.facebookanalizapp.process.Node;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -134,7 +141,11 @@ public class ShowroomFXMLController implements Initializable {
 
     public void getShowRoom() {
         if (parentNode.getPresentation() != null) {
-            fillClusteringTable();
+            if (parentNode.getMining().getMininType() == 1) {
+                fillClusteringTable();
+            } else if (parentNode.getMining().getMininType() == 2) {
+                fillKmeansTable();
+            }
             //tabPane.getSelectionModel().clearSelection();
             switch (parentNode.getPresentation().getChartType()) {
                 case PresentationFXMLController.TABLE:
@@ -153,6 +164,83 @@ public class ShowroomFXMLController implements Initializable {
         }
     }
 
+    //KMeans started
+    public void fillKmeansTable() {
+        tableView.getItems().clear();
+        if (parentNode != null && parentNode.getMining() != null) {
+            for (int i = 0; i < parentNode.getMining().getKmeansPresentationData().size(); i++) {
+                KMeans string = parentNode.getMining().getKmeansPresentationData().get(i);
+                PresentationData item = new PresentationData();
+                item.index.setValue(String.valueOf(i + 1));
+                item.name.setValue(string.getPersonName());
+                item.attribute.setValue(string.getKmeansName());
+                data.add(item);
+            }
+            tableView.setItems(data);
+        }
+        fillKmeansBarChart();
+        accordion1.setText("KMeans");
+        accordion2.setVisible(false);
+    }
+
+    public void fillKmeansBarChart() {
+        barChart.setTitle("Bar Chart");
+
+        Set<String> clazz = new HashSet<String>();
+        for (int i = 0; i < parentNode.getMining().getKmeansPresentationData().size(); i++) {
+            clazz.add(parentNode.getMining().getKmeansPresentationData().get(i).getKmeansName());
+        }
+
+        for (Iterator<String> it = clazz.iterator(); it.hasNext();) {
+            String string = it.next();
+            int total = 0;
+            for (int i = 0; i < parentNode.getMining().getKmeansPresentationData().size(); i++) {
+                if (string.equalsIgnoreCase(parentNode.getMining().getKmeansPresentationData().get(i).getKmeansName())) {
+                    total++;
+                }
+            }
+            XYChart.Series series = new XYChart.Series();
+            series.setName(string);
+            series.getData().add(new XYChart.Data(string, total));
+            barChart.getData().add(series);
+        }
+
+        fillKmeansPieChart();
+        System.out.println("barrrrr");
+    }
+
+    public void fillKmeansPieChart() {
+        Set<String> clazz = new HashSet<String>();
+        for (int i = 0; i < parentNode.getMining().getKmeansPresentationData().size(); i++) {
+            clazz.add(parentNode.getMining().getKmeansPresentationData().get(i).getKmeansName());
+        }
+        ObservableList<PieChart.Data> pieChartData = null;
+        List<PieChart.Data> list = new ArrayList<>();
+        for (Iterator<String> it = clazz.iterator(); it.hasNext();) {
+            String string = it.next();
+            int total = 0;
+            for (int i = 0; i < parentNode.getMining().getKmeansPresentationData().size(); i++) {
+                if (string.equalsIgnoreCase(parentNode.getMining().getKmeansPresentationData().get(i).getKmeansName())) {
+                    total++;
+                }
+            }
+            list.add(new PieChart.Data(string, total));
+        }
+
+        pieChartData = FXCollections.observableArrayList(list);
+        
+        /*pieChartData
+         = FXCollections.observableArrayList(
+         new PieChart.Data(CLUSTERED + " ( " + (int) pieChartData.get(0).getPieValue() + " )", parentNode.getMining().getClusteringList().size()),
+         new PieChart.Data(NON_CLUSTERED + " ( " + (int) pieChartData.get(1).getPieValue() + " )", parentNode.getMining().getNonClusteringList().size()));
+         */
+        pieChart.setTitle("Pie Chart");
+        pieChart.setData(pieChartData);
+        pieChart.setLegendVisible(true);
+        pieChart.setClockwise(true);
+    }
+
+    //Clustering started
     public void fillClusteringTable() {
         tableView.getItems().clear();
         if (parentNode != null && parentNode.getMining() != null) {
@@ -226,6 +314,7 @@ public class ShowroomFXMLController implements Initializable {
         pieChart.setClockwise(true);
     }
 
+    //Clustering ended
     public class PresentationData {
 
         public SimpleStringProperty index = new SimpleStringProperty();

@@ -5,11 +5,14 @@
  */
 package com.facebookanalizapp.controller;
 
+import com.facebookanalizapp.mining.KMeans;
 import com.facebookanalizapp.process.JsonReader;
 import com.facebookanalizapp.process.Mining;
 import com.facebookanalizapp.process.Node;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -26,6 +29,7 @@ import javafx.scene.control.Dialogs;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javax.swing.SwingWorker;
 
 /**
  * FXML Controller class
@@ -70,7 +74,7 @@ public class MiningFXMLController implements Initializable {
         instance = this;
     }
 
-    public static List<String> tempAttributeList = null;
+    public List<String> tempAttributeList = null;
 
     public void fillAttributeList() {
         //lstViewAttrDB
@@ -100,7 +104,6 @@ public class MiningFXMLController implements Initializable {
                 String string = it.next();
                 tempAttributeList.add(string);
             }
-            System.out.println("1 kere girdin!!");
         }
         ObservableList<String> items = FXCollections.observableArrayList(setAttrList);
         lstViewAttrDB.setItems(items);
@@ -118,86 +121,35 @@ public class MiningFXMLController implements Initializable {
 
     }
 
-    /*****************************************************/
+    /**
+     * **************************************************
+     */
     //Kmeans started
     @FXML
     private void onKMeansSelect(ActionEvent event) {
+
         Mining mining = new Mining();
         mining.setMininType(2);
         mining.setName("Kmeans");//Dışardan alınacak şimdilik böyle
 
         parentNode.setMining(mining);
-        String[][] attributeArray = createAttributeArray(parentNode.getData().getJsonDataList().size(), tempAttributeList.size());
-        
-        for (int i = 0; i < attributeArray.length; i++) {
-            String[] strings = attributeArray[i];
-            for (String string : strings) {
-                System.out.print(string + " ");
-            }
-            System.out.println("\n");
-        }
-        
+        String[][] attributeArray = null; //= createAttributeArray(parentNode.getData().getJsonDataList().size(), tempAttributeList.size());
+        CreateAttributeArray cr = new CreateAttributeArray(attributeArray, parentNode.getData().getJsonDataList().size(), tempAttributeList.size(), parentNode, tempAttributeList);
+        cr.setK(2);
+        cr.execute();
+
         closeWindow();
     }
 
-    private String[][] createAttributeArray(int personCount, int attributeCount) {
-        String[][] attributeArray = new String[personCount][attributeCount];
-        JsonReader jr = new JsonReader();
-        
-        for (int i = 0; i < personCount; i++) {
-            for (int j = 0; j < attributeCount; j++) {
-                String first = parentNode.getData().getJsonDataList().get(i);
-                List<String> likes = jr.getPersonLikes(first);
-                int count = 0;
-                if (likes != null) {
-                    for (int m = 0; m < likes.size(); m++) {
-                        if (likes.get(m).equalsIgnoreCase(tempAttributeList.get(j))) {
-                            count++;
-                        }
-                    }
-                    attributeArray[i][j] = String.valueOf(count);
-                }
-            }
-        }
-        
-        return attributeArray;
+
+    private void calculateKmeans(String[][] array) {
+
     }
 
-    private double calculateCosine(String[] centroid, String[] to){
-        double x = 0;
-        double c = 0;
-        double t = 0;
-        for (int i = 0; i < centroid.length; i++) {
-            x = x + (Double.parseDouble(centroid[i]) * Double.parseDouble(to[i]));
-            c = c + (Double.parseDouble(centroid[i]) * Double.parseDouble(centroid[i]));
-            t = t + (Double.parseDouble(to[i]) * Double.parseDouble(to[i]));
-        }
-        
-        c = Math.sqrt(c);
-        t = Math.sqrt(t);
-        
-        return x/(t*c);
-    }
-    
-    private void calculateKmeans(String[][] array){
-        
-        
-        
-    }
-    
-    private int[] selectRandomClass(int k, int limit){
-        int[] arr = new int[k];
-        Random r = new Random();
-        
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = r.nextInt(limit);
-        }
-        
-        return arr;
-    }
-    /*****************************************************/
+    /**
+     * **************************************************
+     */
     //Kmeans ended
-    
     @FXML
     private void onScanSelect(ActionEvent event) {
 
@@ -253,5 +205,204 @@ public class MiningFXMLController implements Initializable {
     private void closeWindow() {
         Stage stage = (Stage) lstViewAttrDB.getScene().getWindow();
         stage.close();
+    }
+}
+
+class CreateAttributeArray extends SwingWorker<String[][], Integer> {
+
+    String[][] attributeArray;
+    int personCount;
+    int attributeCount;
+    Node parentNode;
+    List<String> tempAttributeList;
+    int k;
+
+    public CreateAttributeArray(String[][] array, int personCount, int attributeCount, Node parentNode, List<String> list) {
+        array = new String[personCount][attributeCount];
+        this.attributeArray = array;
+        this.personCount = personCount;
+        this.attributeCount = attributeCount;
+        this.parentNode = parentNode;
+        this.tempAttributeList = list;
+    }
+
+    public void setK(int k) {
+        this.k = k;
+    }
+
+    @Override
+    protected String[][] doInBackground() throws Exception {
+        JsonReader jr = new JsonReader();
+        for (int i = 0; i < personCount; i++) {
+            for (int j = 0; j < attributeCount; j++) {
+                String first = parentNode.getData().getJsonDataList().get(i);
+                List<String> likes = jr.getPersonLikes(first);
+                int count = 0;
+                if (likes != null) {
+                    for (int m = 0; m < likes.size(); m++) {
+                        if (likes.get(m).equalsIgnoreCase(tempAttributeList.get(j))) {
+                            count++;
+                        }
+                    }
+                    attributeArray[i][j] = String.valueOf(count);
+                } else {
+                    Arrays.fill(attributeArray[i], "0");
+                }
+            }
+            this.publish(((int) ((Double.valueOf(i) / Double.valueOf(personCount)) * Double.valueOf(100))));
+        }
+        return attributeArray;
+    }
+
+    @Override
+    protected void done() {
+        JsonReader jr = new JsonReader();
+
+        //first loop start
+        List<String[]> centers = new ArrayList<>();
+        int[] randomClass = selectRandomClass(k, personCount);
+        for (int i : randomClass) {
+            centers.add(attributeArray[i]);
+        }
+        List<KMeans> kmeansList = new ArrayList<>();
+        for (int i = 0; i < personCount; i++) {
+            List<Double> result = new ArrayList<>();
+
+            if (isArrayInList(centers, attributeArray[i]) == false) {
+                for (String[] strings : centers) {
+                    result.add(calculateCosine(strings, attributeArray[i]));
+                }
+                if (result.size() > 0) {
+                    int index = result.indexOf((double) Collections.max(result));
+                    System.out.println("Result : " + result.toString());
+                    KMeans k = new KMeans();
+                    k.setKmeansName("C" + index);
+                    k.setPersonName(jr.getPersonName(parentNode.getData().getJsonDataList().get(i)));
+                    kmeansList.add(k);
+                }
+            } else {
+                int index = 0;
+                for (int j = 0; j < centers.size(); j++) {
+                    if (Arrays.equals(attributeArray[i], centers.get(j))) {
+                        index = j;
+                        break;
+                    }
+                }
+
+                KMeans k = new KMeans();
+                k.setKmeansName("C " + index);
+                k.setPersonName(jr.getPersonName(parentNode.getData().getJsonDataList().get(i)));
+                kmeansList.add(k);
+            }
+        }
+        //first loop end
+        
+        //new center started
+        List<Double> newCenterValues = new ArrayList<>();
+        centers = new ArrayList<>();
+        setNewCenters(kmeansList, newCenterValues, centers);
+        //new center ended
+        kmeansList = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            for (int l = 0; l < personCount; l++) {
+                List<Double> result = new ArrayList<>();
+                for (int j = 0; j < centers.size(); j++) {
+                    result.add(calculateCosine(centers.get(j), attributeArray[l]));
+                }
+                if (result.size() > 0) {
+                    int index = result.indexOf((double) Collections.max(result));
+                    System.out.println("Result : " + result.toString());
+                    KMeans k = new KMeans();
+                    k.setKmeansName("C" + index);
+                    k.setPersonName(jr.getPersonName(parentNode.getData().getJsonDataList().get(l)));
+                    kmeansList.add(k);
+                }
+            }
+            centers = new ArrayList<>();
+            //setNewCenters(kmeansList, newCenterValues, centers);
+        }
+
+        parentNode.getMining().setKmeansPresentationData(kmeansList);
+
+    }
+
+    private void setNewCenters(List<KMeans> kmeansList, List<Double> newCenterValues, List<String[]> centers) {
+        
+        for (int i = 0; i < k; i++) {
+            double result = 0;
+            int size = 0;
+            for (int m = 0; m < attributeCount; m++) {
+                for (int j = 0; j < kmeansList.size(); j++) {
+                    if (kmeansList.get(j).getKmeansName().equalsIgnoreCase("C" + i)) {
+                        result += Double.valueOf(attributeArray[j][m]);
+                        size++;
+                    }
+                }
+                newCenterValues.add((double) (result / size));
+                
+            }
+            if (newCenterValues.size() > 0) {
+                centers.add(createCenter(newCenterValues));
+                System.out.println("New Centers : " + newCenterValues.toString());
+                newCenterValues = new ArrayList<>();
+            }
+        }
+    }
+
+    private String[] createCenter(List<Double> list) {
+        String[] center = new String[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            center[i] = String.valueOf(list.get(i));
+        }
+
+        return center;
+    }
+
+    @Override
+    protected void process(List<Integer> chunks) {
+        System.out.println("Value : " + chunks.get(chunks.size() - 1));
+    }
+
+    private int[] selectRandomClass(int k, int limit) {
+        int[] arr = new int[k];
+        Random r = new Random();
+
+        for (int i = 0; i < arr.length; i++) {
+            int random = r.nextInt(limit);
+            arr[i] = random;
+            System.out.println("Center : " + random);
+
+        }
+
+        return arr;
+    }
+
+    private double calculateCosine(String[] centroid, String[] to) {
+        double x = 0;
+        double c = 0;
+        double t = 0;
+        for (int i = 0; i < centroid.length; i++) {
+            x = x + (Double.parseDouble(centroid[i]) * Double.parseDouble(to[i]));
+            c = c + (Double.parseDouble(centroid[i]) * Double.parseDouble(centroid[i]));
+            t = t + (Double.parseDouble(to[i]) * Double.parseDouble(to[i]));
+        }
+
+        c = Math.sqrt(c);
+        t = Math.sqrt(t);
+
+        if (t == 0 || c == 0) {
+            return 0;
+        }
+
+        return x / (t * c);
+    }
+
+    private boolean isArrayInList(List<String[]> list, String[] array) {
+        for (String[] strings : list) {
+            if (Arrays.equals(array, strings)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

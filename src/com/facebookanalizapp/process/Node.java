@@ -65,6 +65,9 @@ public class Node {
                     ShowroomFXMLController.instance().getShowRoom();
                     break;
                 case 2://kmeans
+                    FXMLTool.instance().openFXML("ShowRoom", "ShowroomFXML.fxml", true);
+                    ShowroomFXMLController.instance().parentNode = node;
+                    ShowroomFXMLController.instance().getShowRoom();
                     break;
                 case 3://dbscan
                     break;

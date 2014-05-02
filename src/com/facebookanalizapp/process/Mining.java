@@ -5,6 +5,7 @@
  */
 package com.facebookanalizapp.process;
 
+import com.facebookanalizapp.mining.KMeans;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -24,6 +25,8 @@ public class Mining {
     private String cosineArray;
 
     private List<String> presentationData;
+    
+    private List<KMeans> kmeansPresentationData;
 
     private List<String> clusteringSelectedRulesList = new ArrayList<>();
 
@@ -33,6 +36,16 @@ public class Mining {
     private List<String> nonClusteringList = new ArrayList<>();//Sınıflandırılmamış Liste : Name;Email
     private List<String> nonclusteringAttributeList = new ArrayList<>();// Sınıflandırılmamış kişilerin attribute listesi
 
+    public List<KMeans> getKmeansPresentationData() {
+        return kmeansPresentationData;
+    }
+
+    public void setKmeansPresentationData(List<KMeans> kmeansPresentationData) {
+        this.kmeansPresentationData = kmeansPresentationData;
+    }
+
+    
+    
     public List<String> getClusteringAttributeList() {
         return clusteringAttributeList;
     }
