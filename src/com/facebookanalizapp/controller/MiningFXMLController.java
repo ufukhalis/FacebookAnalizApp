@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -290,13 +291,13 @@ class CreateAttributeArray extends SwingWorker<String[][], Integer> {
                 }
 
                 KMeans k = new KMeans();
-                k.setKmeansName("C " + index);
+                k.setKmeansName("C" + index);
                 k.setPersonName(jr.getPersonName(parentNode.getData().getJsonDataList().get(i)));
                 kmeansList.add(k);
             }
         }
         //first loop end
-        
+        System.out.println("Kmeans size : " + kmeansList.size());
         //new center started
         List<Double> newCenterValues = new ArrayList<>();
         centers = new ArrayList<>();
@@ -318,8 +319,11 @@ class CreateAttributeArray extends SwingWorker<String[][], Integer> {
                     kmeansList.add(k);
                 }
             }
+            System.out.println("Kmeans size : " + kmeansList.size());
             centers = new ArrayList<>();
-            //setNewCenters(kmeansList, newCenterValues, centers);
+            newCenterValues = new ArrayList<>();
+            setNewCenters(kmeansList, newCenterValues, centers);
+            kmeansList = new ArrayList<>();
         }
 
         parentNode.getMining().setKmeansPresentationData(kmeansList);
@@ -364,13 +368,23 @@ class CreateAttributeArray extends SwingWorker<String[][], Integer> {
     }
 
     private int[] selectRandomClass(int k, int limit) {
-        int[] arr = new int[k];
-        Random r = new Random();
+        List<Integer> lst = new ArrayList<>();
 
-        for (int i = 0; i < arr.length; i++) {
-            int random = r.nextInt(limit);
-            arr[i] = random;
-            System.out.println("Center : " + random);
+        Random rng = new Random();
+        Set<Integer> generated = new LinkedHashSet<>();
+        while (generated.size() < k) {
+            Integer next = rng.nextInt(limit);
+            generated.add(next);
+        }
+
+        for (Iterator<Integer> it = generated.iterator(); it.hasNext();) {
+            lst.add(it.next());
+        }
+        
+        int[] arr = new int[k];
+        for (int i = 0; i < lst.size(); i++) {
+            arr[i] = lst.get(i);
+            System.out.println("Center : " + arr[i]);
 
         }
 
