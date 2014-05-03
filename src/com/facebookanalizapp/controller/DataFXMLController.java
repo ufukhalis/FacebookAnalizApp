@@ -124,6 +124,12 @@ public class DataFXMLController implements Initializable {
         }
     }
 
+    public TextField getTxtPath() {
+        return txtPath;
+    }
+    
+    
+
     @FXML
     private void onEdit(ActionEvent event) {
         String data = viewData.getSelectionModel().getSelectedItem().data.getValue();

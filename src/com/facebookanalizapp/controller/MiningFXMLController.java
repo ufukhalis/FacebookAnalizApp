@@ -36,6 +36,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javax.swing.SwingWorker;
 
 /**
@@ -149,15 +150,18 @@ public class MiningFXMLController implements Initializable {
 
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.TRANSPARENT);
         stage.setResizable(false);
         stage.setScene(new Scene(layout));
+        stage.setTitle("İşleniyor...");
         stage.show();
 
         CreateAttributeArray cr = new CreateAttributeArray(attributeArray, parentNode.getData().getJsonDataList().size(), tempAttributeList.size(), parentNode, tempAttributeList);
-        cr.setK(2);
+        cr.setK(5);
         cr.setP(updProg);
         cr.execute();
 
+        
         closeWindow();
     }
 
