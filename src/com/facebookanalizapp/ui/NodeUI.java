@@ -95,6 +95,20 @@ public class NodeUI extends Group {
     private BranchButton branch2;
     private BranchButton branch3;
 
+    public BranchButton getBranch1() {
+        return branch1;
+    }
+
+    public BranchButton getBranch2() {
+        return branch2;
+    }
+
+    public BranchButton getBranch3() {
+        return branch3;
+    }
+    
+    
+
     private Path Button1;
     private Path Button2;
     private Path Button3;

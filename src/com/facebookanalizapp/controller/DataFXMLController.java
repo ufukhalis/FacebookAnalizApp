@@ -127,8 +127,6 @@ public class DataFXMLController implements Initializable {
     public TextField getTxtPath() {
         return txtPath;
     }
-    
-    
 
     @FXML
     private void onEdit(ActionEvent event) {
@@ -160,10 +158,11 @@ public class DataFXMLController implements Initializable {
     }
 
     private Long selectedDataId;
+
     @FXML
     private void onSave(ActionEvent event) {
         /*DataEntity e = DatabaseManager.instance().find(DataEntity.class, 1l);
-        System.out.println("Value : " + e.getName());*/
+         System.out.println("Value : " + e.getName());*/
         DataEntity dataEntity = DatabaseManager.instance().find(DataEntity.class, selectedDataId);
         dataEntity.setName(txtDataName.getText());
         String raw = "";
@@ -174,7 +173,7 @@ public class DataFXMLController implements Initializable {
         dataEntity.setRawData(raw);
         applyToParentNode();
         DatabaseManager.instance().updateEntity(DataEntity.class, dataEntity);
-        
+
         //EntityManager manager = EntityManagerService.get().createEntityManager();
         //manager.getTransaction().begin();
         /*DataEntity entity = new DataEntity();
@@ -263,18 +262,21 @@ public class DataFXMLController implements Initializable {
     @FXML
     private void onApply(ActionEvent event) {
         /*Data dataShare = new Data();
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < viewData.getItems().size(); i++) {
-            list.add(viewData.getItems().get(i).getData());
-        }
-        dataShare.setJsonDataList(list);
-        dataShare.setName(txtDataName.getText());
-        parentNode.setData(dataShare);*/
+         List<String> list = new ArrayList<>();
+         for (int i = 0; i < viewData.getItems().size(); i++) {
+         list.add(viewData.getItems().get(i).getData());
+         }
+         dataShare.setJsonDataList(list);
+         dataShare.setName(txtDataName.getText());
+         parentNode.setData(dataShare);*/
         applyToParentNode();
+
+        String info = getTxtPath().getText();
+        parentNode.getNdUi().getBranch1().getLblInfo().textProperty().setValue(!info.isEmpty() ? info : parentNode.getNdUi().getBranch1().getInfo());
         onDone(event);
     }
 
-    private void applyToParentNode(){
+    private void applyToParentNode() {
         Data dataShare = new Data();
         List<String> list = new ArrayList<>();
         for (int i = 0; i < viewData.getItems().size(); i++) {
@@ -284,7 +286,7 @@ public class DataFXMLController implements Initializable {
         dataShare.setName(txtDataName.getText());
         parentNode.setData(dataShare);
     }
-    
+
     @FXML
     private void onDone(ActionEvent event) {
         Stage stage = (Stage) txtPath.getScene().getWindow();

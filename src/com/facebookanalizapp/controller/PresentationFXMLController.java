@@ -68,6 +68,7 @@ public class PresentationFXMLController implements Initializable {
         p.setChartType(setChartType(selected));
         p.setChart(null);
         parentNode.setPresentation(p);
+        parentNode.getNdUi().getBranch3().getLblInfo().textProperty().setValue(selected);
         closeWindow();
     }
     

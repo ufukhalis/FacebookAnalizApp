@@ -162,6 +162,8 @@ public class MiningFXMLController implements Initializable {
         cr.execute();
 
         
+        parentNode.getNdUi().getBranch2().getLblInfo().textProperty().setValue("K-Means seçildi");
+        
         closeWindow();
     }
 
@@ -191,6 +193,7 @@ public class MiningFXMLController implements Initializable {
         }
 
         parentNode.setMining(mining);
+        parentNode.getNdUi().getBranch2().getLblInfo().textProperty().setValue("Clustering seçildi");
         closeWindow();
     }
 

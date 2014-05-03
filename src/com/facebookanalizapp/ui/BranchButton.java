@@ -137,23 +137,36 @@ public class BranchButton extends Group {
         }
     }
 
+    private Label lblTitle;
+    private Label lblInfo;
+
+    public Label getLblTitle() {
+        return lblTitle;
+    }
+
+    public Label getLblInfo() {
+        return lblInfo;
+    }
+    
+    
+    
     private void inUI() {
-        Label label = new Label(Title);
-        label.setFont(Font.font("Arial", 18));
-        label.setTextFill(Color.web("#fff"));
-        label.relocate(x1 + 70, y1 + 10);
-        this.getChildren().add(label);
+        lblTitle = new Label(Title);
+        lblTitle.setFont(Font.font("Arial", 18));
+        lblTitle.setTextFill(Color.web("#fff"));
+        lblTitle.relocate(x1 + 70, y1 + 10);
+        this.getChildren().add(lblTitle);
 
         Button chck = new Button("Ayarla");
         //chck.getStylesheets().add("/css/JMetroLightTheme.css");
         chck.relocate(x1 + 100, y1 + 40);
         this.getChildren().add(chck);
 
-        Label label2 = new Label(Info);
-        label2.setFont(Font.font("Arial", 15));
-        label2.setTextFill(Color.web("#fff"));
-        label2.relocate(x1 + 90, y1 + 70);
-        this.getChildren().add(label2);
+        lblInfo = new Label(Info);
+        lblInfo.setFont(Font.font("Arial", 15));
+        lblInfo.setTextFill(Color.web("#fff"));
+        lblInfo.relocate(x1 + 90, y1 + 70);
+        this.getChildren().add(lblInfo);
 
         /*Image img1 = new Image("images/ok.png");
          Image img2 = new Image("images/cancel.png");
