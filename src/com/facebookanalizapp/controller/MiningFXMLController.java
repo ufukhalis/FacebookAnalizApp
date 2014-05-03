@@ -323,7 +323,9 @@ class CreateAttributeArray extends SwingWorker<String[][], Integer> {
             centers = new ArrayList<>();
             newCenterValues = new ArrayList<>();
             setNewCenters(kmeansList, newCenterValues, centers);
-            kmeansList = new ArrayList<>();
+            if (i != 4) {
+                kmeansList = new ArrayList<>();
+            }
         }
 
         parentNode.getMining().setKmeansPresentationData(kmeansList);
