@@ -20,8 +20,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Set;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -139,19 +141,23 @@ public class MiningFXMLController implements Initializable {
 
         parentNode.setMining(mining);
         String[][] attributeArray = null; //= createAttributeArray(parentNode.getData().getJsonDataList().size(), tempAttributeList.size());
-        CreateAttributeArray cr = new CreateAttributeArray(attributeArray, parentNode.getData().getJsonDataList().size(), tempAttributeList.size(), parentNode, tempAttributeList);
-        cr.setK(2);
-        cr.execute();
 
-        ProgressBar updProg = new ProgressBar();
+        ProgressBar updProg = new ProgressBar(0);
+        updProg.setProgress(0F);
         StackPane layout = new StackPane();
         layout.getChildren().add(updProg);
 
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setResizable(false);
         stage.setScene(new Scene(layout));
         stage.show();
-        
+
+        CreateAttributeArray cr = new CreateAttributeArray(attributeArray, parentNode.getData().getJsonDataList().size(), tempAttributeList.size(), parentNode, tempAttributeList);
+        cr.setK(2);
+        cr.setP(updProg);
+        cr.execute();
+
         closeWindow();
     }
 
@@ -230,6 +236,12 @@ class CreateAttributeArray extends SwingWorker<String[][], Integer> {
     List<String> tempAttributeList;
     int k;
 
+    ProgressBar p;
+
+    public void setP(ProgressBar p) {
+        this.p = p;
+    }
+
     public CreateAttributeArray(String[][] array, int personCount, int attributeCount, Node parentNode, List<String> list) {
         array = new String[personCount][attributeCount];
         this.attributeArray = array;
@@ -269,7 +281,6 @@ class CreateAttributeArray extends SwingWorker<String[][], Integer> {
 
     @Override
     protected void done() {
-        
 
         JsonReader jr = new JsonReader();
 
@@ -341,8 +352,18 @@ class CreateAttributeArray extends SwingWorker<String[][], Integer> {
                 kmeansList = new ArrayList<>();
             }
         }
-
+        p.setProgress(1F);
         parentNode.getMining().setKmeansPresentationData(kmeansList);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+
+                if (p.getProgress() == 1F) {
+                    Stage stage1 = (Stage) p.getScene().getWindow();
+                    stage1.close();
+                }
+            }
+        });
 
     }
 
@@ -380,7 +401,11 @@ class CreateAttributeArray extends SwingWorker<String[][], Integer> {
 
     @Override
     protected void process(List<Integer> chunks) {
-        System.out.println("Value : " + chunks.get(chunks.size() - 1));
+        //System.out.println("Value : " + chunks.get(chunks.size() - 1));
+
+        Float f = Float.valueOf((Float.valueOf((chunks.get(chunks.size() - 1)) / 100F)));
+        System.out.println("Value : " + f);
+        p.setProgress(f);
     }
 
     private int[] selectRandomClass(int k, int limit) {
