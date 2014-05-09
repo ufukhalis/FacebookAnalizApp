@@ -32,9 +32,7 @@ public class DataEditFXMLController implements Initializable {
     }
 
     public void initData(String data) {
-         final JSONObject obj =
-            new JSONObject(data);
-        txtEdit.setText(JsonFormatter.format(obj));
+        txtEdit.setText(data);
     }
 
     @FXML
