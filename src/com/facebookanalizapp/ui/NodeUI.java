@@ -20,6 +20,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.control.Dialogs;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -40,6 +41,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import javax.swing.JOptionPane;
 
@@ -295,7 +297,11 @@ public class NodeUI extends Group {
                         default:
                     }
                 }else{
+                    if(parent.getData()!=null && parent.getMining()!=null && parent.getPresentation() !=null )
                     parent.execute(parent);
+                    else
+                     Dialogs.showInformationDialog(null, 
+                    "Lütfen modüllerin bilgilerini kontrol ediniz. Ayarlanmamış modül ayarları bulunmaktadır!","Modül ayarları eksik!", "Uyarı");
                 }
             }
         });
