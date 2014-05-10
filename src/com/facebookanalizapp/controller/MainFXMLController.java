@@ -15,6 +15,7 @@ import com.facebookanalizapp.process.Node;
 import com.facebookanalizapp.process.PropertyManager;
 import com.facebookanalizapp.ui.NodeUI;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +30,11 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javax.persistence.EntityManager;
+import org.apache.commons.io.FileUtils;
 
 /**
  * FXML Controller class
@@ -84,12 +87,43 @@ public class MainFXMLController implements Initializable {
 
     @FXML
     private void onExport(ActionEvent event) {
-
+        DirectoryChooser dic = new DirectoryChooser();
+        File file = dic.showDialog(null);
+        if (file != null) {
+            System.out.println("Source : " + (selectedDB.getDbPath() + File.separator + selectedDB.getDbName()));
+            File source = new File(selectedDB.getDbPath() + File.separator + selectedDB.getDbName());
+            File desc = new File(file.getPath() + File.separator + selectedDB.getDbName());
+            System.out.println("Dest : " + file.getPath());
+            Dialogs.showInformationDialog((Stage) cmbDatabases.getScene().getWindow(), "Export işlemi başarılı şekilde tamamlandı!",
+                        "İşlem başarılı", "Bilgi");
+            try {
+                FileUtils.copyDirectory(source, desc);
+            } catch (IOException e) {
+                System.out.println("Error exporting db : " + e);
+            }
+        }
     }
 
     @FXML
     private void onImport(ActionEvent event) {
+        DirectoryChooser dic = new DirectoryChooser();
+        File file = dic.showDialog(null);
+        if (file != null) {
+            String path = (file.getPath().substring(0, file.getPath().indexOf(file.getName())));
+            String name = file.getName();
+            EntityManagerService.setPersistenceMap(path + name, "facebookapp", "facebookapp");
+            EntityManager manager = EntityManagerService.get().createEntityManager();
 
+            if (manager != null) {
+                PropertyManager.instance().addDBPropertiesFile(path, name);
+                refreshDatabasesList(false); //Bu sorun çıkartıyor!!
+                /*Dialogs.showInformationDialog((Stage) txtDBName.getScene().getWindow(), txtDBName.getText() + " adlı veritabanı başarılı şekilde oluşturuldu!",
+                        "İşlem başarılı", "Bilgi");*/
+            } else {
+                /*Dialogs.showErrorDialog((Stage) txtDBName.getScene().getWindow(), "Veritabanı oluşturulamadı!",
+                        "Bir hata ile karşılaşıldı", "Hata", new Exception());*/
+            }
+        }
     }
 
     @FXML
@@ -106,12 +140,14 @@ public class MainFXMLController implements Initializable {
     private void onActionDelete(ActionEvent event) {//Node db'den silme
 
     }
-    
+
+    private static DBProperty selectedDB;
     @FXML
     private void onSelectDB(ActionEvent event) {//DB Seçme işlemi
         if (!((String) cmbDatabases.getValue()).equalsIgnoreCase(NO_DB_SELECTED)) {
             EntityManagerService.clearDB();
             DBProperty db = getSelectedDB((String) cmbDatabases.getValue());
+            selectedDB = db;
             EntityManagerService.setPersistenceMap(db.getDbPath() + File.separator + db.getDbName(), "facebookapp", "facebookapp");
             EntityManager manager = EntityManagerService.get().createEntityManager();
             if (manager != null) {
@@ -124,15 +160,15 @@ public class MainFXMLController implements Initializable {
     @FXML
     private void onChanged(ActionEvent event) {
         /*if (!((String) cmbDatabases.getValue()).equalsIgnoreCase(NO_DB_SELECTED)) {
-            EntityManagerService.clearDB();
-            DBProperty db = getSelectedDB((String) cmbDatabases.getValue());
-            EntityManagerService.setPersistenceMap(db.getDbPath() + File.separator + db.getDbName(), "facebookapp", "facebookapp");
-            EntityManager manager = EntityManagerService.get().createEntityManager();
-            if (manager != null) {
-                Dialogs.showInformationDialog((Stage) cmbDatabases.getScene().getWindow(), db.getDbName() + " adlı veritabanı seçildi!", "İşlem Başarılı", "Bilgi");
-            }
-            getNodesFromDB();
-        }*/
+         EntityManagerService.clearDB();
+         DBProperty db = getSelectedDB((String) cmbDatabases.getValue());
+         EntityManagerService.setPersistenceMap(db.getDbPath() + File.separator + db.getDbName(), "facebookapp", "facebookapp");
+         EntityManager manager = EntityManagerService.get().createEntityManager();
+         if (manager != null) {
+         Dialogs.showInformationDialog((Stage) cmbDatabases.getScene().getWindow(), db.getDbName() + " adlı veritabanı seçildi!", "İşlem Başarılı", "Bilgi");
+         }
+         getNodesFromDB();
+         }*/
     }
 
     private void getNodesFromDB() {
@@ -203,13 +239,13 @@ public class MainFXMLController implements Initializable {
                 cmbDBlst.add(list.get(i).getDbName());
             }
             cmbDatabases.setItems(FXCollections.observableList(cmbDBlst));
-        }else{
+        } else {
             cmbDatabases.setItems(FXCollections.observableList(cmbDBlst));
         }
 
         if (isInit) {
             cmbDatabases.getSelectionModel().selectFirst();
-        }else {
+        } else {
             cmbDatabases.getSelectionModel().selectLast();
         }
     }
