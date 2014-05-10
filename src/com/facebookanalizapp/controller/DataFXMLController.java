@@ -130,8 +130,8 @@ public class DataFXMLController implements Initializable {
 
     @FXML
     private void onEdit(ActionEvent event) {
-        String data = viewData.getSelectionModel().getSelectedItem().data.getValue();
-        System.out.println("value : " + data);
+        int index = viewData.getSelectionModel().getSelectedIndex();
+        //System.out.println("value : " + value);
 
         Parent parent = null;
         FXMLLoader fxmlLoader = null;
@@ -146,7 +146,7 @@ public class DataFXMLController implements Initializable {
         DataEditFXMLController controller
                 = fxmlLoader.<DataEditFXMLController>getController();
 
-        controller.initData(data);
+        controller.initData();// InitData Çağırılarak viewData'da seçili olan satır editorde gösterilir.
 
         Scene secondScene = new Scene(parent);
         Stage secondStage = new Stage();
