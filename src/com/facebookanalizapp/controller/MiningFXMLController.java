@@ -76,6 +76,13 @@ public class MiningFXMLController implements Initializable {
     ListView lstViewSelectedAttr;
     @FXML
     ListView lstViewAttrDB;
+    
+    @FXML
+    TextField KM_NAME;
+    @FXML
+    TextField KM_K;
+    @FXML
+    TextField KM_LOOP;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

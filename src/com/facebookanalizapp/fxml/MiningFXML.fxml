@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" minWidth="653.0" prefHeight="498.0" prefWidth="702.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.facebookanalizapp.controller.MiningFXMLController">
+<AnchorPane id="AnchorPane" minWidth="653.0" prefHeight="498.0" prefWidth="702.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.facebookanalizapp.controller.MiningFXMLController">
   <children>
     <AnchorPane minWidth="698.0" prefHeight="498.0" prefWidth="698.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
         <TitledPane animated="false" collapsible="false" ellipsisString="..." expanded="true" layoutX="0.0" layoutY="0.0" prefHeight="249.0" prefWidth="349.0" text="K-Means" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false">
           <content>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
-              <children>
-                <Button fx:id="btnKmeansSelect" layoutX="279.0" layoutY="195.0" mnemonicParsing="false" onAction="#onKMeansSelect" text="Tamam" />
+              <children><TextField fx:id="KM_NAME" layoutX="20.0" layoutY="64.5" />
+                <Button fx:id="btnKmeansSelect" layoutX="279.0" layoutY="195.0" mnemonicParsing="false" onAction="#onKMeansSelect" text="Tamam" /><Label layoutX="20.0" layoutY="44.0" text="İşlem İsmi:" /><Label layoutX="20.0" layoutY="98.0" text="K değeri:" /><TextField fx:id="KM_K" layoutX="20.0" layoutY="115.0" prefHeight="25.0" prefWidth="49.0" text="4" /><TextField fx:id="KM_LOOP" layoutX="120.0" layoutY="115.0" prefHeight="25.0" prefWidth="50.0" text="5" /><Label layoutX="120.0" layoutY="98.0" text="Döngü:" />
               </children>
             </AnchorPane>
           </content>
@@ -23,7 +21,7 @@
           <content>
             <AnchorPane prefHeight="222.0" prefWidth="349.0">
               <children>
-                <Button fx:id="btnScanSelect" layoutX="280.0" layoutY="194.0" mnemonicParsing="false" onAction="#onScanSelect" text="Tamam" />
+                <Button fx:id="btnScanSelect" disable="true" layoutX="280.0" layoutY="194.0" mnemonicParsing="false" onAction="#onScanSelect" text="Tamam" /><Label layoutX="108.5" layoutY="99.5" text="Coming in the next version" />
               </children>
             </AnchorPane>
           </content>
