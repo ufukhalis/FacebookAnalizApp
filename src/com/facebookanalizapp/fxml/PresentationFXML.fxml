@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
-<?import java.util.*?>
 <?import javafx.collections.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="61.0" prefWidth="263.0000999999975" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.facebookanalizapp.controller.PresentationFXMLController">
+<AnchorPane id="AnchorPane" prefHeight="61.0" prefWidth="263.0000999999975" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.facebookanalizapp.controller.PresentationFXMLController">
   <children>
     <AnchorPane prefHeight="61.0" prefWidth="263.0000999999975" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
-        <ComboBox fx:id="cmbPresentation" editable="false" layoutX="14.0" layoutY="24.0" prefHeight="21.0" prefWidth="104.0" promptText="" value="TABLO">
+        <ComboBox fx:id="cmbPresentation" editable="false" layoutX="16.0" layoutY="20.0" prefHeight="25.0" prefWidth="150.0" promptText="" value="TABLO">
           <items>
             <FXCollections fx:factory="observableArrayList">
               <String fx:value="TABLO" />
@@ -20,8 +18,7 @@
             </FXCollections>
           </items>
         </ComboBox>
-        <Button fx:id="btnSelect" layoutX="137.0" layoutY="24.0" mnemonicParsing="false" onAction="#onSelect" prefWidth="47.0" text="Seç" />
-        <Button fx:id="btnSave" layoutX="202.0" layoutY="24.0" mnemonicParsing="false" onAction="#onSave" text="Kaydet" />
+        <Button fx:id="btnSelect" layoutX="174.0" layoutY="20.0" mnemonicParsing="false" onAction="#onSelect" prefHeight="25.0" prefWidth="80.0" text="Seç" />
       </children>
     </AnchorPane>
   </children>
