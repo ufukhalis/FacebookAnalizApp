@@ -16,6 +16,7 @@ import com.facebookanalizapp.process.PropertyManager;
 import com.facebookanalizapp.ui.NodeUI;
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -63,7 +64,7 @@ public class MainFXMLController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
         //setNodeDragEvent();
-        refreshDatabasesList();
+        refreshDatabasesList(true);
     }
 
     public static MainFXMLController instance() {
@@ -78,6 +79,7 @@ public class MainFXMLController implements Initializable {
     @FXML
     private void onDelete(ActionEvent event) {
         EntityManagerService.close((String) cmbDatabases.getValue());
+        refreshDatabasesList(true);
     }
 
     @FXML
@@ -104,9 +106,9 @@ public class MainFXMLController implements Initializable {
     private void onActionDelete(ActionEvent event) {//Node db'den silme
 
     }
-
+    
     @FXML
-    private void onChanged(ActionEvent event) {
+    private void onSelectDB(ActionEvent event) {//DB Seçme işlemi
         if (!((String) cmbDatabases.getValue()).equalsIgnoreCase(NO_DB_SELECTED)) {
             EntityManagerService.clearDB();
             DBProperty db = getSelectedDB((String) cmbDatabases.getValue());
@@ -117,6 +119,20 @@ public class MainFXMLController implements Initializable {
             }
             getNodesFromDB();
         }
+    }
+
+    @FXML
+    private void onChanged(ActionEvent event) {
+        /*if (!((String) cmbDatabases.getValue()).equalsIgnoreCase(NO_DB_SELECTED)) {
+            EntityManagerService.clearDB();
+            DBProperty db = getSelectedDB((String) cmbDatabases.getValue());
+            EntityManagerService.setPersistenceMap(db.getDbPath() + File.separator + db.getDbName(), "facebookapp", "facebookapp");
+            EntityManager manager = EntityManagerService.get().createEntityManager();
+            if (manager != null) {
+                Dialogs.showInformationDialog((Stage) cmbDatabases.getScene().getWindow(), db.getDbName() + " adlı veritabanı seçildi!", "İşlem Başarılı", "Bilgi");
+            }
+            getNodesFromDB();
+        }*/
     }
 
     private void getNodesFromDB() {
@@ -177,17 +193,24 @@ public class MainFXMLController implements Initializable {
         scrollMain.setContent(pane);
     }
 
-    public void refreshDatabasesList() {
-        cmbDatabases.getItems().clear();
-        cmbDatabases.getItems().add(NO_DB_SELECTED);
-        cmbDatabases.getSelectionModel().selectFirst();
+    public void refreshDatabasesList(boolean isInit) {
+        List<String> cmbDBlst = new ArrayList<>();
+        cmbDBlst.add(NO_DB_SELECTED);
         list = PropertyManager.instance().getAllDatabasesFromPropertyFile();
         if (list != null && list.size() > 0) {
             for (int i = 0; i < list.size(); i++) {
-                cmbDatabases.getItems().add(list.get(i).getDbName());
+                //cmbDatabases.getItems().add(list.get(i).getDbName());
+                cmbDBlst.add(list.get(i).getDbName());
             }
-            //Liste boş olmadığından son db'yi aç yada son eklenen db
-            //cmbDatabases.getSelectionModel().selectLast();//Bu olmaz hacı
+            cmbDatabases.setItems(FXCollections.observableList(cmbDBlst));
+        }else{
+            cmbDatabases.setItems(FXCollections.observableList(cmbDBlst));
+        }
+
+        if (isInit) {
+            cmbDatabases.getSelectionModel().selectFirst();
+        }else {
+            cmbDatabases.getSelectionModel().selectLast();
         }
     }
 

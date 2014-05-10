@@ -50,6 +50,7 @@
                     <FXCollections fx:factory="observableArrayList" />
                   </items>
                 </ComboBox>
+                <Button fx:id="btnSelectDB" mnemonicParsing="false" onAction="#onSelectDB" text="Seç" />
                 <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#onAdd" text="Veritabanı Ekle" />
                 <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#onDelete" text="Veritabanı Sil" />
                 <Button fx:id="btnExport" mnemonicParsing="false" onAction="#onExport" text="Dışa Aktar" />

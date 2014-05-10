@@ -56,7 +56,7 @@ public class DatabaseFXMLController implements Initializable {
                 
                 Stage stage = (Stage) txtDBName.getScene().getWindow();
                 stage.close();
-                //MainFXMLController.instance().refreshDatabasesList(); //Bu sorun çıkartıyor!!
+                MainFXMLController.instance().refreshDatabasesList(false); //Bu sorun çıkartıyor!!
                 /*Dialogs.showInformationDialog((Stage) txtDBName.getScene().getWindow(), txtDBName.getText() + " adlı veritabanı başarılı şekilde oluşturuldu!",
                         "İşlem başarılı", "Bilgi");*/
             } else {
