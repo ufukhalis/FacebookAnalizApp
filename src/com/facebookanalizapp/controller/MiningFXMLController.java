@@ -124,7 +124,7 @@ public class MiningFXMLController implements Initializable {
         lstViewAttrDB.setItems(items);
 
         //Seçilen bir liste var ise seçilenler listesini doldur.
-        if (parentNode.getMining() != null) {
+        if (parentNode.getMining() != null && parentNode.getMining().getMininType() == 1) {
 
             Mining mng = parentNode.getMining();
             for (String selected : mng.getClusteringSelectedRulesList()) {
@@ -134,6 +134,15 @@ public class MiningFXMLController implements Initializable {
             lstViewAttrDB.getSelectionModel().clearSelection();
         }
 
+    }
+    
+    public void fillKmeansControls(){
+        if (parentNode.getMining() != null && parentNode.getMining().getMininType() == 2) {
+            Mining m = parentNode.getMining();
+            KM_NAME.setText(m.getName());
+            KM_K.setText(m.getK().toString());
+            KM_LOOP.setText(m.getLoop().toString());
+        }
     }
 
     /**
@@ -145,8 +154,9 @@ public class MiningFXMLController implements Initializable {
 
         Mining mining = new Mining();
         mining.setMininType(2);
-        mining.setName("Kmeans");//Dışardan alınacak şimdilik böyle
-
+        mining.setName(KM_NAME.getText());//Dışardan alınacak şimdilik böyle
+        mining.setK(Integer.parseInt(KM_K.getText()));
+        mining.setLoop(Integer.parseInt(KM_LOOP.getText()));
         parentNode.setMining(mining);
         String[][] attributeArray = null; //= createAttributeArray(parentNode.getData().getJsonDataList().size(), tempAttributeList.size());
 
@@ -164,7 +174,8 @@ public class MiningFXMLController implements Initializable {
         stage.show();
 
         CreateAttributeArray cr = new CreateAttributeArray(attributeArray, parentNode.getData().getJsonDataList().size(), tempAttributeList.size(), parentNode, tempAttributeList);
-        cr.setK(5);
+        cr.setK(mining.getK());
+        cr.setLoop(mining.getLoop());
         cr.setP(updProg);
         cr.execute();
 
@@ -249,12 +260,18 @@ class CreateAttributeArray extends SwingWorker<String[][], Integer> {
     Node parentNode;
     List<String> tempAttributeList;
     int k;
-
+    int loop;
     ProgressBar p;
 
     public void setP(ProgressBar p) {
         this.p = p;
     }
+
+    public void setLoop(int loop) {
+        this.loop = loop;
+    }
+    
+    
 
     public CreateAttributeArray(String[][] array, int personCount, int attributeCount, Node parentNode, List<String> list) {
         array = new String[personCount][attributeCount];
@@ -343,7 +360,7 @@ class CreateAttributeArray extends SwingWorker<String[][], Integer> {
         setNewCenters(kmeansList, newCenterValues, centers);
         //new center ended
         kmeansList = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < loop; i++) {
             for (int l = 0; l < personCount; l++) {
                 List<Double> result = new ArrayList<>();
                 for (int j = 0; j < centers.size(); j++) {
@@ -362,7 +379,7 @@ class CreateAttributeArray extends SwingWorker<String[][], Integer> {
             centers = new ArrayList<>();
             newCenterValues = new ArrayList<>();
             setNewCenters(kmeansList, newCenterValues, centers);
-            if (i != 4) {
+            if (i != loop - 1) {
                 kmeansList = new ArrayList<>();
             }
         }

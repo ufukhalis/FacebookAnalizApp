@@ -23,6 +23,10 @@ public class Mining {
     private Integer mininType;
 
     private String cosineArray;
+    
+    private Integer k;
+    
+    private Integer loop;
 
     private List<String> presentationData;
     
@@ -62,6 +66,24 @@ public class Mining {
     public List<String> getClusteringSelectedRulesList() {
         return clusteringSelectedRulesList;
     }
+
+    public void setK(Integer k) {
+        this.k = k;
+    }
+
+    public Integer getK() {
+        return k;
+    }
+
+    public void setLoop(Integer loop) {
+        this.loop = loop;
+    }
+
+    public Integer getLoop() {
+        return loop;
+    }
+    
+    
 
     public void calculateCosine(Data data) {
 

@@ -193,6 +193,7 @@ public class NodeUI extends Group {
                 FXMLTool.instance().openFXML("Veri Madenciliği Katmanı", "MiningFXML.fxml", false, 708, 522);
                 MiningFXMLController.instance().parentNode = parent;
                 MiningFXMLController.instance().fillAttributeList();
+                MiningFXMLController.instance().fillKmeansControls();
             }
         };
 
