@@ -13,12 +13,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author ufuk
  */
 @Entity
+@NamedQuery(name="ClusteringEntity.findAll", query="SELECT c FROM ClusteringEntity c")
 public class ClusteringEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -61,7 +63,8 @@ public class ClusteringEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.facebookanalizapp.entity.ClusteringEntity[ id=" + id + " ]";
+        //return "com.facebookanalizapp.entity.ClusteringEntity[ id=" + id + " ]";
+        return this.getName();
     }
 
     /**

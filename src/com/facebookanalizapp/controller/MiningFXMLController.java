@@ -6,11 +6,13 @@
 package com.facebookanalizapp.controller;
 
 import com.facebookanalizapp.db.DatabaseManager;
+import com.facebookanalizapp.entity.ClusteringEntity;
 import com.facebookanalizapp.entity.MiningEntity;
 import com.facebookanalizapp.mining.KMeans;
 import com.facebookanalizapp.process.JsonReader;
 import com.facebookanalizapp.process.Mining;
 import com.facebookanalizapp.process.Node;
+import com.facebookanalizapp.process.Utility;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -139,7 +141,7 @@ public class MiningFXMLController implements Initializable {
     }
     
     private void getDatasFromDB() {
-        DatabaseManager.instance().fillListViewFromDB(lstViewClusteringDB, MiningEntity.class, "MiningEntity.findAll");
+        DatabaseManager.instance().fillListViewFromDB(lstViewClusteringDB, ClusteringEntity.class, "ClusteringEntity.findAll");
     }
     
     public void fillKmeansControls(){
@@ -219,7 +221,13 @@ public class MiningFXMLController implements Initializable {
 
     @FXML
     private void onGetSelectedClustering(ActionEvent event) {
-
+        ClusteringEntity ce = (ClusteringEntity) lstViewClusteringDB.getSelectionModel().getSelectedItem();
+        String[] strLst = ce.getAttributeList().split(",");
+        List<String> lst = Arrays.asList(strLst);
+        List<String> temp = Utility.instance().getAttributeList(parentNode);
+        temp.removeAll(lst);
+        lstViewAttrDB.setItems(FXCollections.observableArrayList(temp));
+        lstViewSelectedAttr.setItems(FXCollections.observableArrayList(lst));
     }
 
     @FXML

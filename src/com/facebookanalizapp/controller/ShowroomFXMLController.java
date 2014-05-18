@@ -73,7 +73,7 @@ public class ShowroomFXMLController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         instance = this;
-        column.setCellValueFactory(
+        /*column.setCellValueFactory(
                 new PropertyValueFactory<PresentationData, String>("name")
         );
         column2.setCellValueFactory(
@@ -82,12 +82,13 @@ public class ShowroomFXMLController implements Initializable {
 
         column3.setCellValueFactory(
                 new PropertyValueFactory<PresentationData, String>("index")
-        );
+        );*/
+        setTableColumns(column, column2, column3);
 
         data = FXCollections.observableArrayList();
         tableView.setItems(data);
 
-        columnId.setCellValueFactory(
+        /*columnId.setCellValueFactory(
                 new PropertyValueFactory<PresentationData, String>("index")
         );
         columnInfo.setCellValueFactory(
@@ -96,12 +97,27 @@ public class ShowroomFXMLController implements Initializable {
 
         columnState.setCellValueFactory(
                 new PropertyValueFactory<PresentationData, String>("attribute")
-        );
+        );*/
+        setTableColumns(columnInfo, columnState, columnId);
 
         data2 = FXCollections.observableArrayList();
         tableView2.setItems(data2);
     }
 
+    private <T> void setTableColumns(TableColumn column1, TableColumn column2, TableColumn column3){
+        column1.setCellValueFactory(
+                new PropertyValueFactory<T, String>("name")
+        );
+        column2.setCellValueFactory(
+                new PropertyValueFactory<T, String>("attribute")
+        );
+
+        column3.setCellValueFactory(
+                new PropertyValueFactory<T, String>("index")
+        );
+
+    }
+    
     @FXML
     TableView<PresentationData> tableView;
 
