@@ -63,7 +63,8 @@ public class ExecutedRulesEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.facebookanalizapp.entity.ExecutedRulesEntity[ id=" + id + " ]";
+        //return "com.facebookanalizapp.entity.ExecutedRulesEntity[ id=" + id + " ]";
+        return this.getName();
     }
 
     /**

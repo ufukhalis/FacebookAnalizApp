@@ -7,10 +7,12 @@
 package com.facebookanalizapp.entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 /**
  *
@@ -25,6 +27,8 @@ public class ClusteringEntity implements Serializable {
 
     private String name;
     
+    @Lob
+    @Column()
     private String attributeList;
     
     public Long getId() {

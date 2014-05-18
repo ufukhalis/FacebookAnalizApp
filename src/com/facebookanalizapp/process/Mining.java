@@ -11,6 +11,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -137,7 +139,7 @@ public class Mining {
             }
 
         } catch (Exception e) {
-            System.out.println("Ex : " + e);
+            Logger.getLogger(Mining.class.getName()).log(Level.SEVERE, null, e);
         }
 
     }

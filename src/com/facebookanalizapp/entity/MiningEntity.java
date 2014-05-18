@@ -11,12 +11,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author ufuk
  */
 @Entity
+@NamedQuery(name="MiningEntity.findAll", query="SELECT m FROM MiningEntity m")
 public class MiningEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -28,6 +30,10 @@ public class MiningEntity implements Serializable {
     private Long cosineID;
     
     private Long clusteringID;
+    
+    private Integer k;
+    
+    private Integer loop;
     
     public Long getId() {
         return id;
@@ -61,7 +67,8 @@ public class MiningEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.facebookanalizapp.entity.MiningEntity[ id=" + id + " ]";
+        //return "com.facebookanalizapp.entity.MiningEntity[ id=" + id + " ]";
+        return this.getName();
     }
 
     /**
@@ -105,5 +112,23 @@ public class MiningEntity implements Serializable {
     public void setClusteringID(Long clusteringID) {
         this.clusteringID = clusteringID;
     }
+
+    public void setK(Integer k) {
+        this.k = k;
+    }
+
+    public Integer getK() {
+        return k;
+    }
+
+    public void setLoop(Integer loop) {
+        this.loop = loop;
+    }
+
+    public Integer getLoop() {
+        return loop;
+    }
+    
+    
     
 }

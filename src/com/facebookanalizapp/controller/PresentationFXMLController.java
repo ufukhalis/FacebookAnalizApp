@@ -5,14 +5,9 @@
  */
 package com.facebookanalizapp.controller;
 
-import com.facebookanalizapp.chart.BarChart;
-import com.facebookanalizapp.chart.Chart;
-import com.facebookanalizapp.chart.PieChart;
-import com.facebookanalizapp.chart.Table;
 import com.facebookanalizapp.process.Node;
 import com.facebookanalizapp.process.Presentation;
 import java.net.URL;
-import java.util.Collection;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

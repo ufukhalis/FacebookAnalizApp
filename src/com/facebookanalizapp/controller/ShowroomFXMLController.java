@@ -9,7 +9,6 @@ import com.facebookanalizapp.mining.KMeans;
 import com.facebookanalizapp.process.Node;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -18,9 +17,6 @@ import java.util.Set;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
@@ -229,11 +225,7 @@ public class ShowroomFXMLController implements Initializable {
 
         pieChartData = FXCollections.observableArrayList(list);
         
-        /*pieChartData
-         = FXCollections.observableArrayList(
-         new PieChart.Data(CLUSTERED + " ( " + (int) pieChartData.get(0).getPieValue() + " )", parentNode.getMining().getClusteringList().size()),
-         new PieChart.Data(NON_CLUSTERED + " ( " + (int) pieChartData.get(1).getPieValue() + " )", parentNode.getMining().getNonClusteringList().size()));
-         */
+        
         pieChart.setTitle("Pie Chart");
         pieChart.setData(pieChartData);
         pieChart.setLegendVisible(true);

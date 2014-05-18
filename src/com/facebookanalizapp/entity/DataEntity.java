@@ -75,7 +75,8 @@ public class DataEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.facebookanalizapp.entity.DataEntity[ id=" + id + " ]";
+        //return "com.facebookanalizapp.entity.DataEntity[ id=" + id + " ]";
+        return this.getName();
     }
     
 }

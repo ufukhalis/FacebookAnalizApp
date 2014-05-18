@@ -8,6 +8,8 @@ package com.facebookanalizapp.process;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -61,7 +63,7 @@ public class PropertyManager {
                 transformer.transform(source, result);
             }
         } catch (Exception e) {
-
+            Logger.getLogger(PropertyManager.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
@@ -91,6 +93,7 @@ public class PropertyManager {
             StreamResult result = new StreamResult(propertiesFile);
             transformer.transform(source, result);
         } catch (Exception e) {
+            Logger.getLogger(PropertyManager.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
@@ -121,6 +124,7 @@ public class PropertyManager {
             transformer.transform(source, result);
             return fullPath;
         } catch (Exception e) {
+            Logger.getLogger(PropertyManager.class.getName()).log(Level.SEVERE, null, e);
             return null;
         }
     }
@@ -147,7 +151,7 @@ public class PropertyManager {
             }
 
         } catch (Exception e) {
-
+            Logger.getLogger(PropertyManager.class.getName()).log(Level.SEVERE, null, e);
             return null;
         }
         return list;

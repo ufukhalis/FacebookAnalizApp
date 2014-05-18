@@ -5,7 +5,6 @@
  */
 package com.facebookanalizapp.entitymanager;
 
-import com.facebookanalizapp.controller.MainFXMLController;
 import com.facebookanalizapp.process.FileTool;
 import com.facebookanalizapp.process.PropertyManager;
 import java.sql.DriverManager;

@@ -6,10 +6,12 @@ import com.facebookanalizapp.controller.MiningFXMLController;
 import com.facebookanalizapp.controller.PresentationFXMLController;
 import com.facebookanalizapp.db.DatabaseManager;
 import com.facebookanalizapp.entity.ClusteringEntity;
+import com.facebookanalizapp.entity.CosineEntity;
 import com.facebookanalizapp.entity.DataEntity;
 import com.facebookanalizapp.entity.ExecutedRulesEntity;
 import com.facebookanalizapp.entity.MiningEntity;
 import com.facebookanalizapp.entity.PresentationEntity;
+import com.facebookanalizapp.mining.KMeans;
 import com.facebookanalizapp.process.FXMLTool;
 import com.facebookanalizapp.process.Node;
 import java.util.ArrayList;
@@ -53,6 +55,8 @@ public class NodeUI extends Group {
 
     public Node parent;
 
+    public Long nodeId = 0l;
+
     private final int RADIUS_START = 40;
     private final int RADIUS_END = 80;
 
@@ -93,9 +97,9 @@ public class NodeUI extends Group {
         content = this;
 
     }
-    private BranchButton branch1;
-    private BranchButton branch2;
-    private BranchButton branch3;
+    public BranchButton branch1;
+    public BranchButton branch2;
+    public BranchButton branch3;
 
     public BranchButton getBranch1() {
         return branch1;
@@ -108,8 +112,6 @@ public class NodeUI extends Group {
     public BranchButton getBranch3() {
         return branch3;
     }
-    
-    
 
     private Path Button1;
     private Path Button2;
@@ -246,49 +248,26 @@ public class NodeUI extends Group {
                     int result = JOptionPane.showOptionDialog(null, "Seçtiğiniz node için işlem seçiniz.", "İşlem Seçiniz", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, buttonOptions, buttonOptions[0]);
 
                     switch (result) {
-                        case 0://Kaydet
-                            /*System.out.println("Data : " + parent.getData().getJsonDataList().get(0));
-                            System.out.println("Mining : " + parent.getMining().getMininType());
-                            System.out.println("Presentation : " + parent.getPresentation().getName());*/
+                        case 0://Kaydetme ve güncelleme
+                            if (nodeId == 0) {
+                                saveNode();
+                            } else {
+                                ExecutedRulesEntity execNode = DatabaseManager.instance().find(ExecutedRulesEntity.class, nodeId);
+                                MiningEntity mEntity = DatabaseManager.instance().find(MiningEntity.class, execNode.getMiningID());
+                                CosineEntity cosEntity = DatabaseManager.instance().find(CosineEntity.class, mEntity.getCosineID());
+                                ClusteringEntity cEntity = DatabaseManager.instance().find(ClusteringEntity.class, mEntity.getCosineID());
 
-                            DataEntity dataEntity = new DataEntity();
-                            dataEntity.setName(parent.getData().getName());
-                            String raw = "";
-                            for (int i = 0; i < parent.getData().getJsonDataList().size(); i++) {
-                                raw += parent.getData().getJsonDataList().get(i) + "#";
+                                DatabaseManager.instance().removeEntity(DatabaseManager.instance().find(DataEntity.class, execNode.getDataID()));
+                                DatabaseManager.instance().removeEntity(cosEntity);
+                                DatabaseManager.instance().removeEntity(cEntity);
+                                DatabaseManager.instance().removeEntity(mEntity);
+                                DatabaseManager.instance().removeEntity(DatabaseManager.instance().find(PresentationEntity.class, execNode.getPresentationID()));
+                                DatabaseManager.instance().removeEntity(execNode);
+                                saveNode();
                             }
-                            dataEntity.setRawData(raw);
-                            dataEntity = (DataEntity) DatabaseManager.instance().saveEntity(dataEntity);
-                            
-                            ClusteringEntity clustEntity = new ClusteringEntity();
-                            clustEntity.setName(parent.getMining().getName());
-                            String rawAttribute = "";
-                            for (int i = 0; i < parent.getMining().getClusteringSelectedRulesList().size(); i++) {
-                                rawAttribute += parent.getMining().getClusteringSelectedRulesList().get(i) + ",";
-                            }
-                            clustEntity.setAttributeList(rawAttribute);
-                            
-                            clustEntity = (ClusteringEntity) DatabaseManager.instance().saveEntity(clustEntity);
-                            
-                            MiningEntity miningEntity = new MiningEntity();
-                            miningEntity.setName(parent.getMining().getName());
-                            miningEntity.setCosineID(parent.getMining().getCosineArray().isEmpty()?0:1l);//Şimdilik cosinearray boşsa sıfır doluysa cosineentity eklenir biz şimdilik 1 verdik
-                            miningEntity.setClusteringID(clustEntity.getId());
-                            
-                            miningEntity = DatabaseManager.instance().saveEntity(miningEntity);
-                            
-                            PresentationEntity presentEntity = new PresentationEntity();
-                            presentEntity.setChartType(parent.getPresentation().getChartType());
-                            presentEntity.setPresentationName(parent.getPresentation().getName());
-                            presentEntity = (PresentationEntity) DatabaseManager.instance().saveEntity(presentEntity);
-                            
-                            ExecutedRulesEntity ruleEntity = new ExecutedRulesEntity();
-                            ruleEntity.setDataID(dataEntity.getId());
-                            ruleEntity.setMiningID(miningEntity.getId());
-                            ruleEntity.setPresentationID(presentEntity.getId());
-                            ruleEntity.setName(parent.getName());
-                            DatabaseManager.instance().saveEntity(ruleEntity);
-                            
+
+                            MainFXMLController.instance().getNodesFromDB();
+
                             break;
                         case 1://Sil
                             MainFXMLController.instance().removeNodeFromPane(content);
@@ -297,17 +276,78 @@ public class NodeUI extends Group {
                             break;
                         default:
                     }
-                }else{
-                    if(parent.getData()!=null && parent.getMining()!=null && parent.getPresentation() !=null )
-                    parent.execute(parent);
-                    else
-                     Dialogs.showInformationDialog(null, 
-                    "Lütfen modüllerin bilgilerini kontrol ediniz. Ayarlanmamış modül ayarları bulunmaktadır!","Modül ayarları eksik!", "Uyarı");
+                } else {
+                    if (parent.getData() != null && parent.getMining() != null && parent.getPresentation() != null) {
+                        parent.execute(parent);
+                    } else {
+                        Dialogs.showInformationDialog(null,
+                                "Lütfen modüllerin bilgilerini kontrol ediniz. Ayarlanmamış modül ayarları bulunmaktadır!", "Modül ayarları eksik!", "Uyarı");
+                    }
                 }
             }
         });
 
         groupAdd();
+    }
+
+    private void saveNode() {
+        DataEntity dataEntity = new DataEntity();
+        dataEntity.setName(parent.getData().getName());
+        String raw = "";
+        for (int i = 0; i < parent.getData().getJsonDataList().size(); i++) {
+            raw += parent.getData().getJsonDataList().get(i) + "#";
+        }
+        dataEntity.setRawData(raw);
+        dataEntity = (DataEntity) DatabaseManager.instance().saveEntity(dataEntity);
+
+        ClusteringEntity clustEntity = new ClusteringEntity();
+        clustEntity.setName(parent.getMining().getName());
+        String rawAttribute = "";
+        for (int i = 0; i < parent.getMining().getClusteringSelectedRulesList().size(); i++) {
+            rawAttribute += parent.getMining().getClusteringSelectedRulesList().get(i) + ",";
+        }
+        clustEntity.setAttributeList(rawAttribute);
+
+        MiningEntity miningEntity = new MiningEntity();
+        if (parent.getMining().getMininType() == 1) {//clustering
+            clustEntity = (ClusteringEntity) DatabaseManager.instance().saveEntity(clustEntity);
+            miningEntity.setName(parent.getMining().getName());
+            miningEntity.setCosineID(0l);//Şimdilik cosinearray boşsa sıfır doluysa cosineentity eklenir biz şimdilik 1 verdik
+            miningEntity.setClusteringID(clustEntity.getId());
+            miningEntity.setK(0);
+            miningEntity.setLoop(0);
+        } else if (parent.getMining().getMininType() == 2) {//kmeans
+            String cosineArray = "";
+            for (KMeans kmeans : parent.getMining().getKmeansPresentationData()) {
+                cosineArray += kmeans.getPersonName() + "," + kmeans.getKmeansName() + "#";
+            }
+
+            CosineEntity cosineEntity = new CosineEntity();
+            cosineEntity.setMiningType(2);
+            cosineEntity.setValues(cosineArray);
+
+            cosineEntity = (CosineEntity) DatabaseManager.instance().saveEntity(cosineEntity);
+
+            miningEntity.setName(parent.getMining().getName());
+            miningEntity.setCosineID(cosineEntity.getId());//Şimdilik cosinearray boşsa sıfır doluysa cosineentity eklenir biz şimdilik 1 verdik
+            miningEntity.setClusteringID(0l);
+            miningEntity.setK(parent.getMining().getK());
+            miningEntity.setLoop(parent.getMining().getLoop());
+        }
+        miningEntity = DatabaseManager.instance().saveEntity(miningEntity);
+
+        PresentationEntity presentEntity = new PresentationEntity();
+        presentEntity.setChartType(parent.getPresentation().getChartType());
+        presentEntity.setPresentationName(parent.getPresentation().getName());
+        presentEntity = (PresentationEntity) DatabaseManager.instance().saveEntity(presentEntity);
+
+        ExecutedRulesEntity ruleEntity = new ExecutedRulesEntity();
+        ruleEntity.setDataID(dataEntity.getId());
+        ruleEntity.setMiningID(miningEntity.getId());
+        ruleEntity.setPresentationID(presentEntity.getId());
+        ruleEntity.setName(parent.getName());
+        ruleEntity = (ExecutedRulesEntity) DatabaseManager.instance().saveEntity(ruleEntity);
+        nodeId = ruleEntity.getId();
     }
 
     private void buttonColorEvents(final javafx.scene.shape.Shape btn, final Paint color, final Paint entered, final Paint pressed) {

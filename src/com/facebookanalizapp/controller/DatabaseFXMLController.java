@@ -7,7 +7,6 @@ package com.facebookanalizapp.controller;
 
 import com.facebookanalizapp.entitymanager.EntityManagerService;
 import com.facebookanalizapp.process.DBProperty;
-import com.facebookanalizapp.process.FXMLTool;
 import com.facebookanalizapp.process.PropertyManager;
 import java.io.File;
 import java.net.URL;

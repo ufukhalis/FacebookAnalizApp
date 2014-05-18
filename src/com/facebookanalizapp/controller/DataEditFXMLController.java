@@ -5,11 +5,8 @@
  */
 package com.facebookanalizapp.controller;
 
-import com.facebookanalizapp.process.JsonFormatter;
 import com.facebookanalizapp.process.JsonReader;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,7 +15,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Dialogs;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
-import org.json.JSONObject;
 
 /**
  * FXML Controller class

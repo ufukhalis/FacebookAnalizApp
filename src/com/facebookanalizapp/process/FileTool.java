@@ -7,6 +7,8 @@ package com.facebookanalizapp.process;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -32,7 +34,7 @@ public class FileTool {
             try {
                 delete(directory);
             } catch (Exception e) {
-                System.out.println("Error : " + e);
+                Logger.getLogger(FileTool.class.getName()).log(Level.SEVERE, null, e);
             }
         }
     }

@@ -7,10 +7,12 @@
 package com.facebookanalizapp.entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 /**
  *
@@ -23,7 +25,9 @@ public class CosineEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String values;
+    @Lob
+    @Column()
+    private String vals;
     
     private Integer miningType;
     
@@ -66,14 +70,14 @@ public class CosineEntity implements Serializable {
      * @return the values
      */
     public String getValues() {
-        return values;
+        return vals;
     }
 
     /**
      * @param values the values to set
      */
     public void setValues(String values) {
-        this.values = values;
+        this.vals = values;
     }
 
     /**

@@ -7,11 +7,8 @@ package com.facebookanalizapp.controller;
 
 import com.facebookanalizapp.db.DatabaseManager;
 import com.facebookanalizapp.entity.DataEntity;
-import com.facebookanalizapp.entity.ExecutedRulesEntity;
-import com.facebookanalizapp.entitymanager.EntityManagerService;
 import com.facebookanalizapp.process.Data;
 import com.facebookanalizapp.process.ExcelReader;
-import com.facebookanalizapp.process.FXMLTool;
 import com.facebookanalizapp.process.JsonReader;
 import com.facebookanalizapp.process.Node;
 import java.io.File;
@@ -31,8 +28,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -41,9 +36,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
 /**
  * FXML Controller class
@@ -161,8 +153,6 @@ public class DataFXMLController implements Initializable {
 
     @FXML
     private void onSave(ActionEvent event) {
-        /*DataEntity e = DatabaseManager.instance().find(DataEntity.class, 1l);
-         System.out.println("Value : " + e.getName());*/
         DataEntity dataEntity = DatabaseManager.instance().find(DataEntity.class, selectedDataId);
         dataEntity.setName(txtDataName.getText());
         String raw = "";
@@ -173,27 +163,6 @@ public class DataFXMLController implements Initializable {
         dataEntity.setRawData(raw);
         applyToParentNode();
         DatabaseManager.instance().updateEntity(DataEntity.class, dataEntity);
-
-        //EntityManager manager = EntityManagerService.get().createEntityManager();
-        //manager.getTransaction().begin();
-        /*DataEntity entity = new DataEntity();
-         entity.setName(txtDataName.getText());
-         String raw = "";
-         for (int i = 0; i < viewData.getItems().size(); i++) {
-         raw += viewData.getItems().get(i).getData() + "#";
-         }
-         entity.setRawData(raw);
-         DatabaseManager.instance().saveEntity(entity);*/
-        //manager.persist(entity);
-        //manager.getTransaction().commit();
-
-        /*Query q = manager.createQuery("select a from DataEntity a");
-         List<DataEntity> lstAd = q.getResultList();
-         for (DataEntity ad : lstAd) {
-         System.out.println("*********************************");
-         System.out.println(ad.getName());
-         System.out.println(ad.getRawData());
-         }*/
     }
 
     @FXML
@@ -216,7 +185,6 @@ public class DataFXMLController implements Initializable {
 
     @FXML
     private void onDeleteTable(ActionEvent event) {
-        //viewData.getItems().remove(viewData.getSelectionModel().getSelectedIndex());
         List items = new ArrayList(viewData.getSelectionModel().getSelectedItems());
         viewData.getItems().removeAll(items);
         viewData.getSelectionModel().clearSelection();
@@ -227,48 +195,12 @@ public class DataFXMLController implements Initializable {
 
     }
 
-    private void getDatasFromDB() {//Bu metod içeriği farklı yerlerde aynı şekil kullanılıyor tek bir metod haline getirilebilir.
-        if (EntityManagerService.emfInstance != null) {
-            List<DataEntity> lstAd = DatabaseManager.instance().getEntityList(DataEntity.class, "DataEntity.findAll");
-            if (lstAd != null && lstAd.size() > 0) {
-                lstViewData.setItems(FXCollections.observableList(lstAd));
-                lstViewData.setCellFactory(new Callback<ListView<DataEntity>, ListCell<DataEntity>>() {
-
-                    @Override
-                    public ListCell<DataEntity> call(ListView<DataEntity> p) {
-
-                        ListCell<DataEntity> cell = new ListCell<DataEntity>() {
-
-                            @Override
-                            protected void updateItem(DataEntity t, boolean bln) {
-                                super.updateItem(t, bln);
-                                if (t != null) {
-                                    setText(t.getName());
-                                }
-                            }
-
-                        };
-
-                        return cell;
-                    }
-                });
-                System.out.println("Data var!!");
-            } else {
-                System.out.println("Data yok!!");
-            }
-        }
+    private void getDatasFromDB() {
+        DatabaseManager.instance().fillListViewFromDB(lstViewData, DataEntity.class, "DataEntity.findAll");        
     }
 
     @FXML
     private void onApply(ActionEvent event) {
-        /*Data dataShare = new Data();
-         List<String> list = new ArrayList<>();
-         for (int i = 0; i < viewData.getItems().size(); i++) {
-         list.add(viewData.getItems().get(i).getData());
-         }
-         dataShare.setJsonDataList(list);
-         dataShare.setName(txtDataName.getText());
-         parentNode.setData(dataShare);*/
         applyToParentNode();
 
         String info = getTxtPath().getText();

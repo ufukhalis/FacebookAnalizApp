@@ -5,6 +5,8 @@
  */
 package com.facebookanalizapp.controller;
 
+import com.facebookanalizapp.db.DatabaseManager;
+import com.facebookanalizapp.entity.MiningEntity;
 import com.facebookanalizapp.mining.KMeans;
 import com.facebookanalizapp.process.JsonReader;
 import com.facebookanalizapp.process.Mining;
@@ -23,7 +25,6 @@ import java.util.Set;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -87,6 +88,7 @@ public class MiningFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
+        getDatasFromDB();
     }
 
     public List<String> tempAttributeList = null;
@@ -136,6 +138,10 @@ public class MiningFXMLController implements Initializable {
 
     }
     
+    private void getDatasFromDB() {
+        DatabaseManager.instance().fillListViewFromDB(lstViewClusteringDB, MiningEntity.class, "MiningEntity.findAll");
+    }
+    
     public void fillKmeansControls(){
         if (parentNode.getMining() != null && parentNode.getMining().getMininType() == 2) {
             Mining m = parentNode.getMining();
@@ -183,10 +189,6 @@ public class MiningFXMLController implements Initializable {
         parentNode.getNdUi().getBranch2().getLblInfo().textProperty().setValue("K-Means seçildi");
         
         closeWindow();
-    }
-
-    private void calculateKmeans(String[][] array) {
-
     }
 
     /**
