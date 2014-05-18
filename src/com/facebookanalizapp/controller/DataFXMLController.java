@@ -149,20 +149,32 @@ public class DataFXMLController implements Initializable {
         secondStage.show();
     }
 
-    private Long selectedDataId;
+    private Long selectedDataId = -1l;
 
     @FXML
     private void onSave(ActionEvent event) {
-        DataEntity dataEntity = DatabaseManager.instance().find(DataEntity.class, selectedDataId);
-        dataEntity.setName(txtDataName.getText());
         String raw = "";
         for (int i = 0; i < viewData.getItems().size(); i++) {
             raw += viewData.getItems().get(i).getData() + "#";
         }
         System.out.println("Raw : " + raw);
-        dataEntity.setRawData(raw);
-        applyToParentNode();
-        DatabaseManager.instance().updateEntity(DataEntity.class, dataEntity);
+        DataEntity dataEntity = null; 
+        if(selectedDataId != -1){
+            dataEntity = DatabaseManager.instance().find(DataEntity.class, selectedDataId);
+        }                
+        if (dataEntity != null) {
+            dataEntity.setName(txtDataName.getText());
+            dataEntity.setRawData(raw);
+            applyToParentNode();
+            DatabaseManager.instance().updateEntity(DataEntity.class, dataEntity);
+        } else {
+            dataEntity = new DataEntity();
+            dataEntity.setName(txtDataName.getText());
+            dataEntity.setRawData(raw);
+            applyToParentNode();
+            DatabaseManager.instance().saveEntity(dataEntity);
+        }
+        getDatasFromDB();
     }
 
     @FXML
@@ -196,7 +208,7 @@ public class DataFXMLController implements Initializable {
     }
 
     private void getDatasFromDB() {
-        DatabaseManager.instance().fillListViewFromDB(lstViewData, DataEntity.class, "DataEntity.findAll");        
+        DatabaseManager.instance().fillListViewFromDB(lstViewData, DataEntity.class, "DataEntity.findAll");
     }
 
     @FXML
