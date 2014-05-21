@@ -11,6 +11,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import javafx.scene.control.Dialogs;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 /**
  *
@@ -34,6 +37,14 @@ public class Utility {
         System.out.println("raw : " + raw);
         String[] list = raw.split(delimeter);
         return Arrays.asList(list);
+    }
+
+    public <T> String listToString(List<T> list, String delimeter) {
+        String str = "";
+        for (T t : list) {
+            str = str + t + delimeter;
+        }
+        return str;
     }
 
     public List<String> getAttributeList(Node parentNode) {
@@ -64,5 +75,14 @@ public class Utility {
         }
 
         return null;
+    }
+
+    public Boolean showWarningDialogIfTextEmpty(Stage s, TextField text, String string) {
+        if (text.getText().isEmpty() || text.getText().equalsIgnoreCase("")) {
+            Dialogs.showWarningDialog((Stage) s, string + " alanı boş bırakılamaz!",
+                    "Dikkat", "Uyarı");
+            return true;
+        }
+        return false;
     }
 }

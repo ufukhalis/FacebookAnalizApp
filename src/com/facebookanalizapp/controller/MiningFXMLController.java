@@ -8,6 +8,7 @@ package com.facebookanalizapp.controller;
 import com.facebookanalizapp.db.DatabaseManager;
 import com.facebookanalizapp.entity.ClusteringEntity;
 import com.facebookanalizapp.entity.MiningEntity;
+import com.facebookanalizapp.mining.Clustering;
 import com.facebookanalizapp.mining.KMeans;
 import com.facebookanalizapp.process.JsonReader;
 import com.facebookanalizapp.process.Mining;
@@ -79,7 +80,7 @@ public class MiningFXMLController implements Initializable {
     ListView lstViewSelectedAttr;
     @FXML
     ListView lstViewAttrDB;
-    
+
     @FXML
     TextField KM_NAME;
     @FXML
@@ -139,12 +140,12 @@ public class MiningFXMLController implements Initializable {
         }
 
     }
-    
+
     private void getDatasFromDB() {
         DatabaseManager.instance().fillListViewFromDB(lstViewClusteringDB, ClusteringEntity.class, "ClusteringEntity.findAll");
     }
-    
-    public void fillKmeansControls(){
+
+    public void fillKmeansControls() {
         if (parentNode.getMining() != null && parentNode.getMining().getMininType() == 2) {
             Mining m = parentNode.getMining();
             KM_NAME.setText(m.getName());
@@ -160,6 +161,10 @@ public class MiningFXMLController implements Initializable {
     @FXML
     private void onKMeansSelect(ActionEvent event) {
 
+        if (Utility.instance().showWarningDialogIfTextEmpty((Stage)KM_NAME.getScene().getWindow(), KM_NAME, "K-Means adı ")) {
+            return;
+        }
+        
         Mining mining = new Mining();
         mining.setMininType(2);
         mining.setName(KM_NAME.getText());//Dışardan alınacak şimdilik böyle
@@ -187,9 +192,8 @@ public class MiningFXMLController implements Initializable {
         cr.setP(updProg);
         cr.execute();
 
-        
         parentNode.getNdUi().getBranch2().getLblInfo().textProperty().setValue("K-Means seçildi");
-        
+
         closeWindow();
     }
 
@@ -204,6 +208,10 @@ public class MiningFXMLController implements Initializable {
 
     @FXML
     private void onClustSelect(ActionEvent event) {
+        if (Utility.instance().showWarningDialogIfTextEmpty((Stage) txtClusteringName.getScene().getWindow(), txtClusteringName, "Clustering Adı")) {
+            return;
+        }
+        
         Mining mining = new Mining();
         mining.setCosineArray("");
         mining.setMininType(1);
@@ -242,7 +250,13 @@ public class MiningFXMLController implements Initializable {
 
     @FXML
     private void onSaveClustering(ActionEvent event) {
-
+        if (!Utility.instance().showWarningDialogIfTextEmpty((Stage) txtClusteringName.getScene().getWindow(), txtClusteringName, "Clustering Adı")) {
+            ClusteringEntity ce = new ClusteringEntity();
+            ce.setName(txtClusteringName.getText());
+            ce.setAttributeList(Utility.instance().listToString(lstViewSelectedAttr.getItems(), ","));
+            DatabaseManager.instance().saveEntity(ce);
+            getDatasFromDB();
+        }
     }
 
     private void addListToList(ListView from, ListView to) {
@@ -280,8 +294,6 @@ class CreateAttributeArray extends SwingWorker<String[][], Integer> {
     public void setLoop(int loop) {
         this.loop = loop;
     }
-    
-    
 
     public CreateAttributeArray(String[][] array, int personCount, int attributeCount, Node parentNode, List<String> list) {
         array = new String[personCount][attributeCount];

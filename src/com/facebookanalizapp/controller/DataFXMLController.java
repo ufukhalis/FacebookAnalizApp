@@ -204,7 +204,9 @@ public class DataFXMLController implements Initializable {
 
     @FXML
     private void onDeleteDB(ActionEvent event) {
-
+        DataEntity e = (DataEntity) lstViewData.getSelectionModel().getSelectedItem();
+        DatabaseManager.instance().removeEntity(e);
+        getDatasFromDB();
     }
 
     private void getDatasFromDB() {

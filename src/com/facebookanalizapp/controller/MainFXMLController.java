@@ -150,6 +150,7 @@ public class MainFXMLController implements Initializable {
     @FXML
     private void onDelete(ActionEvent event) {
         EntityManagerService.close((String) cmbDatabases.getValue());
+        listViewNodes.getItems().clear();
         refreshDatabasesList(true);
     }
 
