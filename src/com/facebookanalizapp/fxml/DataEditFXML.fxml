@@ -11,8 +11,8 @@
     <AnchorPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
         <TextArea fx:id="txtEdit" prefHeight="346.0" prefWidth="600.0" wrapText="true" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-        <Button fx:id="btnSave" layoutX="451.0" layoutY="375.0" mnemonicParsing="false" onAction="#onSave" text="Kaydet" />
-        <Button fx:id="btnCancel" layoutX="519.0" layoutY="375.0" mnemonicParsing="false" onAction="#onCancel" prefWidth="57.0" text="İptal" />
+        <Button fx:id="btnSave" layoutX="451.0" layoutY="375.0" mnemonicParsing="false" onAction="#onSave" prefWidth="57.0" text="Save" />
+        <Button fx:id="btnCancel" layoutX="519.0" layoutY="375.0" mnemonicParsing="false" onAction="#onCancel" prefWidth="57.0" text="Cancel" />
       </children>
     </AnchorPane>
   </children>

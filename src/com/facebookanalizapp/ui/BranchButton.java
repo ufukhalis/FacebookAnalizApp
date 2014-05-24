@@ -5,8 +5,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.ArcToBuilder;
@@ -38,8 +36,8 @@ public class BranchButton extends Group {
     private Paint Fill;
     private Paint Stroke;
 
-    private String Title = "Başlık";
-    private String Info = "Bilgi";
+    private String Title = "Title";
+    private String Info = "Info";
 
     public BranchBehaviour OptionButtonBehaviour = null;
 
@@ -158,7 +156,6 @@ public class BranchButton extends Group {
         this.getChildren().add(lblTitle);
 
         Button chck = new Button("Ayarla");
-        //chck.getStylesheets().add("/css/JMetroLightTheme.css");
         chck.relocate(x1 + 100, y1 + 40);
         this.getChildren().add(chck);
 
@@ -167,22 +164,6 @@ public class BranchButton extends Group {
         lblInfo.setTextFill(Color.web("#fff"));
         lblInfo.relocate(x1 + 90, y1 + 70);
         this.getChildren().add(lblInfo);
-
-        /*Image img1 = new Image("images/ok.png");
-         Image img2 = new Image("images/cancel.png");
-        
-         ImageView dataImg = new ImageView(img1);
-         dataImg.setFitHeight(16);
-         dataImg.setFitWidth(16);
-         ImageView dataImg2 = new ImageView(img2);
-         dataImg2.setFitHeight(16);
-         dataImg2.setFitWidth(16);
-        
-         dataImg.relocate(x1+80, y1+90);
-         dataImg2.relocate(x1+100, y1+90);
-        
-         this.getChildren().add(dataImg);
-         this.getChildren().add(dataImg2);*/
         chck.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {

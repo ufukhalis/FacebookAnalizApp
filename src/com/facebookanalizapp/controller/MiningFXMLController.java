@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.facebookanalizapp.controller;
 
 import com.facebookanalizapp.db.DatabaseManager;
 import com.facebookanalizapp.entity.ClusteringEntity;
-import com.facebookanalizapp.entity.MiningEntity;
-import com.facebookanalizapp.mining.Clustering;
 import com.facebookanalizapp.mining.KMeans;
 import com.facebookanalizapp.process.JsonReader;
 import com.facebookanalizapp.process.Mining;
@@ -161,7 +155,7 @@ public class MiningFXMLController implements Initializable {
     @FXML
     private void onKMeansSelect(ActionEvent event) {
 
-        if (Utility.instance().showWarningDialogIfTextEmpty((Stage)KM_NAME.getScene().getWindow(), KM_NAME, "K-Means adı ")) {
+        if (Utility.instance().showWarningDialogIfTextEmpty((Stage)KM_NAME.getScene().getWindow(), KM_NAME, "K-Means name ")) {
             return;
         }
         
@@ -183,7 +177,7 @@ public class MiningFXMLController implements Initializable {
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setResizable(false);
         stage.setScene(new Scene(layout));
-        stage.setTitle("İşleniyor...");
+        stage.setTitle("Processing...");
         stage.show();
 
         CreateAttributeArray cr = new CreateAttributeArray(attributeArray, parentNode.getData().getJsonDataList().size(), tempAttributeList.size(), parentNode, tempAttributeList);
@@ -192,7 +186,7 @@ public class MiningFXMLController implements Initializable {
         cr.setP(updProg);
         cr.execute();
 
-        parentNode.getNdUi().getBranch2().getLblInfo().textProperty().setValue("K-Means seçildi");
+        parentNode.getNdUi().getBranch2().getLblInfo().textProperty().setValue("K-Means selected");
 
         closeWindow();
     }
@@ -208,7 +202,7 @@ public class MiningFXMLController implements Initializable {
 
     @FXML
     private void onClustSelect(ActionEvent event) {
-        if (Utility.instance().showWarningDialogIfTextEmpty((Stage) txtClusteringName.getScene().getWindow(), txtClusteringName, "Clustering Adı")) {
+        if (Utility.instance().showWarningDialogIfTextEmpty((Stage) txtClusteringName.getScene().getWindow(), txtClusteringName, "Grouping Name")) {
             return;
         }
         
@@ -223,7 +217,7 @@ public class MiningFXMLController implements Initializable {
         }
 
         parentNode.setMining(mining);
-        parentNode.getNdUi().getBranch2().getLblInfo().textProperty().setValue("Clustering seçildi");
+        parentNode.getNdUi().getBranch2().getLblInfo().textProperty().setValue("Grouping Selected");
         closeWindow();
     }
 
@@ -266,7 +260,7 @@ public class MiningFXMLController implements Initializable {
             to.getItems().add(selected);
             from.getSelectionModel().clearSelection();
         } catch (Exception e) {
-            Dialogs.showErrorDialog(null, "Bir seçim yapmadınız!!");
+            Dialogs.showErrorDialog(null, "Selection did not!!");
         }
     }
 

@@ -26,8 +26,8 @@
                       <bottom>
                         <FlowPane prefHeight="21.0" prefWidth="145.0">
                           <children>
-                            <Button fx:id="btnDeleteNode" mnemonicParsing="false" onAction="#onActionDelete" prefWidth="74.00009999999747" text="Sil" />
-                            <Button fx:id="btnAddNode" mnemonicParsing="false" onAction="#onAddAction" prefWidth="70.0" text="Ekle" />
+                            <Button fx:id="btnDeleteNode" mnemonicParsing="false" onAction="#onActionDelete" prefWidth="74.00009999999747" text="Delete" />
+                            <Button fx:id="btnAddNode" mnemonicParsing="false" onAction="#onAddAction" prefWidth="70.0" text="Add" />
                           </children>
                         </FlowPane>
                       </bottom>
@@ -50,11 +50,11 @@
                     <FXCollections fx:factory="observableArrayList" />
                   </items>
                 </ComboBox>
-                <Button fx:id="btnSelectDB" mnemonicParsing="false" onAction="#onSelectDB" text="Seç" />
-                <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#onAdd" text="Veritabanı Ekle" />
-                <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#onDelete" text="Veritabanı Sil" />
-                <Button fx:id="btnExport" mnemonicParsing="false" onAction="#onExport" text="Dışa Aktar" />
-                <Button fx:id="btnImport" mnemonicParsing="false" onAction="#onImport" text="İçe Aktar" />
+                <Button fx:id="btnSelectDB" mnemonicParsing="false" onAction="#onSelectDB" text="Select" />
+                <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#onAdd" text="Create Database" />
+                <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#onDelete" text="Delete Database" />
+                <Button fx:id="btnExport" mnemonicParsing="false" onAction="#onExport" text="Export" />
+                <Button fx:id="btnImport" mnemonicParsing="false" onAction="#onImport" text="Import" />
               </items>
             </ToolBar>
           </top>

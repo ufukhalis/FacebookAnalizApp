@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.facebookanalizapp.controller;
 
 import com.facebookanalizapp.db.DatabaseManager;
@@ -144,7 +140,7 @@ public class MainFXMLController implements Initializable {
 
     @FXML
     private void onAdd(ActionEvent event) {
-        FXMLTool.instance().openFXML("Veritabanı Ekle", "DatabaseFXML.fxml", false);
+        FXMLTool.instance().openFXML("Create Database", "DatabaseFXML.fxml", false);
     }
 
     @FXML
@@ -163,8 +159,8 @@ public class MainFXMLController implements Initializable {
             File source = new File(selectedDB.getDbPath() + File.separator + selectedDB.getDbName());
             File desc = new File(file.getPath() + File.separator + selectedDB.getDbName());
             System.out.println("Dest : " + file.getPath());
-            Dialogs.showInformationDialog((Stage) cmbDatabases.getScene().getWindow(), "Export işlemi başarılı şekilde tamamlandı!",
-                    "İşlem başarılı", "Bilgi");
+            Dialogs.showInformationDialog((Stage) cmbDatabases.getScene().getWindow(), "Export operation has completed successfully!",
+                    "The operation was successful", "Info");
             try {
                 FileUtils.copyDirectory(source, desc);
             } catch (IOException e) {
@@ -197,7 +193,7 @@ public class MainFXMLController implements Initializable {
 
     @FXML
     private void onAddAction(ActionEvent event) {//Node ekleme
-        String nodeName = Dialogs.showInputDialog(null, "Node ismi :", "Oluşturacağınız Node'un ismini giriniz.", "Kayıt Ekranı");
+        String nodeName = Dialogs.showInputDialog(null, "Node name :", "Enter the name you will create Node.", "Create Node");
         if (!nodeName.trim().isEmpty()) {
             Node node = new Node(nodeName, 150, 150);
             pane.getChildren().add(node.getNdUi());
@@ -232,7 +228,7 @@ public class MainFXMLController implements Initializable {
             EntityManagerService.setPersistenceMap(db.getDbPath() + File.separator + db.getDbName(), "facebookapp", "facebookapp");
             EntityManager manager = EntityManagerService.get().createEntityManager();
             if (manager != null) {
-                Dialogs.showInformationDialog((Stage) cmbDatabases.getScene().getWindow(), db.getDbName() + " adlı veritabanı seçildi!", "İşlem Başarılı", "Bilgi");
+                Dialogs.showInformationDialog((Stage) cmbDatabases.getScene().getWindow(), db.getDbName() + " database was selected!", "Operation Successful", "Info");
             }
             getNodesFromDB();
         }

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.facebookanalizapp.process;
 
 import java.util.ArrayList;
@@ -79,8 +75,8 @@ public class Utility {
 
     public Boolean showWarningDialogIfTextEmpty(Stage s, TextField text, String string) {
         if (text.getText().isEmpty() || text.getText().equalsIgnoreCase("")) {
-            Dialogs.showWarningDialog((Stage) s, string + " alanı boş bırakılamaz!",
-                    "Dikkat", "Uyarı");
+            Dialogs.showWarningDialog((Stage) s, string + " field can not be empty!",
+                    "Attention", "Warning");
             return true;
         }
         return false;

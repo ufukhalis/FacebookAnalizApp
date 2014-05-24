@@ -43,7 +43,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import javax.swing.JOptionPane;
 
@@ -174,15 +173,15 @@ public class NodeUI extends Group {
         branch2 = new BranchButton(Color.rgb(109, 217, 0), Color.rgb(109, 217, 0));
         branch3 = new BranchButton(Color.rgb(0, 178, 178), Color.rgb(0, 178, 178));
 
-        branch1.setTitle("Veri");
-        branch2.setTitle("Veri Madenciliği");
-        branch3.setTitle("Sunum");
+        branch1.setTitle("Data");
+        branch2.setTitle("Data Mining");
+        branch3.setTitle("Presentation");
 
         branch1.OptionButtonBehaviour = new BranchBehaviour() {
 
             @Override
             public void Behaviour() {
-                FXMLTool.instance().openFXML("Veri Seçme Katmanı", "DataFXML.fxml", false);
+                FXMLTool.instance().openFXML("Selecting Data Layer", "DataFXML.fxml", false);
                 DataFXMLController.instance().parentNode = parent;
                 DataFXMLController.instance().refreshTable();
             }
@@ -192,7 +191,7 @@ public class NodeUI extends Group {
 
             @Override
             public void Behaviour() {
-                FXMLTool.instance().openFXML("Veri Madenciliği Katmanı", "MiningFXML.fxml", false, 708, 522);
+                FXMLTool.instance().openFXML("Data Mining Layer", "MiningFXML.fxml", false, 708, 522);
                 MiningFXMLController.instance().parentNode = parent;
                 MiningFXMLController.instance().fillAttributeList();
                 MiningFXMLController.instance().fillKmeansControls();
@@ -203,7 +202,7 @@ public class NodeUI extends Group {
 
             @Override
             public void Behaviour() {
-                FXMLTool.instance().openFXML("Sunum Katmanı", "PresentationFXML.fxml", false);
+                FXMLTool.instance().openFXML("Presentation Layer", "PresentationFXML.fxml", false);
                 PresentationFXMLController.instance().parentNode = parent;
                 PresentationFXMLController.instance().setSelectedChartType();
 
@@ -243,9 +242,9 @@ public class NodeUI extends Group {
             public void handle(MouseEvent t) {
 
                 if (t.getButton() == MouseButton.SECONDARY) {
-                    String[] buttonOptions = new String[]{"Kaydet", "Kaldır", "İptal"};
+                    String[] buttonOptions = new String[]{"Save", "Remove", "Cancel"};
 
-                    int result = JOptionPane.showOptionDialog(null, "Seçtiğiniz node için işlem seçiniz.", "İşlem Seçiniz", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, buttonOptions, buttonOptions[0]);
+                    int result = JOptionPane.showOptionDialog(null, "Select the node chosen for the process.", "Select Operations", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, buttonOptions, buttonOptions[0]);
 
                     switch (result) {
                         case 0://Kaydetme ve güncelleme
@@ -281,7 +280,7 @@ public class NodeUI extends Group {
                         parent.execute(parent);
                     } else {
                         Dialogs.showInformationDialog(null,
-                                "Lütfen modüllerin bilgilerini kontrol ediniz. Ayarlanmamış modül ayarları bulunmaktadır!", "Modül ayarları eksik!", "Uyarı");
+                                "Please check the details of the modules. Module settings are not set!", "Module settings missing!", "Warning");
                     }
                 }
             }
@@ -474,13 +473,13 @@ public class NodeUI extends Group {
         playImg.relocate(-13, -16);
 
         Tooltip tp1 = new Tooltip();
-        tp1.setText("Veri Bloğu");
+        tp1.setText("Data Block");
 
         Tooltip tp2 = new Tooltip();
-        tp2.setText("Veri Madenciliği Bloğu");
+        tp2.setText("Data Mining Block");
 
         Tooltip tp3 = new Tooltip();
-        tp3.setText("Sunum Bloğu");
+        tp3.setText("Presentation Block");
 
         Tooltip.install(Button1, tp1);
         Tooltip.install(Button2, tp2);
@@ -692,13 +691,6 @@ public class NodeUI extends Group {
 
             fiveSecondsWonder.setCycleCount(branchButtonWidth);
             fiveSecondsWonder.play();
-            //BranchButton Animasyonu bittiğinde button açılacak
-           /* fiveSecondsWonder.setOnFinished(new EventHandler<ActionEvent>() {
-             @Override
-             public void handle(ActionEvent t) {
-
-             }
-             });*/
         }
     }
 }

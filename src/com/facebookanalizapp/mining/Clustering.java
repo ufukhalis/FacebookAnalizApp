@@ -28,7 +28,4 @@ public class Clustering {
         return clustering;
     }
     
-    private void generateClustering(String ruleList, Data jsonData){
-        
-    }
 }

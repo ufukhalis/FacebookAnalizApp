@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.facebookanalizapp.controller;
 
 import com.facebookanalizapp.process.JsonReader;
@@ -53,7 +49,7 @@ public class DataEditFXMLController implements Initializable {
             onCancel(event);
         }else{
              Dialogs.showWarningDialog(null, 
-                    "Json format yapısında düzenlemeler sırasında bozulma tespit edilmiştir.Bundan dolayı kayıt edilememektedir.","Json formatında bozulma!", "Uyarı");
+                    "Invalid Json format. Please check your edit.","Invalid Json Format!", "Warning");
         }
         
     }

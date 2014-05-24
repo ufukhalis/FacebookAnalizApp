@@ -5,7 +5,6 @@
  */
 package com.facebookanalizapp.mining;
 
-import java.util.List;
 
 /**
  *

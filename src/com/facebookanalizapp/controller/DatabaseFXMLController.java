@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.facebookanalizapp.controller;
 
 import com.facebookanalizapp.entitymanager.EntityManagerService;
@@ -63,8 +59,8 @@ public class DatabaseFXMLController implements Initializable {
                         "Bir hata ile karşılaşıldı", "Hata", new Exception());*/
             }
         } else {
-            Dialogs.showWarningDialog((Stage) txtDBName.getScene().getWindow(), "Boş alanlar olmamalı!.\nVeritabanı adı aynı olmamalı!",
-                    "Lütfen bilgileri kontrol ediniz", "Uyarı");
+            Dialogs.showWarningDialog((Stage) txtDBName.getScene().getWindow(), "Empty spaces should not be!.\nThe database name can not be same!",
+                    "Please check details", "Warning");
         }
     }
 

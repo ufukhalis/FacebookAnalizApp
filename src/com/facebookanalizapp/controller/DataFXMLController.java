@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.facebookanalizapp.controller;
 
 import com.facebookanalizapp.db.DatabaseManager;
@@ -142,7 +138,7 @@ public class DataFXMLController implements Initializable {
 
         Scene secondScene = new Scene(parent);
         Stage secondStage = new Stage();
-        secondStage.setTitle("Veri Düzenle");
+        secondStage.setTitle("Edit Data");
         secondStage.setScene(secondScene);
         secondStage.setResizable(false);
 

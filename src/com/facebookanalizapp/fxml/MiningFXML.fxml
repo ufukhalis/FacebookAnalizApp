@@ -4,15 +4,21 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" minWidth="653.0" prefHeight="498.0" prefWidth="702.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.facebookanalizapp.controller.MiningFXMLController">
+<AnchorPane id="AnchorPane" minWidth="653.0" prefHeight="498.0" prefWidth="702.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.facebookanalizapp.controller.MiningFXMLController">
   <children>
     <AnchorPane minWidth="698.0" prefHeight="498.0" prefWidth="698.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
         <TitledPane animated="false" collapsible="false" ellipsisString="..." expanded="true" layoutX="0.0" layoutY="0.0" prefHeight="249.0" prefWidth="349.0" text="K-Means" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false">
           <content>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
-              <children><TextField fx:id="KM_NAME" layoutX="20.0" layoutY="64.5" />
-                <Button fx:id="btnKmeansSelect" layoutX="279.0" layoutY="195.0" mnemonicParsing="false" onAction="#onKMeansSelect" text="Tamam" /><Label layoutX="20.0" layoutY="44.0" text="İşlem İsmi:" /><Label layoutX="20.0" layoutY="98.0" text="K değeri:" /><TextField fx:id="KM_K" layoutX="20.0" layoutY="115.0" prefHeight="25.0" prefWidth="49.0" text="4" /><TextField fx:id="KM_LOOP" layoutX="120.0" layoutY="115.0" prefHeight="25.0" prefWidth="50.0" text="5" /><Label layoutX="120.0" layoutY="98.0" text="Döngü:" />
+              <children>
+                <TextField fx:id="KM_NAME" layoutX="20.0" layoutY="64.5" />
+                <Button fx:id="btnKmeansSelect" layoutX="279.0" layoutY="195.0" mnemonicParsing="false" onAction="#onKMeansSelect" text="Done" />
+                <Label layoutX="20.0" layoutY="44.0" text="Kmeans Name:" />
+                <Label layoutX="20.0" layoutY="98.0" text="K Value:" />
+                <TextField fx:id="KM_K" layoutX="20.0" layoutY="115.0" prefHeight="25.0" prefWidth="49.0" text="4" />
+                <TextField fx:id="KM_LOOP" layoutX="120.0" layoutY="115.0" prefHeight="25.0" prefWidth="50.0" text="5" />
+                <Label layoutX="120.0" layoutY="98.0" text="Loop:" />
               </children>
             </AnchorPane>
           </content>
@@ -21,24 +27,25 @@
           <content>
             <AnchorPane prefHeight="222.0" prefWidth="349.0">
               <children>
-                <Button fx:id="btnScanSelect" disable="true" layoutX="280.0" layoutY="194.0" mnemonicParsing="false" onAction="#onScanSelect" text="Tamam" /><Label layoutX="108.5" layoutY="99.5" text="Coming in the next version" />
+                <Button fx:id="btnScanSelect" disable="true" layoutX="280.0" layoutY="194.0" mnemonicParsing="false" onAction="#onScanSelect" text="Done" />
+                <Label layoutX="108.5" layoutY="99.5" text="Coming in the next version" />
               </children>
             </AnchorPane>
           </content>
         </TitledPane>
-        <TitledPane animated="false" collapsible="false" layoutX="0.0" layoutY="249.0" prefHeight="248.0" prefWidth="698.0" text="Clustering">
+        <TitledPane animated="false" collapsible="false" layoutX="0.0" layoutY="249.0" prefHeight="248.0" prefWidth="698.0" text="Grouping">
           <content>
             <AnchorPane prefHeight="267.0" prefWidth="698.0">
               <children>
-                <Button id="btnClusteringSelect" fx:id="btnClustSelect" layoutX="628.0" layoutY="195.0" mnemonicParsing="false" onAction="#onClustSelect" text="Tamam" />
-                <TextField fx:id="txtClusteringName" layoutX="14.0" layoutY="14.0" prefWidth="110.0" promptText="Clustering Adı" />
+                <Button id="btnClusteringSelect" fx:id="btnClustSelect" layoutX="628.0" layoutY="195.0" mnemonicParsing="false" onAction="#onClustSelect" text="Done" />
+                <TextField fx:id="txtClusteringName" layoutX="14.0" layoutY="14.0" prefWidth="110.0" promptText="Grouping Name" />
                 <ListView fx:id="lstViewClusteringDB" layoutX="14.0" layoutY="58.0" prefHeight="154.0" prefWidth="110.0" />
-                <Button fx:id="btnGetSelectedClustering" layoutX="137.0" layoutY="192.0" mnemonicParsing="false" onAction="#onGetSelectedClustering" prefWidth="57.0" text="Getir" />
+                <Button fx:id="btnGetSelectedClustering" layoutX="137.0" layoutY="192.0" mnemonicParsing="false" onAction="#onGetSelectedClustering" prefWidth="45.0" text="Get" />
                 <ListView fx:id="lstViewSelectedAttr" layoutX="436.0" layoutY="14.0" prefHeight="164.0" prefWidth="168.0" />
                 <ListView fx:id="lstViewAttrDB" layoutX="208.0" layoutY="14.0" prefHeight="164.0" prefWidth="168.0" />
                 <Button fx:id="btnRemove" layoutX="387.0" layoutY="43.0" mnemonicParsing="false" onAction="#onRemove" text="&lt;&lt;" />
                 <Button fx:id="btnAdd" layoutX="387.0" layoutY="126.0" mnemonicParsing="false" onAction="#onAdd" text="&gt;&gt;" />
-                <Button fx:id="btnSaveClustering" layoutX="137.0" layoutY="157.0" mnemonicParsing="false" onAction="#onSaveClustering" text="Kaydet" />
+                <Button fx:id="btnSaveClustering" layoutX="137.0" layoutY="157.0" mnemonicParsing="false" onAction="#onSaveClustering" text="Save" />
               </children>
             </AnchorPane>
           </content>

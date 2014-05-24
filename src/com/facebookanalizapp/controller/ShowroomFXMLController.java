@@ -73,31 +73,10 @@ public class ShowroomFXMLController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         instance = this;
-        /*column.setCellValueFactory(
-                new PropertyValueFactory<PresentationData, String>("name")
-        );
-        column2.setCellValueFactory(
-                new PropertyValueFactory<PresentationData, String>("attribute")
-        );
-
-        column3.setCellValueFactory(
-                new PropertyValueFactory<PresentationData, String>("index")
-        );*/
         setTableColumns(column, column2, column3);
 
         data = FXCollections.observableArrayList();
         tableView.setItems(data);
-
-        /*columnId.setCellValueFactory(
-                new PropertyValueFactory<PresentationData, String>("index")
-        );
-        columnInfo.setCellValueFactory(
-                new PropertyValueFactory<PresentationData, String>("name")
-        );
-
-        columnState.setCellValueFactory(
-                new PropertyValueFactory<PresentationData, String>("attribute")
-        );*/
         setTableColumns(columnInfo, columnState, columnId);
 
         data2 = FXCollections.observableArrayList();
@@ -265,8 +244,8 @@ public class ShowroomFXMLController implements Initializable {
 
         fillNonClusteringTable();
 
-        accordion1.setText("Clustered " + parentNode.getMining().getClusteringSelectedRulesList().toString());
-        accordion2.setText("Non Clustered");
+        accordion1.setText("Grouped " + parentNode.getMining().getClusteringSelectedRulesList().toString());
+        accordion2.setText("Non Grouped");
     }
 
     private void fillNonClusteringTable() {
