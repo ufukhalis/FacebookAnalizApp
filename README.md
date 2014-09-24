@@ -1,4 +1,4 @@
-FacebookAnalizApp
+Facebook Analysis AppFX
 =================
 
 This is a graduation project.
