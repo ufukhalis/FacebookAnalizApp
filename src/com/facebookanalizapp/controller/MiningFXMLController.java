@@ -27,7 +27,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Dialogs;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
@@ -36,6 +35,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javax.swing.SwingWorker;
+import org.controlsfx.dialog.Dialogs;
 
 /**
  * FXML Controller class
@@ -260,7 +260,8 @@ public class MiningFXMLController implements Initializable {
             to.getItems().add(selected);
             from.getSelectionModel().clearSelection();
         } catch (Exception e) {
-            Dialogs.showErrorDialog(null, "Selection did not!!");
+             Dialogs.create().owner(lstViewSelectedAttr).
+                        title("Error").message("Selection did not!!").showError();
         }
     }
 

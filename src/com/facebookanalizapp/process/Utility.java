@@ -1,4 +1,3 @@
-
 package com.facebookanalizapp.process;
 
 import java.util.ArrayList;
@@ -7,9 +6,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import javafx.scene.control.Dialogs;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.controlsfx.dialog.Dialogs;
 
 /**
  *
@@ -49,12 +48,10 @@ public class Utility {
 
             JsonReader jr = new JsonReader();
             for (String object : parentNode.getData().getJsonDataList()) {
-                //System.out.println("value : " + object);
                 List<String> tempList = jr.getPersonLikes(object);
                 if (tempList != null) {
                     for (String string : jr.getPersonLikes(object)) {
                         setAttrList.add(string);
-                        //System.out.println("value : " + string);
                     }
                 }
 
@@ -75,8 +72,8 @@ public class Utility {
 
     public Boolean showWarningDialogIfTextEmpty(Stage s, TextField text, String string) {
         if (text.getText().isEmpty() || text.getText().equalsIgnoreCase("")) {
-            Dialogs.showWarningDialog((Stage) s, string + " field can not be empty!",
-                    "Attention", "Warning");
+            Dialogs.create().owner(text).
+                    title("Warning").message(string + " field can not be empty!").showWarning();
             return true;
         }
         return false;

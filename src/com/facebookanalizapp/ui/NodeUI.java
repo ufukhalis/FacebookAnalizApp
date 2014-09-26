@@ -22,7 +22,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.control.Dialogs;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -45,6 +44,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javax.swing.JOptionPane;
+import org.controlsfx.dialog.Dialogs;
 
 /**
  *
@@ -279,8 +279,8 @@ public class NodeUI extends Group {
                     if (parent.getData() != null && parent.getMining() != null && parent.getPresentation() != null) {
                         parent.execute(parent);
                     } else {
-                        Dialogs.showInformationDialog(null,
-                                "Please check the details of the modules. Module settings are not set!", "Module settings missing!", "Warning");
+                        Dialogs.create().
+                                title("Module settings missing!").message("Please check the details of the modules. Module settings are not set!").showInformation();
                     }
                 }
             }

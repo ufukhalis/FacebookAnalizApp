@@ -1,4 +1,3 @@
-
 package com.facebookanalizapp.controller;
 
 import com.facebookanalizapp.process.JsonReader;
@@ -8,9 +7,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Dialogs;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+import org.controlsfx.dialog.Dialogs;
 
 /**
  * FXML Controller class
@@ -47,11 +46,11 @@ public class DataEditFXMLController implements Initializable {
             DataFXMLController.instance().viewData.getColumns().get(0).setVisible(false);
             DataFXMLController.instance().viewData.getColumns().get(0).setVisible(true);
             onCancel(event);
-        }else{
-             Dialogs.showWarningDialog(null, 
-                    "Invalid Json format. Please check your edit.","Invalid Json Format!", "Warning");
+        } else {
+            Dialogs.create().title("Invalid Json Format!").message("Invalid Json format. Please check your edit.").showWarning();
+
         }
-        
+
     }
 
     @FXML

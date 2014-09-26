@@ -1,4 +1,3 @@
-
 package com.facebookanalizapp.controller;
 
 import com.facebookanalizapp.db.DatabaseManager;
@@ -24,6 +23,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -31,7 +31,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Dialogs;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseButton;
@@ -41,6 +40,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javax.persistence.EntityManager;
 import org.apache.commons.io.FileUtils;
+import org.controlsfx.dialog.Dialogs;
 
 /**
  * FXML Controller class
@@ -159,8 +159,9 @@ public class MainFXMLController implements Initializable {
             File source = new File(selectedDB.getDbPath() + File.separator + selectedDB.getDbName());
             File desc = new File(file.getPath() + File.separator + selectedDB.getDbName());
             System.out.println("Dest : " + file.getPath());
-            Dialogs.showInformationDialog((Stage) cmbDatabases.getScene().getWindow(), "Export operation has completed successfully!",
-                    "The operation was successful", "Info");
+            Dialogs.create().owner(cmbDatabases).
+                    title("The operation was successful").message("Export operation has completed successfully!").showInformation();
+
             try {
                 FileUtils.copyDirectory(source, desc);
             } catch (IOException e) {
@@ -193,7 +194,8 @@ public class MainFXMLController implements Initializable {
 
     @FXML
     private void onAddAction(ActionEvent event) {//Node ekleme
-        String nodeName = Dialogs.showInputDialog(null, "Node name :", "Enter the name you will create Node.", "Create Node");
+        Optional<String> response = Dialogs.create().title("Create Node").message("Enter the name you will create Node.").showTextInput();
+        String nodeName = response.get();
         if (!nodeName.trim().isEmpty()) {
             Node node = new Node(nodeName, 150, 150);
             pane.getChildren().add(node.getNdUi());
@@ -228,7 +230,9 @@ public class MainFXMLController implements Initializable {
             EntityManagerService.setPersistenceMap(db.getDbPath() + File.separator + db.getDbName(), "facebookapp", "facebookapp");
             EntityManager manager = EntityManagerService.get().createEntityManager();
             if (manager != null) {
-                Dialogs.showInformationDialog((Stage) cmbDatabases.getScene().getWindow(), db.getDbName() + " database was selected!", "Operation Successful", "Info");
+                Dialogs.create().owner(cmbDatabases).
+                        title("Operation Successful").message(db.getDbName() + " database was selected!").showInformation();
+
             }
             getNodesFromDB();
         }

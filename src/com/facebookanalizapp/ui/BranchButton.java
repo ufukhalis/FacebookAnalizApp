@@ -155,7 +155,7 @@ public class BranchButton extends Group {
         lblTitle.relocate(x1 + 70, y1 + 10);
         this.getChildren().add(lblTitle);
 
-        Button chck = new Button("Ayarla");
+        Button chck = new Button("Setting");
         chck.relocate(x1 + 100, y1 + 40);
         this.getChildren().add(chck);
 

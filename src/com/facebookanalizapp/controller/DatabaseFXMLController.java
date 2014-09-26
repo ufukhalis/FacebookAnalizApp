@@ -1,4 +1,3 @@
-
 package com.facebookanalizapp.controller;
 
 import com.facebookanalizapp.entitymanager.EntityManagerService;
@@ -11,12 +10,12 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Dialogs;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javax.persistence.EntityManager;
+import org.controlsfx.dialog.Dialogs;
 
 /**
  * FXML Controller class
@@ -48,19 +47,21 @@ public class DatabaseFXMLController implements Initializable {
 
             if (manager != null) {
                 PropertyManager.instance().addDBPropertiesFile(txtDBPath.getText(), txtDBName.getText());
-                
+
                 Stage stage = (Stage) txtDBName.getScene().getWindow();
                 stage.close();
                 MainFXMLController.instance().refreshDatabasesList(false); //Bu sorun çıkartıyor!!
-                /*Dialogs.showInformationDialog((Stage) txtDBName.getScene().getWindow(), txtDBName.getText() + " adlı veritabanı başarılı şekilde oluşturuldu!",
-                        "İşlem başarılı", "Bilgi");*/
+                Dialogs.create().owner(txtDBName).
+                        title("Info").message("Database was created :  " + txtDBName.getText()).showInformation();
+                
             } else {
-                /*Dialogs.showErrorDialog((Stage) txtDBName.getScene().getWindow(), "Veritabanı oluşturulamadı!",
-                        "Bir hata ile karşılaşıldı", "Hata", new Exception());*/
+                Dialogs.create().owner(txtDBName).
+                        title("Error").message("Database was not created!!").showError();
+               
             }
         } else {
-            Dialogs.showWarningDialog((Stage) txtDBName.getScene().getWindow(), "Empty spaces should not be!.\nThe database name can not be same!",
-                    "Please check details", "Warning");
+            Dialogs.create().owner(txtDBName).title("Please check details").message("Empty spaces should not be!.\nThe database name can not be same!").showWarning();
+
         }
     }
 
@@ -78,8 +79,8 @@ public class DatabaseFXMLController implements Initializable {
             txtDBPath.setText(file.getPath());
         }
     }
-    
-    private Boolean isDBExists(String dbName){
+
+    private Boolean isDBExists(String dbName) {
         List<DBProperty> list = PropertyManager.instance().getAllDatabasesFromPropertyFile();
         for (DBProperty dBProperty : list) {
             if (dbName.equalsIgnoreCase(dBProperty.getDbName())) {
